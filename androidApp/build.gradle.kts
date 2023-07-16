@@ -10,6 +10,9 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(project(":shared"))
+                api("androidx.activity:activity-compose:1.7.2")
+                api("androidx.appcompat:appcompat:1.6.1")
+                api("androidx.core:core-ktx:1.10.1")
             }
         }
     }
@@ -17,9 +20,9 @@ kotlin {
 
 android {
     compileSdk = 33
-    namespace = "me.sujanpoudel.playdeals.frontend.android"
+    namespace = "me.sujanpoudel.playdeals"
     defaultConfig {
-        applicationId = "me.sujanpoudel.playdeals.frontend.android"
+        applicationId = "me.sujanpoudel.playdeals"
         minSdk = 26
         targetSdk = 33
         versionCode = 1
