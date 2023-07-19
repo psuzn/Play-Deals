@@ -2,10 +2,10 @@ package me.sujanpoudel.playdeals.common
 
 
 import androidx.compose.ui.window.ComposeUIViewController
-import me.sujanpoudel.playdeals.common.ui.AppearanceManager
+import me.sujanpoudel.playdeals.common.ui.theme.AppearanceModeManager
 
 @Suppress("FunctionName", "unused")
-fun MainViewController(appearanceManager: AppearanceManager) =
+fun MainViewController(appearanceModeManager: AppearanceModeManager) =
     ComposeUIViewController {
-        PlayDealsApp(appearanceManager)
+        PlayDealsApp(appearanceModeManager)
     }
