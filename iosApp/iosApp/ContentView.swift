@@ -3,22 +3,18 @@ import shared
 import Foundation
 
 struct ComposeView: UIViewControllerRepresentable {
-    
-    var appearanceManager = AppearanceManager()
-    
-    func makeUIViewController(context: Context) -> UIViewController {
-        let controller = Main_iosKt.MainViewController(appearanceManager: appearanceManager)
-        syncThemeWithUIViewController(controller)
-        
-        controller.view.backgroundColor = .green
-        
 
+    var appearanceModeManager = AppearanceModeManager()
+
+    func makeUIViewController(context: Context) -> UIViewController {
+        let controller = Main_iosKt.MainViewController(appearanceModeManager: appearanceModeManager)
+        syncThemeWithUIViewController(controller)
         return controller
     }
-    
+
     func syncThemeWithUIViewController(_ viewController:UIViewController){
-        
-        appearanceManager.appearanceMode.subscribe(block:{ (apperanceMode) in
+
+        appearanceModeManager.appearanceMode.subscribe(block:{ (apperanceMode) in
             DispatchQueue.main.async {
                 switch(apperanceMode!){
                 case .black:
@@ -38,7 +34,7 @@ struct ComposeView: UIViewControllerRepresentable {
             }
         })
     }
-    
+
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
 }
 

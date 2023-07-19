@@ -7,8 +7,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.singleWindowApplication
 import me.sujanpoudel.playdeals.common.MainDesktopView
-import me.sujanpoudel.playdeals.common.ui.AppearanceManager
-import me.sujanpoudel.playdeals.common.ui.asUITheme
+import me.sujanpoudel.playdeals.common.ui.theme.AppearanceModeManager
+import me.sujanpoudel.playdeals.common.ui.theme.asUITheme
 
 
 fun main() = singleWindowApplication(
@@ -19,9 +19,9 @@ fun main() = singleWindowApplication(
 ) {
 
 
-    val appearanceManager = remember { AppearanceManager() }
+    val appearanceModeManager = remember { AppearanceModeManager() }
 
-    val appearanceMode by appearanceManager.appearanceMode.collectAsState()
+    val appearanceMode by appearanceModeManager.appearanceMode.collectAsState()
 
     val uiAppearance = appearanceMode.asUITheme()
 
@@ -33,5 +33,5 @@ fun main() = singleWindowApplication(
         )
     }
 
-    MainDesktopView(appearanceManager)
+    MainDesktopView(appearanceModeManager)
 }

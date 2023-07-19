@@ -12,15 +12,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import me.sujanpoudel.playdeals.common.ui.AppearanceMode
-import me.sujanpoudel.playdeals.common.ui.LocalAppearanceManager
-import me.sujanpoudel.playdeals.common.ui.asUITheme
+import me.sujanpoudel.playdeals.common.ui.theme.AppearanceMode
+import me.sujanpoudel.playdeals.common.ui.theme.LocalAppearanceModeManager
+import me.sujanpoudel.playdeals.common.ui.theme.asUITheme
 import me.sujanpoudel.playdeals.common.viewModel.viewModel
 
 @Composable
 fun ThemeSwitcherScreen() {
 
-    val appearanceManager = LocalAppearanceManager.current
+    val appearanceManager = LocalAppearanceModeManager.current
 
     val appearanceMode by appearanceManager.appearanceMode.collectAsState()
 

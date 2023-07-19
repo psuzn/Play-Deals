@@ -2,7 +2,7 @@ package me.sujanpoudel.playdeals.common.viewModel
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import me.sujanpoudel.playdeals.common.PrimaryDI
+import me.sujanpoudel.playdeals.common.di.PrimaryDI
 import me.sujanpoudel.playdeals.common.navigation.LocalViewModelFactory
 import org.kodein.di.direct
 import org.kodein.di.instance
