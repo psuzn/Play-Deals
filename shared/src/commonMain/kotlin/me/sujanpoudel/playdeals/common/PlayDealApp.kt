@@ -12,7 +12,7 @@ import me.sujanpoudel.playdeals.common.navigation.Navigator
 import me.sujanpoudel.playdeals.common.ui.theme.AppTheme
 import me.sujanpoudel.playdeals.common.ui.theme.AppearanceModeManager
 import me.sujanpoudel.playdeals.common.ui.withWindowInsetPaddings
-import me.sujanpoudel.playdeals.common.ui.screens.home.FirstScreen
+import me.sujanpoudel.playdeals.common.ui.screens.home.HomeScreen
 import me.sujanpoudel.playdeals.common.ui.screens.newDeal.NewDealScreen
 import me.sujanpoudel.playdeals.common.ui.screens.themeSwitcher.ThemeSwitcherScreen
 
@@ -26,7 +26,7 @@ enum class Screens() {
 
 val navGraph = NavGraph {
   destination(Screens.Home) {
-    FirstScreen()
+    HomeScreen()
   }
 
   destination(Screens.NEW_DEAL) {

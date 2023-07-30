@@ -49,8 +49,6 @@ kotlin {
       "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
   }
 
-
-
   sourceSets {
     val commonMain by getting {
       dependencies {
