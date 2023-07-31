@@ -6,22 +6,25 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import me.sujanpoudel.playdeals.common.domain.models.AppDeal
 import me.sujanpoudel.playdeals.common.networking.Failure
 import me.sujanpoudel.playdeals.common.networking.RemoteAPI
 import me.sujanpoudel.playdeals.common.networking.Result
 import me.sujanpoudel.playdeals.common.ui.screens.home.HomeScreenState
 import me.sujanpoudel.playdeals.common.ui.screens.home.HomeScreenViewModel
+import me.sujanpoudel.playdeals.common.utils.setMainDispatcher
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class HomeScreenViewModelTest : TestSuite() {
+class HomeScreenViewModelTest {
 
   @MockK
   lateinit var remoteAPI: RemoteAPI
@@ -59,7 +62,6 @@ class HomeScreenViewModelTest : TestSuite() {
   fun `should correctly update state before calling the remoteAPI_getDeals`(): Unit = runTest {
 
     val dispatcher = StandardTestDispatcher()
-    val appDeal = mockk<AppDeal>()
 
     setMainDispatcher(dispatcher)
 
@@ -102,6 +104,8 @@ class HomeScreenViewModelTest : TestSuite() {
 
     val deal = mockk<AppDeal>()
 
+    every { deal.category } returns ""
+
     setMainDispatcher(dispatcher)
 
     coEvery { remoteAPI.getDeals() } returns Result.success(listOf(deal))
@@ -125,6 +129,8 @@ class HomeScreenViewModelTest : TestSuite() {
     val dispatcher = StandardTestDispatcher()
 
     val deal = mockk<AppDeal>()
+
+    every { deal.category } returns ""
 
     setMainDispatcher(dispatcher)
 
@@ -162,6 +168,8 @@ class HomeScreenViewModelTest : TestSuite() {
     val dispatcher = StandardTestDispatcher()
 
     val deal = mockk<AppDeal>()
+
+    every { deal.category } returns ""
 
     setMainDispatcher(dispatcher)
 
@@ -202,6 +210,10 @@ class HomeScreenViewModelTest : TestSuite() {
     val deal = mockk<AppDeal>()
     val deal2 = mockk<AppDeal>()
 
+    every { deal.category } returns ""
+    every { deal2.category } returns ""
+
+
     setMainDispatcher(dispatcher)
 
     coEvery { remoteAPI.getDeals() } returns
@@ -217,7 +229,7 @@ class HomeScreenViewModelTest : TestSuite() {
     dispatcher.scheduler.advanceUntilIdle()
 
     viewModel.state.value.also { state ->
-      state.allAppDeals shouldContainExactly listOf(deal,deal2)
+      state.allAppDeals shouldContainExactly listOf(deal, deal2)
       state.isLoading shouldBe false
       state.isRefreshing shouldBe false
       state.persistentError shouldBe null

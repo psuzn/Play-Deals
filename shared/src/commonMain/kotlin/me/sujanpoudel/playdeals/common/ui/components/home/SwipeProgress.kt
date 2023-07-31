@@ -22,20 +22,23 @@ class ScreenSwipeState {
   val stretchPercentage by derivedStateOf { offsetToPercentage(offsetX / contentSize.width) }
   val stretchIndicatorColorAlpha by derivedStateOf { min(1f, stretchPercentage) }
 
+  val pathOffsetX by derivedStateOf { stretchPercentage * contentSize.width * PATH_OFFSET_RATE }
+  val progressOffsetX by derivedStateOf { (stretchPercentage * contentSize.width * PROGRESS_OFFSET_RATE).toInt() }
+  val pageOffsetX by derivedStateOf { (stretchPercentage * contentSize.width * PAGE_OFFSET_RATE).toInt() }
+
   companion object {
     private fun offsetToPercentage(x: Float) = log10(x + 1) * 6
 
-    const val PATH_OFFSET_RATE = 0.15f
-    const val PROGRESS_OFFSET_RATE = PATH_OFFSET_RATE / 2.5f
+    private const val PATH_OFFSET_RATE = 0.15f
+    private const val PROGRESS_OFFSET_RATE = PATH_OFFSET_RATE / 2.5f
+    private const val PAGE_OFFSET_RATE = PATH_OFFSET_RATE * 0.7f
   }
 }
 
 fun Modifier.withScreenSwipeIndicator(
   state: ScreenSwipeState
 ): Modifier = this
-  .onSizeChanged {
-    state.contentSize = it
-  }
+  .onSizeChanged { state.contentSize = it }
   .pointerInput(Unit) {
     detectHorizontalDragGestures(
       onDragEnd = { state.offsetX = 0f },

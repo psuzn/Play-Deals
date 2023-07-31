@@ -37,7 +37,8 @@ data class AppDeal(
   val createdAt: Instant,
   val updatedAt: Instant
 ) {
-  val ratingFormatted: String = rating.format()
+  val ratingFormatted: String
+    get() = rating.format()
 
   val formattedNormalPrice: String
     get() = "${currency.currencySymbol}${normalPrice.format()}"

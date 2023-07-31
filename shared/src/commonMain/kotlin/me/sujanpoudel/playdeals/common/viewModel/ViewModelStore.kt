@@ -24,5 +24,5 @@ class ViewModelFactory(val store: ViewModelStore) {
 @Composable
 inline fun <reified T : ViewModel> viewModel(): T {
     val factory = LocalViewModelFactory.current
-    return remember { factory.createInstanceOf<T>() }
+    return remember(factory) { factory.createInstanceOf<T>() }
 }
