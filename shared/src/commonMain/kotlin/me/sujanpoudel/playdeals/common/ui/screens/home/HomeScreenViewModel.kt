@@ -2,8 +2,6 @@ package me.sujanpoudel.playdeals.common.ui.screens.home
 
 import androidx.compose.runtime.Immutable
 import io.ktor.util.reflect.instanceOf
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -84,9 +82,10 @@ class HomeScreenViewModel(
       )
     }
 
-    viewModelScope.launch(Dispatchers.IO) {
+    viewModelScope.launch {
+      val result = remoteAPI.getDeals()
       _state.update { state ->
-        when (val result = remoteAPI.getDeals()) {
+        when (result) {
           is Result.Error -> state.copy(
             isLoading = false,
             isRefreshing = false,

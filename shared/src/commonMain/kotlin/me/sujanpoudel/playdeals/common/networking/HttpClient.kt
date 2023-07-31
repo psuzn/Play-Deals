@@ -2,17 +2,17 @@ package me.sujanpoudel.playdeals.common.networking
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.request.get
 import io.ktor.client.request.request
 import io.ktor.client.request.url
 import io.ktor.client.utils.EmptyContent
 import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
 import io.ktor.http.contentType
-import io.ktor.http.path
-import io.ktor.http.takeFrom
 import io.ktor.util.InternalAPI
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import me.sujanpoudel.playdeals.common.Config.API_BASE_URL
 import me.sujanpoudel.playdeals.common.domain.models.Response
 
@@ -22,9 +22,8 @@ suspend inline fun <reified T> HttpClient.request(
   requestMethod: HttpMethod,
   requestBody: Any = EmptyContent,
   requestContentType: ContentType = ContentType.Any
-): Result<T> {
-  return try {
-
+) = withContext<Result<T>>(Dispatchers.IO) {
+  try {
     val response = request(path) {
       url("$API_BASE_URL$path")
       method = requestMethod
@@ -38,6 +37,7 @@ suspend inline fun <reified T> HttpClient.request(
     Result.failure(e.resolveToFailure())
   }
 }
+
 
 suspend inline fun <reified T> HttpClient.get(path: String) = request<T>(path, HttpMethod.Get)
 suspend inline fun <reified T> HttpClient.post(

@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -135,10 +136,7 @@ object HomeScreen {
         val points = listOf(
           Offset(0f, 0f),
           Offset(0f, swipeState.contentSize.height * .3f),
-          Offset(
-            swipeState.stretchPercentage * swipeState.contentSize.width * ScreenSwipeState.PATH_OFFSET_RATE,
-            swipeState.contentSize.height * .5f
-          ),
+          Offset(swipeState.pathOffsetX, swipeState.contentSize.height * .5f),
           Offset(0f, swipeState.contentSize.height * .7f),
           Offset(0f, swipeState.contentSize.height.toFloat()),
         )
@@ -159,7 +157,7 @@ object HomeScreen {
         .align(BiasAlignment(-1.1f, 0f))
         .offset {
           IntOffset(
-            x = (swipeState.stretchPercentage * swipeState.contentSize.width * ScreenSwipeState.PROGRESS_OFFSET_RATE).toInt(),
+            x = swipeState.progressOffsetX,
             y = 0
           )
         },
@@ -172,7 +170,8 @@ object HomeScreen {
           .fillMaxSize(),
         strokeWidth = 3.dp,
         color = if (swipeState.stretchPercentage < 0.8f) MaterialTheme.colors.primary
-        else MaterialTheme.colors.onPrimary
+        else MaterialTheme.colors.onPrimary,
+        strokeCap = StrokeCap.Round
       )
 
       AnimatedVisibility(

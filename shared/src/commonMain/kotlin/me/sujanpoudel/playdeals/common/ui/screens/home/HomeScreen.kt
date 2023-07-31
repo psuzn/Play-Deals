@@ -1,12 +1,14 @@
 package me.sujanpoudel.playdeals.common.ui.screens.home
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.IntOffset
 import kotlinx.coroutines.delay
 import me.sujanpoudel.playdeals.common.Screens
 import me.sujanpoudel.playdeals.common.Strings
@@ -38,7 +40,9 @@ fun HomeScreen() {
         HomeScreen.NavPlusButton {
           navigator.push(Screens.NEW_DEAL)
         }
-      }
+      },
+      modifier = Modifier
+        .offset { IntOffset(swipeState.pageOffsetX, 0) }
     ) { navigator, scaffoldState ->
 
       val openSecondScreen = remember(swipeState.stretchPercentage) { swipeState.stretchPercentage >= 1f }
