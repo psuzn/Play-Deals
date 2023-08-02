@@ -10,15 +10,14 @@ import me.sujanpoudel.playdeals.common.MainDesktopView
 import me.sujanpoudel.playdeals.common.ui.theme.AppearanceModeManager
 import me.sujanpoudel.playdeals.common.ui.theme.asUITheme
 
-
-fun main() = singleWindowApplication(
+fun main() =
+  singleWindowApplication(
     title = "Chat",
-    state = WindowState(
+    state =
+      WindowState(
         size = DpSize(500.dp, 800.dp),
-    ),
-) {
-
-
+      ),
+  ) {
     val appearanceModeManager = remember { AppearanceModeManager() }
 
     val appearanceMode by appearanceModeManager.appearanceMode.collectAsState()
@@ -26,12 +25,15 @@ fun main() = singleWindowApplication(
     val uiAppearance = appearanceMode.asUITheme()
 
     LaunchedEffect(uiAppearance) {
-        window.rootPane.putClientProperty(
-            "apple.awt.windowAppearance",
-            if (uiAppearance.isDark) "NSAppearanceNameVibrantDark"
-            else "NSAppearanceNameVibrantLight"
-        )
+      window.rootPane.putClientProperty(
+        "apple.awt.windowAppearance",
+        if (uiAppearance.isDark) {
+          "NSAppearanceNameVibrantDark"
+        } else {
+          "NSAppearanceNameVibrantLight"
+        },
+      )
     }
 
     MainDesktopView(appearanceModeManager)
-}
+  }

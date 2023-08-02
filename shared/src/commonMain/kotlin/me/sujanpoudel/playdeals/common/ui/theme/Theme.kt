@@ -14,67 +14,72 @@ val blueishPurple = Color(0xFF7477CC)
 
 val lightGray = Color(0xFF414141)
 
-private val LightColorPalette = lightColors(
-  primary = blueishPurple,
-  primaryVariant = blueishPurple,
+private val LightColorPalette =
+  lightColors(
+    primary = blueishPurple,
+    primaryVariant = blueishPurple,
+    secondary = blueishPurple,
+    secondaryVariant = blueishPurple,
+    surface = Color.White,
+    onSurface = Color.Black,
+    background = Color.White,
+    onBackground = Color.Black,
+    error = Color.Red,
+  )
 
-  secondary = blueishPurple,
-  secondaryVariant = blueishPurple,
+private val DarkColorPalette =
+  LightColorPalette.copy(
+    surface = lightGray,
+    onSurface = Color.White,
+    background = lightGray,
+    onBackground = Color.White,
+    error = Color.Red,
+  )
 
-  surface = Color.White,
-  onSurface = Color.Black,
+private val BlackColorPalette =
+  DarkColorPalette.copy(
+    background = Color.Black,
+  )
 
-  background = Color.White,
-  onBackground = Color.Black,
-
-  error = Color.Red
-)
-
-private val DarkColorPalette = LightColorPalette.copy(
-  surface = lightGray,
-  onSurface = Color.White,
-
-  background = lightGray,
-  onBackground = Color.White,
-  error = Color.Red
-)
-
-private val BlackColorPalette = DarkColorPalette.copy(
-  background = Color.Black,
-)
-
-val LocalAppearanceModeManager = compositionLocalOf<AppearanceModeManager> {
-  throw Error("AppearanceManager Not Found")
-}
+val LocalAppearanceModeManager =
+  compositionLocalOf<AppearanceModeManager> {
+    throw Error("AppearanceManager Not Found")
+  }
 
 @Composable
-fun AppearanceMode.asUITheme() = when (this) {
-  AppearanceMode.SYSTEM -> if (isSystemInDarkTheme())
-    UIAppearanceMode.DARK else UIAppearanceMode.LIGHT
+fun AppearanceMode.asUITheme() =
+  when (this) {
+    AppearanceMode.SYSTEM ->
+      if (isSystemInDarkTheme()) {
+        UIAppearanceMode.DARK
+      } else {
+        UIAppearanceMode.LIGHT
+      }
 
-  AppearanceMode.DARK -> UIAppearanceMode.DARK
-  AppearanceMode.LIGHT -> UIAppearanceMode.LIGHT
-  AppearanceMode.BLACK -> UIAppearanceMode.BLACK
-}
+    AppearanceMode.DARK -> UIAppearanceMode.DARK
+    AppearanceMode.LIGHT -> UIAppearanceMode.LIGHT
+    AppearanceMode.BLACK -> UIAppearanceMode.BLACK
+  }
 
 @Composable
 fun AppTheme(
   appearanceModeManager: AppearanceModeManager,
-  content: @Composable () -> Unit
+  content: @Composable () -> Unit,
 ) {
   val appearanceMode by appearanceModeManager.appearanceMode.collectAsState()
 
-  val colors = when (appearanceMode.asUITheme()) {
-    UIAppearanceMode.DARK -> DarkColorPalette
-    UIAppearanceMode.LIGHT -> LightColorPalette
-    UIAppearanceMode.BLACK -> BlackColorPalette
-  }
+  val colors =
+    when (appearanceMode.asUITheme()) {
+      UIAppearanceMode.DARK -> DarkColorPalette
+      UIAppearanceMode.LIGHT -> LightColorPalette
+      UIAppearanceMode.BLACK -> BlackColorPalette
+    }
 
   CompositionLocalProvider(LocalAppearanceModeManager provides appearanceModeManager) {
     MaterialTheme(
       colors = colors,
       content = content,
-      typography = defaultTypography()
+      typography = defaultTypography(),
     )
   }
 }

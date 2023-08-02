@@ -19,41 +19,37 @@ import me.sujanpoudel.playdeals.common.viewModel.viewModel
 
 @Composable
 fun ThemeSwitcherScreen() {
+  val appearanceManager = LocalAppearanceModeManager.current
 
-    val appearanceManager = LocalAppearanceModeManager.current
+  val appearanceMode by appearanceManager.appearanceMode.collectAsState()
 
-    val appearanceMode by appearanceManager.appearanceMode.collectAsState()
+  val viewModel = viewModel<ThemeSwitcherViewModel>()
 
-    val viewModel = viewModel<ThemeSwitcherViewModel>()
-
-    Scaffold(
-        backgroundColor = MaterialTheme.colors.background
+  Scaffold(
+    backgroundColor = MaterialTheme.colors.background,
+  ) {
+    Column(
+      horizontalAlignment = Alignment.CenterHorizontally,
+      verticalArrangement = Arrangement.Center,
+      modifier = Modifier.fillMaxSize(),
     ) {
+      Text("Play Deals : $appearanceMode : ${appearanceMode.asUITheme()}")
 
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Text("Play Deals : $appearanceMode : ${appearanceMode.asUITheme()}")
+      Button(onClick = { appearanceManager.setAppearanceMode(AppearanceMode.BLACK) }) {
+        Text("Black Theme")
+      }
 
-            Button(onClick = { appearanceManager.setAppearanceMode(AppearanceMode.BLACK) }) {
-                Text("Black Theme")
-            }
+      Button(onClick = { appearanceManager.setAppearanceMode(AppearanceMode.DARK) }) {
+        Text("Dark Theme")
+      }
 
-            Button(onClick = { appearanceManager.setAppearanceMode(AppearanceMode.DARK) }) {
-                Text("Dark Theme")
-            }
+      Button(onClick = { appearanceManager.setAppearanceMode(AppearanceMode.LIGHT) }) {
+        Text("Light Theme")
+      }
 
-            Button(onClick = { appearanceManager.setAppearanceMode(AppearanceMode.LIGHT) }) {
-                Text("Light Theme")
-            }
-
-            Button(onClick = { appearanceManager.setAppearanceMode(AppearanceMode.SYSTEM) }) {
-                Text("System ")
-            }
-        }
-
+      Button(onClick = { appearanceManager.setAppearanceMode(AppearanceMode.SYSTEM) }) {
+        Text("System ")
+      }
     }
-
+  }
 }

@@ -6,10 +6,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class StateFlowClass<T>(private val delegate: StateFlow<T>) : StateFlow<T> by delegate {
-    fun subscribe(block: (T) -> Unit) = GlobalScope.launch(Dispatchers.Main) {
-        delegate.collect {
-            block(it)
-        }
+  fun subscribe(block: (T) -> Unit) =
+    GlobalScope.launch(Dispatchers.Main) {
+      delegate.collect {
+        block(it)
+      }
     }
 }
 

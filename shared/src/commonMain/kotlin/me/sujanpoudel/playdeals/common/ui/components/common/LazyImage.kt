@@ -1,6 +1,5 @@
 package me.sujanpoudel.playdeals.common.ui.components.common
 
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.CircularProgressIndicator
@@ -29,7 +28,6 @@ fun LazyImage(
   alpha: Float = DefaultAlpha,
   colorFilter: ColorFilter? = null,
 ) {
-
   KamelImage(
     resource = asyncPainterResource(data = model),
     contentDescription = contentDescription,
@@ -38,13 +36,25 @@ fun LazyImage(
     alpha = alpha,
     colorFilter = colorFilter,
     onLoading = { percentage ->
-      CircularProgressIndicator(
-        percentage,
-        modifier = Modifier
-          .align(Alignment.Center)
-          .size(32.dp)
-          .alpha(0.2f),
-      )
+      if (percentage <= 0f) {
+        CircularProgressIndicator(
+          modifier =
+            Modifier
+              .align(Alignment.Center)
+              .size(32.dp)
+              .alpha(0.2f),
+        )
+      } else {
+        CircularProgressIndicator(
+          progress = percentage,
+          backgroundColor = MaterialTheme.colors.onBackground.copy(alpha = 0.1f),
+          modifier =
+            Modifier
+              .align(Alignment.Center)
+              .size(32.dp)
+              .alpha(0.2f),
+        )
+      }
     },
     onFailure = {
       Icon(
@@ -57,7 +67,6 @@ fun LazyImage(
       )
     },
     modifier = modifier.background(MaterialTheme.colors.primary.copy(alpha = 0.05f)),
-    animationSpec = tween()
+    animationSpec = null,
   )
-
 }

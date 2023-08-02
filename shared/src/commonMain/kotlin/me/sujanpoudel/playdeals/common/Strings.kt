@@ -8,6 +8,4 @@ object Strings {
     const val TRY_AGAIN = "Try Again"
     const val ADD = "Add"
   }
-
-
 }

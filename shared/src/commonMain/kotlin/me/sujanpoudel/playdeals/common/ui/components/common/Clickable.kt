@@ -8,9 +8,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 
 @Composable
-fun Modifier.clickableBoundless(enabled: Boolean = true, onclick: () -> Unit) = clickable(
+fun Modifier.clickableBoundless(
+  enabled: Boolean = true,
+  onclick: () -> Unit,
+) = clickable(
   interactionSource = remember { MutableInteractionSource() },
   indication = rememberRipple(bounded = false),
   onClick = onclick,
-  enabled = enabled
+  enabled = enabled,
 )

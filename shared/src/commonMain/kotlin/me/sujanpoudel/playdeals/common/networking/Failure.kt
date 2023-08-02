@@ -7,7 +7,6 @@ import io.ktor.client.network.sockets.ConnectTimeoutException
  * Every feature specific failure should extend [FeatureFailure] class.
  */
 sealed class Failure(val message: String) {
-
   object NetworkConnection : Failure("Couldn't reach server")
   object UnknownError : Failure("Something went wrong")
 
@@ -20,12 +19,10 @@ sealed class Failure(val message: String) {
 }
 
 fun Exception.resolveToFailure(): Failure {
-
   printStackTrace()
 
   return when (this) {
     is ConnectTimeoutException -> Failure.NetworkConnection
     else -> Failure.UnknownError
   }
-
 }

@@ -6,7 +6,7 @@ import androidx.compose.ui.graphics.Path
 fun Path.drawQuad(
   points: List<Offset>,
   index: Int,
-  item: Offset
+  item: Offset,
 ) {
   val prevX = points[index - 1].x
   val prevY = points[index - 1].y
@@ -21,7 +21,9 @@ fun Path.drawQuad(
   }
 
   quadraticBezierTo(
-    prevX, prevY,
-    plotX, plotY
+    prevX,
+    prevY,
+    plotX,
+    plotY,
   )
 }

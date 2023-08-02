@@ -1,8 +1,8 @@
-package me.sujanpoudel.playdeals.common.networking;
-
+package me.sujanpoudel.playdeals.common.networking
 
 sealed class Result<T> {
   class Success<T>(val data: T) : Result<T>()
+
   class Error<T>(val failure: Failure) : Result<T>()
 
   companion object {
@@ -15,4 +15,3 @@ sealed class Result<T> {
     }
   }
 }
-

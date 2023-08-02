@@ -14,31 +14,32 @@ import org.kodein.di.bindProvider
 import org.kodein.di.bindSingleton
 import org.kodein.di.instance
 
-private val mainModule = DI.Module("mainModule") {
+private val mainModule =
+  DI.Module("mainModule") {
 
-  bindProvider {
-    HomeScreenViewModel(
-      remoteAPI = instance()
-    )
-  }
+    bindProvider {
+      HomeScreenViewModel(
+        remoteAPI = instance(),
+      )
+    }
 
-  bindProvider { NewDealScreenViewModel() }
-  bindProvider { ThemeSwitcherViewModel() }
+    bindProvider { NewDealScreenViewModel() }
+    bindProvider { ThemeSwitcherViewModel() }
 
-  bindSingleton {
-    HttpClient {
-      install(ContentNegotiation) { json() }
-      install(Logging)
-      expectSuccess = true
+    bindSingleton {
+      HttpClient {
+        install(ContentNegotiation) { json() }
+        install(Logging)
+        expectSuccess = true
+      }
+    }
+
+    bindSingleton {
+      RemoteAPI(instance())
     }
   }
 
-  bindSingleton {
-    RemoteAPI(instance())
+val PrimaryDI =
+  ConfigurableDI(true).apply {
+    addImport(mainModule, true)
   }
-}
-
-val PrimaryDI = ConfigurableDI(true).apply {
-  addImport(mainModule, true)
-}
-

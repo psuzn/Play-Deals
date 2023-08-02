@@ -21,16 +21,17 @@ suspend inline fun <reified T> HttpClient.request(
   path: String,
   requestMethod: HttpMethod,
   requestBody: Any = EmptyContent,
-  requestContentType: ContentType = ContentType.Any
+  requestContentType: ContentType = ContentType.Any,
 ) = withContext<Result<T>>(Dispatchers.IO) {
   try {
-    val response = request(path) {
-      url("$API_BASE_URL$path")
-      method = requestMethod
-      body = requestBody
-      contentType(requestContentType)
-      build()
-    }.body<Response<T>>()
+    val response =
+      request(path) {
+        url("$API_BASE_URL$path")
+        method = requestMethod
+        body = requestBody
+        contentType(requestContentType)
+        build()
+      }.body<Response<T>>()
     Result.success(response.data!!)
   } catch (e: Exception) {
     delay(1000) // rudimentary solution for flickering
@@ -38,9 +39,9 @@ suspend inline fun <reified T> HttpClient.request(
   }
 }
 
-
 suspend inline fun <reified T> HttpClient.get(path: String) = request<T>(path, HttpMethod.Get)
+
 suspend inline fun <reified T> HttpClient.post(
   path: String,
-  requestBody: Any = EmptyContent
+  requestBody: Any = EmptyContent,
 ) = request<T>(path, HttpMethod.Post, requestBody)

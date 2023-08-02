@@ -23,17 +23,17 @@ import androidx.compose.ui.unit.sp
 import me.sujanpoudel.playdeals.common.navigation.LocalNavigator
 import me.sujanpoudel.playdeals.common.navigation.Navigator
 
-
 @Composable
 fun ScaffoldTitle(title: String) {
   Text(
     text = title,
-    style = MaterialTheme.typography.h3.copy(
-      fontWeight = FontWeight.Bold,
-      fontSize = 18.sp,
-    ),
+    style =
+      MaterialTheme.typography.h3.copy(
+        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp,
+      ),
     textAlign = TextAlign.Center,
-    modifier = Modifier.fillMaxWidth()
+    modifier = Modifier.fillMaxWidth(),
   )
 }
 
@@ -55,18 +55,19 @@ fun Scaffold(
           title?.let {
             Text(
               text = title,
-              style = MaterialTheme.typography.h3.copy(
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-              ),
+              style =
+                MaterialTheme.typography.h3.copy(
+                  fontWeight = FontWeight.Bold,
+                  fontSize = 18.sp,
+                ),
               textAlign = TextAlign.Center,
-              modifier = Modifier.fillMaxWidth()
+              modifier = Modifier.fillMaxWidth(),
             )
           }
         },
         actions = { topRightAction?.invoke(navigator) },
         elevation = 0.dp,
-        backgroundColor = Color.Transparent
+        backgroundColor = Color.Transparent,
       )
     },
     scaffoldState = scaffoldState,
@@ -76,17 +77,16 @@ fun Scaffold(
           snackBarData,
           backgroundColor = MaterialTheme.colors.surface,
           actionColor = MaterialTheme.colors.primary,
-          contentColor = MaterialTheme.colors.onSurface
+          contentColor = MaterialTheme.colors.onSurface,
         )
       }
     },
-    modifier = modifier
+    modifier = modifier,
   ) {
     Box(
-      modifier = Modifier.padding(it)
+      modifier = Modifier.padding(it),
     ) {
       content(navigator, scaffoldState)
     }
   }
-
 }

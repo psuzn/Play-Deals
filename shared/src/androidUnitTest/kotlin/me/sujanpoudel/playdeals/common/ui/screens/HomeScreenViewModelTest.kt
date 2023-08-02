@@ -25,216 +25,205 @@ import org.junit.jupiter.api.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class HomeScreenViewModelTest {
-
   @MockK
   lateinit var remoteAPI: RemoteAPI
-
 
   @BeforeEach
   fun setup() {
     MockKAnnotations.init(this)
   }
 
-
   @Test
-  fun `should have correct initial state`() = runTest {
-    val state = HomeScreenState()
-    state.allAppDeals shouldHaveSize 0
-    state.isLoading shouldBe false
-    state.isRefreshing shouldBe false
-  }
-
-
-  @Test
-  fun `should call to get the deals when view model is created`() = runTest {
-
-    setMainDispatcher(UnconfinedTestDispatcher())
-
-    coEvery { remoteAPI.getDeals() } returns Result.success(emptyList())
-
-    HomeScreenViewModel(remoteAPI)
-
-    coVerify { remoteAPI.getDeals() }
-  }
-
-
-  @Test
-  fun `should correctly update state before calling the remoteAPI_getDeals`(): Unit = runTest {
-
-    val dispatcher = StandardTestDispatcher()
-
-    setMainDispatcher(dispatcher)
-
-    coEvery { remoteAPI.getDeals() } returns Result.success(emptyList())
-
-    val viewModel = HomeScreenViewModel(remoteAPI)
-
-    viewModel.state.value.let {
-      it.allAppDeals shouldHaveSize 0
-      it.isLoading shouldBe true
-      it.isRefreshing shouldBe false
-    }
-  }
-
-  @Test
-  fun `should correctly update state after getting failure result from remoteAPI`(): Unit = runTest {
-
-    val dispatcher = StandardTestDispatcher()
-
-    setMainDispatcher(dispatcher)
-
-    coEvery { remoteAPI.getDeals() } returns Result.failure(Failure.UnknownError)
-
-    val viewModel = HomeScreenViewModel(remoteAPI)
-
-    dispatcher.scheduler.runCurrent()
-
-    viewModel.state.value.also { state ->
+  fun `should have correct initial state`() =
+    runTest {
+      val state = HomeScreenState()
       state.allAppDeals shouldHaveSize 0
       state.isLoading shouldBe false
       state.isRefreshing shouldBe false
-      state.persistentError shouldBe Failure.UnknownError.message
     }
-  }
 
   @Test
-  fun `should correctly update state after getting success result from remoteAPI`(): Unit = runTest {
+  fun `should call to get the deals when view model is created`() =
+    runTest {
+      setMainDispatcher(UnconfinedTestDispatcher())
 
-    val dispatcher = StandardTestDispatcher()
+      coEvery { remoteAPI.getDeals() } returns Result.success(emptyList())
 
-    val deal = mockk<AppDeal>()
+      HomeScreenViewModel(remoteAPI)
 
-    every { deal.category } returns ""
-
-    setMainDispatcher(dispatcher)
-
-    coEvery { remoteAPI.getDeals() } returns Result.success(listOf(deal))
-
-    val viewModel = HomeScreenViewModel(remoteAPI)
-
-    dispatcher.scheduler.runCurrent()
-
-    viewModel.state.value.also { state ->
-      state.allAppDeals shouldContainExactly listOf(deal)
-      state.isLoading shouldBe false
-      state.isRefreshing shouldBe false
-      state.persistentError shouldBe null
+      coVerify { remoteAPI.getDeals() }
     }
-  }
-
 
   @Test
-  fun `it should reset the error message when retrying`(): Unit = runTest {
+  fun `should correctly update state before calling the remoteAPI_getDeals`(): Unit =
+    runTest {
+      val dispatcher = StandardTestDispatcher()
 
-    val dispatcher = StandardTestDispatcher()
+      setMainDispatcher(dispatcher)
 
-    val deal = mockk<AppDeal>()
+      coEvery { remoteAPI.getDeals() } returns Result.success(emptyList())
 
-    every { deal.category } returns ""
+      val viewModel = HomeScreenViewModel(remoteAPI)
 
-    setMainDispatcher(dispatcher)
-
-    coEvery { remoteAPI.getDeals() } returns
-      Result.failure(Failure.UnknownError) andThen
-      Result.success(listOf(deal))
-
-    val viewModel = HomeScreenViewModel(remoteAPI)
-
-    dispatcher.scheduler.advanceUntilIdle()
-
-    viewModel.refreshDeals()
-
-    viewModel.state.value.also { state ->
-      state.allAppDeals shouldHaveSize 0
-      state.isLoading shouldBe true
-      state.isRefreshing shouldBe false
-      state.persistentError shouldBe null
+      viewModel.state.value.let {
+        it.allAppDeals shouldHaveSize 0
+        it.isLoading shouldBe true
+        it.isRefreshing shouldBe false
+      }
     }
-
-    dispatcher.scheduler.advanceUntilIdle()
-
-    viewModel.state.value.also { state ->
-      state.allAppDeals shouldContainExactly listOf(deal)
-      state.isLoading shouldBe false
-      state.isRefreshing shouldBe false
-      state.persistentError shouldBe null
-    }
-
-  }
 
   @Test
-  fun `it should correctly represent refresh in state`(): Unit = runTest {
+  fun `should correctly update state after getting failure result from remoteAPI`(): Unit =
+    runTest {
+      val dispatcher = StandardTestDispatcher()
 
-    val dispatcher = StandardTestDispatcher()
+      setMainDispatcher(dispatcher)
 
-    val deal = mockk<AppDeal>()
+      coEvery { remoteAPI.getDeals() } returns Result.failure(Failure.UnknownError)
 
-    every { deal.category } returns ""
+      val viewModel = HomeScreenViewModel(remoteAPI)
 
-    setMainDispatcher(dispatcher)
+      dispatcher.scheduler.runCurrent()
 
-    coEvery { remoteAPI.getDeals() } returns
-      Result.success(listOf(deal)) andThen
-      Result.success(listOf(deal))
-
-    val viewModel = HomeScreenViewModel(remoteAPI)
-
-    dispatcher.scheduler.advanceUntilIdle()
-
-    viewModel.refreshDeals()
-
-    viewModel.state.value.also { state ->
-      state.allAppDeals shouldContainExactly listOf(deal)
-      state.isLoading shouldBe false
-      state.isRefreshing shouldBe true
-      state.persistentError shouldBe null
+      viewModel.state.value.also { state ->
+        state.allAppDeals shouldHaveSize 0
+        state.isLoading shouldBe false
+        state.isRefreshing shouldBe false
+        state.persistentError shouldBe Failure.UnknownError.message
+      }
     }
-
-    dispatcher.scheduler.advanceUntilIdle()
-
-    viewModel.state.value.also { state ->
-      state.allAppDeals shouldContainExactly listOf(deal)
-      state.isLoading shouldBe false
-      state.isRefreshing shouldBe false
-      state.persistentError shouldBe null
-    }
-
-  }
-
 
   @Test
-  fun `it should replace the app deals on refresh`(): Unit = runTest {
+  fun `should correctly update state after getting success result from remoteAPI`(): Unit =
+    runTest {
+      val dispatcher = StandardTestDispatcher()
 
-    val dispatcher = StandardTestDispatcher()
+      val deal = mockk<AppDeal>()
 
-    val deal = mockk<AppDeal>()
-    val deal2 = mockk<AppDeal>()
+      every { deal.category } returns ""
 
-    every { deal.category } returns ""
-    every { deal2.category } returns ""
+      setMainDispatcher(dispatcher)
 
+      coEvery { remoteAPI.getDeals() } returns Result.success(listOf(deal))
 
-    setMainDispatcher(dispatcher)
+      val viewModel = HomeScreenViewModel(remoteAPI)
 
-    coEvery { remoteAPI.getDeals() } returns
-      Result.success(listOf(deal)) andThen
-      Result.success(listOf(deal,deal2))
+      dispatcher.scheduler.runCurrent()
 
-    val viewModel = HomeScreenViewModel(remoteAPI)
-
-    dispatcher.scheduler.advanceUntilIdle()
-
-    viewModel.refreshDeals()
-
-    dispatcher.scheduler.advanceUntilIdle()
-
-    viewModel.state.value.also { state ->
-      state.allAppDeals shouldContainExactly listOf(deal, deal2)
-      state.isLoading shouldBe false
-      state.isRefreshing shouldBe false
-      state.persistentError shouldBe null
+      viewModel.state.value.also { state ->
+        state.allAppDeals shouldContainExactly listOf(deal)
+        state.isLoading shouldBe false
+        state.isRefreshing shouldBe false
+        state.persistentError shouldBe null
+      }
     }
 
-  }
+  @Test
+  fun `it should reset the error message when retrying`(): Unit =
+    runTest {
+      val dispatcher = StandardTestDispatcher()
 
+      val deal = mockk<AppDeal>()
+
+      every { deal.category } returns ""
+
+      setMainDispatcher(dispatcher)
+
+      coEvery { remoteAPI.getDeals() } returns
+        Result.failure(Failure.UnknownError) andThen
+        Result.success(listOf(deal))
+
+      val viewModel = HomeScreenViewModel(remoteAPI)
+
+      dispatcher.scheduler.advanceUntilIdle()
+
+      viewModel.refreshDeals()
+
+      viewModel.state.value.also { state ->
+        state.allAppDeals shouldHaveSize 0
+        state.isLoading shouldBe true
+        state.isRefreshing shouldBe false
+        state.persistentError shouldBe null
+      }
+
+      dispatcher.scheduler.advanceUntilIdle()
+
+      viewModel.state.value.also { state ->
+        state.allAppDeals shouldContainExactly listOf(deal)
+        state.isLoading shouldBe false
+        state.isRefreshing shouldBe false
+        state.persistentError shouldBe null
+      }
+    }
+
+  @Test
+  fun `it should correctly represent refresh in state`(): Unit =
+    runTest {
+      val dispatcher = StandardTestDispatcher()
+
+      val deal = mockk<AppDeal>()
+
+      every { deal.category } returns ""
+
+      setMainDispatcher(dispatcher)
+
+      coEvery { remoteAPI.getDeals() } returns
+        Result.success(listOf(deal)) andThen
+        Result.success(listOf(deal))
+
+      val viewModel = HomeScreenViewModel(remoteAPI)
+
+      dispatcher.scheduler.advanceUntilIdle()
+
+      viewModel.refreshDeals()
+
+      viewModel.state.value.also { state ->
+        state.allAppDeals shouldContainExactly listOf(deal)
+        state.isLoading shouldBe false
+        state.isRefreshing shouldBe true
+        state.persistentError shouldBe null
+      }
+
+      dispatcher.scheduler.advanceUntilIdle()
+
+      viewModel.state.value.also { state ->
+        state.allAppDeals shouldContainExactly listOf(deal)
+        state.isLoading shouldBe false
+        state.isRefreshing shouldBe false
+        state.persistentError shouldBe null
+      }
+    }
+
+  @Test
+  fun `it should replace the app deals on refresh`(): Unit =
+    runTest {
+      val dispatcher = StandardTestDispatcher()
+
+      val deal = mockk<AppDeal>()
+      val deal2 = mockk<AppDeal>()
+
+      every { deal.category } returns ""
+      every { deal2.category } returns ""
+
+      setMainDispatcher(dispatcher)
+
+      coEvery { remoteAPI.getDeals() } returns
+        Result.success(listOf(deal)) andThen
+        Result.success(listOf(deal, deal2))
+
+      val viewModel = HomeScreenViewModel(remoteAPI)
+
+      dispatcher.scheduler.advanceUntilIdle()
+
+      viewModel.refreshDeals()
+
+      dispatcher.scheduler.advanceUntilIdle()
+
+      viewModel.state.value.also { state ->
+        state.allAppDeals shouldContainExactly listOf(deal, deal2)
+        state.isLoading shouldBe false
+        state.isRefreshing shouldBe false
+        state.persistentError shouldBe null
+      }
+    }
 }

@@ -1,4 +1,3 @@
-import com.android.build.api.variant.AndroidTest
 import com.android.build.gradle.tasks.factory.AndroidUnitTest
 
 plugins {
@@ -10,7 +9,6 @@ plugins {
   id("com.adarshr.test-logger")
   id("dev.icerock.mobile.multiplatform-resources")
 }
-
 
 version = "1.0-SNAPSHOT"
 
@@ -55,6 +53,7 @@ kotlin {
         implementation(compose.ui)
         implementation(compose.foundation)
         implementation(compose.material)
+        implementation(compose.material3)
         implementation(compose.animation)
         implementation(compose.materialIconsExtended)
         @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
@@ -85,14 +84,11 @@ kotlin {
     val androidUnitTest by getting {
       dependsOn(commonTest.get())
 
-      val kotestVersion = extra["kotest.version"]
-
       dependencies {
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.COROUTINE}")
-        implementation("io.kotest:kotest-assertions-core:$kotestVersion")
+        implementation("io.kotest:kotest-assertions-core:${Versions.KO_TEST}")
         implementation("io.mockk:mockk:${Versions.MOCKK}")
         implementation("org.junit.jupiter:junit-jupiter:${Versions.JUNIT_JUPITER}")
-
       }
     }
 
@@ -131,7 +127,6 @@ multiplatformResources {
   multiplatformResourcesPackage = "me.sujanpoudel.playdeals.common.resources"
 }
 
-
 android {
   namespace = "me.sujanpoudel.playdeals.common"
   compileSdk = 33
@@ -147,7 +142,7 @@ android {
   }
 
   composeOptions {
-    kotlinCompilerExtensionVersion = "1.4.8"
+    kotlinCompilerExtensionVersion = "1.4.4"
   }
 
   compileOptions {
@@ -156,6 +151,6 @@ android {
   }
 }
 
-tasks.withType<AndroidUnitTest>() {
+tasks.withType<AndroidUnitTest> {
   useJUnitPlatform()
 }
