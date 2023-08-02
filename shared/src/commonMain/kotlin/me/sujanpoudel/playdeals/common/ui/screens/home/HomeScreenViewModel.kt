@@ -17,7 +17,6 @@ import me.sujanpoudel.playdeals.common.networking.Result
 import me.sujanpoudel.playdeals.common.viewModel.ViewModel
 import me.sujanpoudel.playdeals.common.viewModel.viewModelScope
 
-
 @Immutable
 data class HomeScreenState(
   val allAppDeals: List<AppDeal> = emptyList(),
@@ -26,30 +25,36 @@ data class HomeScreenState(
   val isLoading: Boolean = false,
   val isRefreshing: Boolean = false,
   val persistentError: String? = null,
-  val errorOneOff: String? = null
+  val errorOneOff: String? = null,
 ) {
   val dealsToDisplay: List<AppDeal>
     get() {
-      val selectedCategories = filterOptions
-        .filter { it.data is DealFilterOption.Category && it.selected }
-        .map { it.data }
+      val selectedCategories =
+        filterOptions
+          .filter { it.data is DealFilterOption.Category && it.selected }
+          .map { it.data }
 
-      val selectedOtherFilters = filterOptions
-        .filter { it.data !is DealFilterOption.Category && it.selected }
-        .map { it.data }
+      val selectedOtherFilters =
+        filterOptions
+          .filter { it.data !is DealFilterOption.Category && it.selected }
+          .map { it.data }
 
       return allAppDeals.filter { appDeal ->
-        val inSelectedCategory = selectedCategories.isEmpty() || selectedCategories.any {
-          it is DealFilterOption.Category && it.value == appDeal.category
-        }
+        val inSelectedCategory =
+          selectedCategories.isEmpty() ||
+            selectedCategories.any {
+              it is DealFilterOption.Category && it.value == appDeal.category
+            }
 
-        val matchesOtherFilter = selectedOtherFilters.isEmpty() || selectedOtherFilters.all {
-          when (it) {
-            is DealFilterOption.Category -> throw Error("unreachable")
-            DealFilterOption.FreeApps -> appDeal.currentPrice == 0f
-            DealFilterOption.NewlyAddedApps -> appDeal.createdAt > lastCheckedTime
-          }
-        }
+        val matchesOtherFilter =
+          selectedOtherFilters.isEmpty() ||
+            selectedOtherFilters.all {
+              when (it) {
+                is DealFilterOption.Category -> throw Error("unreachable")
+                DealFilterOption.FreeApps -> appDeal.currentPrice == 0f
+                DealFilterOption.NewlyAddedApps -> appDeal.createdAt > lastCheckedTime
+              }
+            }
 
         inSelectedCategory && matchesOtherFilter
       }
@@ -60,7 +65,6 @@ data class HomeScreenState(
 class HomeScreenViewModel(
   private val remoteAPI: RemoteAPI,
 ) : ViewModel() {
-
   private val _state = MutableStateFlow(HomeScreenState())
   val state = _state as StateFlow<HomeScreenState>
 
@@ -73,12 +77,11 @@ class HomeScreenViewModel(
   }
 
   private fun getDeals() {
-
     _state.update { state ->
       state.copy(
         isLoading = state.allAppDeals.isEmpty(),
         isRefreshing = state.allAppDeals.isNotEmpty(),
-        persistentError = null
+        persistentError = null,
       )
     }
 
@@ -86,21 +89,23 @@ class HomeScreenViewModel(
       val result = remoteAPI.getDeals()
       _state.update { state ->
         when (result) {
-          is Result.Error -> state.copy(
-            isLoading = false,
-            isRefreshing = false,
-            persistentError = if (state.allAppDeals.isEmpty()) result.failure.message else null,
-            errorOneOff = if (state.allAppDeals.isNotEmpty()) result.failure.message else null,
-          )
+          is Result.Error ->
+            state.copy(
+              isLoading = false,
+              isRefreshing = false,
+              persistentError = if (state.allAppDeals.isEmpty()) result.failure.message else null,
+              errorOneOff = if (state.allAppDeals.isNotEmpty()) result.failure.message else null,
+            )
 
-          is Result.Success -> state.copy(
-            isLoading = false,
-            isRefreshing = false,
-            persistentError = null,
-            errorOneOff = null,
-            allAppDeals = result.data,
-            filterOptions = buildFilterOption(result.data, state)
-          )
+          is Result.Success ->
+            state.copy(
+              isLoading = false,
+              isRefreshing = false,
+              persistentError = null,
+              errorOneOff = null,
+              allAppDeals = result.data,
+              filterOptions = buildFilterOption(result.data, state),
+            )
         }
       }
     }
@@ -115,48 +120,56 @@ class HomeScreenViewModel(
   fun toggleFilterItem(item: DealFilterOption) {
     _state.update { state ->
       state.copy(
-        filterOptions = state.filterOptions.map {
-          if (it.data == item) {
-            it.copy(selected = !it.selected)
-          } else it
-        }
+        filterOptions =
+          state.filterOptions.map {
+            if (it.data == item) {
+              it.copy(selected = !it.selected)
+            } else {
+              it
+            }
+          },
       )
     }
   }
 
+  private fun buildFilterOption(
+    appDeals: List<AppDeal>,
+    state: HomeScreenState,
+  ): List<Selectable<DealFilterOption>> {
+    val categoryFilters: List<Selectable<DealFilterOption>> =
+      appDeals
+        .map { it.category }
+        .distinct()
+        .map {
+          DealFilterOption.Category(
+            title = it.lowercase().capitalizeWords(),
+            value = it,
+          )
+        }.map { newItem ->
+          Selectable(
+            data = newItem,
+            selected =
+              state.filterOptions.any { oldItem ->
+                oldItem.data is DealFilterOption.Category &&
+                  newItem.value == oldItem.data.value &&
+                  oldItem.selected
+              },
+          )
+        }
 
-  private fun buildFilterOption(appDeals: List<AppDeal>, state: HomeScreenState): List<Selectable<DealFilterOption>> {
-
-    val categoryFilters: List<Selectable<DealFilterOption>> = appDeals
-      .map { it.category }
-      .distinct()
-      .map {
-        DealFilterOption.Category(
-          title = it.lowercase().capitalizeWords(),
-          value = it
-        )
-      }.map { newItem ->
+    val otherFilters =
+      listOf(
+        DealFilterOption.NewlyAddedApps,
+        DealFilterOption.FreeApps,
+      ).map { newItem ->
         Selectable(
           data = newItem,
-          selected = state.filterOptions.any { oldItem ->
-            oldItem.data is DealFilterOption.Category
-              && newItem.value == oldItem.data.value
-              && oldItem.selected
-          }
+          selected =
+            state.filterOptions.any { oldItem ->
+              oldItem.data.instanceOf(newItem::class) && oldItem.selected
+            },
         )
       }
-
-    val otherFilters = listOf(
-      DealFilterOption.NewlyAddedApps,
-      DealFilterOption.FreeApps,
-    ).map { newItem ->
-      Selectable(
-        data = newItem,
-        selected = state.filterOptions.any { oldItem ->
-          oldItem.data.instanceOf(newItem::class) && oldItem.selected
-        }
-      )
-    }
 
     return otherFilters + categoryFilters
   }

@@ -26,50 +26,46 @@ import me.sujanpoudel.playdeals.common.viewModel.viewModel
 
 @Composable
 fun NewDealScreen() {
+  val appearanceManager = LocalAppearanceModeManager.current
 
-    val appearanceManager = LocalAppearanceModeManager.current
+  val appearanceMode by appearanceManager.appearanceMode.collectAsState()
 
-    val appearanceMode by appearanceManager.appearanceMode.collectAsState()
+  val navigator = LocalNavigator.current
 
-    val navigator = LocalNavigator.current
+  val viewModel = viewModel<NewDealScreenViewModel>()
 
-    val viewModel = viewModel<NewDealScreenViewModel>()
-
-    Scaffold(
-        modifier = Modifier.background(Color.Cyan)
+  Scaffold(
+    modifier = Modifier.background(Color.Cyan),
+  ) {
+    Column(
+      horizontalAlignment = Alignment.CenterHorizontally,
+      verticalArrangement = Arrangement.Center,
+      modifier = Modifier.fillMaxSize(),
     ) {
+      Text(
+        "Screen B: $viewModel",
+        style = MaterialTheme.typography.body1,
+        textAlign = TextAlign.Center,
+        modifier = Modifier.padding(2.dp),
+      )
 
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxSize()
-        ) {
+      Spacer(Modifier.height(20.dp))
 
-            Text(
-                "Screen B: $viewModel",
-                style = MaterialTheme.typography.body1,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(2.dp),
-            )
+      Button(onClick = { navigator.push(Screens.Home) }) {
+        Text("Screen A", color = MaterialTheme.colors.onPrimary)
+      }
 
-            Spacer(Modifier.height(20.dp))
+      Spacer(Modifier.height(50.dp))
 
-            Button(onClick = { navigator.push(Screens.Home) }) {
-                Text("Screen A", color = MaterialTheme.colors.onPrimary)
-            }
+      Button(onClick = { navigator.push(Screens.NEW_DEAL) }) {
+        Text("Screen B", color = MaterialTheme.colors.onPrimary)
+      }
 
-            Spacer(Modifier.height(50.dp))
+      Spacer(Modifier.height(55.dp))
 
-            Button(onClick = { navigator.push(Screens.NEW_DEAL) }) {
-                Text("Screen B", color = MaterialTheme.colors.onPrimary)
-            }
-
-            Spacer(Modifier.height(55.dp))
-
-            Button(onClick = { navigator.pop() }) {
-                Text("Back", color = MaterialTheme.colors.onPrimary)
-            }
-        }
+      Button(onClick = { navigator.pop() }) {
+        Text("Back", color = MaterialTheme.colors.onPrimary)
+      }
     }
-
+  }
 }

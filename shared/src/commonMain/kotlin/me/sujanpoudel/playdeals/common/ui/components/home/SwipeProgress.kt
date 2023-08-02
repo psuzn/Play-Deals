@@ -35,18 +35,15 @@ class ScreenSwipeState {
   }
 }
 
-fun Modifier.withScreenSwipeIndicator(
-  state: ScreenSwipeState
-): Modifier = this
-  .onSizeChanged { state.contentSize = it }
-  .pointerInput(Unit) {
-    detectHorizontalDragGestures(
-      onDragEnd = { state.offsetX = 0f },
-      onDragCancel = { state.offsetX = 0f },
-      onHorizontalDrag = { _, dragAmount ->
-        state.offsetX = max(0f, state.offsetX + dragAmount)
-      })
-  }
-
-
-
+fun Modifier.withScreenSwipeIndicator(state: ScreenSwipeState): Modifier =
+  this
+    .onSizeChanged { state.contentSize = it }
+    .pointerInput(Unit) {
+      detectHorizontalDragGestures(
+        onDragEnd = { state.offsetX = 0f },
+        onDragCancel = { state.offsetX = 0f },
+        onHorizontalDrag = { _, dragAmount ->
+          state.offsetX = max(0f, state.offsetX + dragAmount)
+        },
+      )
+    }

@@ -40,17 +40,16 @@ import me.sujanpoudel.playdeals.common.Strings
 import me.sujanpoudel.playdeals.common.extensions.drawQuad
 import me.sujanpoudel.playdeals.common.ui.components.common.clickableBoundless
 
-
 object HomeScreen {
-
   @Composable
   fun NavPlusButton(onClick: () -> Unit) {
     Icon(
       Icons.Outlined.Add,
       contentDescription = Strings.HomeScreen.ADD,
       tint = MaterialTheme.colors.onBackground,
-      modifier = Modifier.padding(8.dp)
-        .clickableBoundless(true, onClick)
+      modifier =
+        Modifier.padding(8.dp)
+          .clickableBoundless(true, onClick),
     )
   }
 
@@ -58,12 +57,11 @@ object HomeScreen {
   fun FullScreenLoading() {
     Box(
       modifier = Modifier.fillMaxSize(),
-      contentAlignment = Alignment.Center
+      contentAlignment = Alignment.Center,
     ) {
       CircularProgressIndicator()
     }
   }
-
 
   @Composable
   fun FullscreenError(
@@ -79,11 +77,11 @@ object HomeScreen {
       Text(
         message,
         style = MaterialTheme.typography.body1,
-        color = MaterialTheme.colors.error
+        color = MaterialTheme.colors.error,
       )
 
       Spacer(
-        modifier = Modifier.height(12.dp)
+        modifier = Modifier.height(12.dp),
       )
 
       Button(onRetry) {
@@ -96,36 +94,32 @@ object HomeScreen {
   fun BoxScope.PriceButton(
     normalPrice: String,
     currentPrice: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
   ) {
-
     Button(
       onClick = onClick,
-      modifier = Modifier.align(Alignment.BottomEnd)
-        .padding(end = 16.dp),
+      modifier =
+        Modifier.align(Alignment.BottomEnd)
+          .padding(end = 16.dp),
     ) {
-
       Text(
         text = normalPrice,
         textDecoration = TextDecoration.LineThrough,
-        color = MaterialTheme.colors.onPrimary
+        color = MaterialTheme.colors.onPrimary,
       )
 
       Spacer(modifier = Modifier.width(4.dp))
 
       Text(
         text = currentPrice,
-        color = MaterialTheme.colors.onPrimary
+        color = MaterialTheme.colors.onPrimary,
       )
     }
   }
 
   @OptIn(ExperimentalAnimationApi::class)
   @Composable
-  fun BoxScope.ScreenSwipeIndicator(
-    swipeState: ScreenSwipeState
-  ) {
-
+  fun BoxScope.ScreenSwipeIndicator(swipeState: ScreenSwipeState) {
     val stretchIndicatorColor = MaterialTheme.colors.primary.copy(swipeState.stretchIndicatorColorAlpha)
 
     Canvas(
@@ -133,13 +127,14 @@ object HomeScreen {
       onDraw = {
         val path = Path()
 
-        val points = listOf(
-          Offset(0f, 0f),
-          Offset(0f, swipeState.contentSize.height * .3f),
-          Offset(swipeState.pathOffsetX, swipeState.contentSize.height * .5f),
-          Offset(0f, swipeState.contentSize.height * .7f),
-          Offset(0f, swipeState.contentSize.height.toFloat()),
-        )
+        val points =
+          listOf(
+            Offset(0f, 0f),
+            Offset(0f, swipeState.contentSize.height * .33f),
+            Offset(swipeState.pathOffsetX, swipeState.contentSize.height * .5f),
+            Offset(0f, swipeState.contentSize.height * .67f),
+            Offset(0f, swipeState.contentSize.height.toFloat()),
+          )
 
         points.forEachIndexed { index, item ->
           if (index == 0) {
@@ -149,7 +144,7 @@ object HomeScreen {
           }
         }
         drawPath(path, stretchIndicatorColor)
-      }
+      },
     )
 
     Box(
@@ -158,32 +153,37 @@ object HomeScreen {
         .offset {
           IntOffset(
             x = swipeState.progressOffsetX,
-            y = 0
+            y = 0,
           )
         },
-      contentAlignment = Alignment.Center
+      contentAlignment = Alignment.Center,
     ) {
       CircularProgressIndicator(
         progress = swipeState.stretchPercentage,
-        modifier = Modifier
-          .rotate(-90f)
-          .fillMaxSize(),
+        modifier =
+          Modifier
+            .rotate(-90f)
+            .fillMaxSize(),
         strokeWidth = 3.dp,
-        color = if (swipeState.stretchPercentage < 0.8f) MaterialTheme.colors.primary
-        else MaterialTheme.colors.onPrimary,
-        strokeCap = StrokeCap.Round
+        color =
+          if (swipeState.stretchPercentage < 0.8f) {
+            MaterialTheme.colors.primary
+          } else {
+            MaterialTheme.colors.onPrimary
+          },
+        strokeCap = StrokeCap.Round,
       )
 
       AnimatedVisibility(
         swipeState.stretchPercentage >= 1f,
         enter = fadeIn() + scaleIn(initialScale = 2f),
-        exit = fadeOut()
+        exit = fadeOut(),
       ) {
         Icon(
           Icons.Filled.AddCircle,
           "",
           tint = MaterialTheme.colors.onPrimary,
-          modifier = Modifier.fillMaxSize()
+          modifier = Modifier.fillMaxSize(),
         )
       }
     }

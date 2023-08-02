@@ -45,23 +45,21 @@ import me.sujanpoudel.playdeals.common.ui.components.home.HomeScreen.PriceButton
 import me.sujanpoudel.playdeals.common.ui.theme.SOFT_COLOR_ALPHA
 
 object AppDealItem {
-
   @Composable
   operator fun invoke(
     appDeal: AppDeal,
-    modifier: Modifier
+    modifier: Modifier,
   ) {
     Box(
       modifier
         .fillMaxWidth()
-        .background(MaterialTheme.colors.background)
+        .background(MaterialTheme.colors.background),
     ) {
-
       Column(
-        modifier = Modifier
-          .fillMaxWidth()
+        modifier =
+          Modifier
+            .fillMaxWidth(),
       ) {
-
         Box {
           FeaturedImages(appDeal)
 
@@ -74,7 +72,7 @@ object AppDealItem {
       PriceButton(
         normalPrice = appDeal.formattedNormalPrice,
         currentPrice = appDeal.formattedCurrentPrice,
-        onClick = {}
+        onClick = {},
       )
     }
   }
@@ -82,26 +80,26 @@ object AppDealItem {
   @Composable
   private fun AppDetails(appDeal: AppDeal) {
     Row(
-      modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 10.dp)
-        .height(80.dp)
-        .fillMaxWidth(),
-      horizontalArrangement = Arrangement.spacedBy(12.dp)
+      modifier =
+        Modifier.padding(start = 16.dp, end = 16.dp, top = 10.dp)
+          .height(80.dp)
+          .fillMaxWidth(),
+      horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-
       AppIcon(
         appName = appDeal.name,
-        url = appDeal.icon
+        url = appDeal.icon,
       )
 
       Column(
         verticalArrangement = Arrangement.spacedBy(2.2.dp),
-        modifier = Modifier.align(Alignment.CenterVertically)
+        modifier = Modifier.align(Alignment.CenterVertically),
       ) {
         Text(
           appDeal.name,
           style = MaterialTheme.typography.body2.copy(fontSize = 16.sp),
           overflow = TextOverflow.Ellipsis,
-          modifier = Modifier.fillMaxWidth()
+          modifier = Modifier.fillMaxWidth(),
         )
 
         AppDetail2ndRow(appDeal)
@@ -110,7 +108,7 @@ object AppDealItem {
 
         Row(
           horizontalArrangement = Arrangement.spacedBy(4.dp),
-          verticalAlignment = Alignment.CenterVertically
+          verticalAlignment = Alignment.CenterVertically,
         ) {
           Text(
             "r/googlePlayDeals",
@@ -122,11 +120,9 @@ object AppDealItem {
     }
   }
 
-
   @OptIn(ExperimentalFoundationApi::class)
   @Composable
   private fun FeaturedImages(appDeal: AppDeal) {
-
     val listState = rememberLazyListState()
 
     LazyRow(
@@ -134,17 +130,17 @@ object AppDealItem {
       state = listState,
       flingBehavior = rememberSnapFlingBehavior(listState),
       contentPadding = PaddingValues(horizontal = 16.dp),
-      modifier = Modifier.aspectRatio(2.22f, false)
+      modifier = Modifier.aspectRatio(2.22f, false),
     ) {
-
       items(appDeal.images) {
         LazyImage(
           model = it,
           contentDescription = appDeal.name,
-          modifier = Modifier.fillMaxHeight()
-            .clip(RoundedCornerShape(percent = 5))
-            .defaultMinSize(minWidth = 100.dp)
-            .animateContentSize(animationSpec = tween(500)),
+          modifier =
+            Modifier.fillMaxHeight()
+              .clip(RoundedCornerShape(percent = 5))
+              .defaultMinSize(minWidth = 100.dp)
+              .animateContentSize(animationSpec = tween(500)),
           contentScale = ContentScale.FillHeight,
         )
       }
@@ -152,14 +148,18 @@ object AppDealItem {
   }
 
   @Composable
-  private fun AppIcon(appName: String, url: String) {
+  private fun AppIcon(
+    appName: String,
+    url: String,
+  ) {
     LazyImage(
       model = url,
       contentDescription = appName,
-      modifier = Modifier.fillMaxHeight()
-        .aspectRatio(1f, true)
-        .fillMaxSize()
-        .clip(RoundedCornerShape(percent = 10)),
+      modifier =
+        Modifier.fillMaxHeight()
+          .aspectRatio(1f, true)
+          .fillMaxSize()
+          .clip(RoundedCornerShape(percent = 10)),
       contentScale = ContentScale.Inside,
     )
   }
@@ -167,26 +167,28 @@ object AppDealItem {
   @Composable
   fun BoxScope.FloatingNewChip() {
     Row(
-      modifier = Modifier
-        .padding(bottom = 6.dp, end = 6.dp)
-        .clip(MaterialTheme.shapes.medium)
-        .background(MaterialTheme.colors.primary)
-        .align(Alignment.BottomEnd)
-        .padding(vertical = 4.dp, horizontal = 6.dp),
+      modifier =
+        Modifier
+          .padding(bottom = 6.dp, end = 6.dp)
+          .clip(MaterialTheme.shapes.medium)
+          .background(MaterialTheme.colors.primary)
+          .align(Alignment.BottomEnd)
+          .padding(vertical = 4.dp, horizontal = 6.dp),
       horizontalArrangement = Arrangement.spacedBy(4.dp),
-      verticalAlignment = Alignment.CenterVertically
+      verticalAlignment = Alignment.CenterVertically,
     ) {
       Icon(
-        Icons.Outlined.Info, "New item",
+        Icons.Outlined.Info,
+        "New item",
         tint = MaterialTheme.colors.onPrimary,
-        modifier = Modifier.size(16.dp)
+        modifier = Modifier.size(16.dp),
       )
       Text(
         text = "new",
         color = MaterialTheme.colors.onPrimary,
         style = MaterialTheme.typography.body1.copy(fontSize = 14.sp),
         textAlign = TextAlign.Center,
-        modifier = Modifier.padding(bottom = 1.dp)
+        modifier = Modifier.padding(bottom = 1.dp),
       )
     }
   }
@@ -194,7 +196,7 @@ object AppDealItem {
   @Composable
   private fun AppDetail2ndRow(appDeal: AppDeal) {
     Row(
-      horizontalArrangement = Arrangement.spacedBy(4.dp)
+      horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
       Text(
         appDeal.category,
@@ -208,7 +210,7 @@ object AppDealItem {
           .size(4.dp)
           .align(Alignment.CenterVertically)
           .clip(RoundedCornerShape(percent = 100))
-          .background(MaterialTheme.colors.onBackground.copy(alpha = SOFT_COLOR_ALPHA))
+          .background(MaterialTheme.colors.onBackground.copy(alpha = SOFT_COLOR_ALPHA)),
       )
 
       Icon(
@@ -230,7 +232,7 @@ object AppDealItem {
   private fun AppDetail3rdRow(appDeal: AppDeal) {
     Row(
       horizontalArrangement = Arrangement.spacedBy(4.dp),
-      verticalAlignment = Alignment.CenterVertically
+      verticalAlignment = Alignment.CenterVertically,
     ) {
       Text(
         appDeal.ratingFormatted,
@@ -239,7 +241,8 @@ object AppDealItem {
       )
 
       Icon(
-        Icons.Outlined.Star, "Ratings",
+        Icons.Outlined.Star,
+        "Ratings",
         modifier = Modifier.size(14.dp),
         tint = MaterialTheme.colors.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
       )

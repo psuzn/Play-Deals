@@ -1,5 +1,6 @@
-package me.sujanpoudel.playdeals.common.di.conf
+@file:Suppress("ktlint:standard:max-line-length")
 
+package me.sujanpoudel.playdeals.common.di.conf
 
 import org.kodein.di.Copy
 import org.kodein.di.DI
@@ -34,10 +35,14 @@ public class ConfigurableDI : DI {
    */
   public var mutable: Boolean? = null
     set(value) {
-      if (value == field)
+      if (value == field) {
         return
-      if (field != null)
-        throw IllegalStateException("Mutable field has already been set. You must set the mutable field before first retrieval.")
+      }
+      if (field != null) {
+        throw IllegalStateException(
+          "Mutable field has already been set. You must set the mutable field before first retrieval.",
+        )
+      }
       field = value
     }
 
@@ -79,22 +84,24 @@ public class ConfigurableDI : DI {
       predicate = { _instance },
       ifNotNull = { it },
       ifNull = {
-        if (mutable == null)
+        if (mutable == null) {
           mutable = false
+        }
 
         val configs = checkNotNull(_configs) { "recursive initialization detected" }
         _configs = null
 
-        val (di, init) = DI.withDelayedCallbacks {
-          for (config in configs)
-            config()
-        }
+        val (di, init) =
+          DI.withDelayedCallbacks {
+            for (config in configs)
+              config()
+          }
 
         _instance = di
 
         init()
         di
-      }
+      },
     )
   }
 
@@ -104,8 +111,9 @@ public class ConfigurableDI : DI {
    * @throws IllegalStateException if [mutable] is not `true`.
    */
   public fun clear() {
-    if (mutable != true)
+    if (mutable != true) {
       throw IllegalStateException("Configurabledi is not mutable, you cannot clear bindings.")
+    }
 
     maySynchronized(_lock) {
       val configs = _configs
@@ -134,13 +142,17 @@ public class ConfigurableDI : DI {
     maySynchronized(_lock) {
       val configs = _configs
       if (configs == null) {
-        if (mutable != true)
-          throw IllegalStateException("The non-mutable Configurabledi has been accessed and therefore constructed, you cannot add bindings after first retrieval.")
+        if (mutable != true) {
+          throw IllegalStateException(
+            "The non-mutable Configurabledi has been accessed and therefore constructed, you cannot add bindings after first retrieval.",
+          )
+        }
         val previous = _instance
         _instance = null
         _configs = ArrayList()
-        if (previous != null)
+        if (previous != null) {
           addExtend(previous)
+        }
       }
       _configs!!.add(config)
     }
@@ -154,9 +166,13 @@ public class ConfigurableDI : DI {
    * @param allowOverride Whether this module is allowed to override existing bindings.
    * @exception IllegalStateException When calling this function after [getOrConstruct] or any `DI` retrieval function.
    */
-  public fun addImport(module: DI.Module, allowOverride: Boolean = false): ConfigurableDI = addConfig {
-    import(module, allowOverride)
-  }
+  public fun addImport(
+    module: DI.Module,
+    allowOverride: Boolean = false,
+  ): ConfigurableDI =
+    addConfig {
+      import(module, allowOverride)
+    }
 
   /**
    * Adds the bindings of an existing DI instance to the bindings that will be applied when the DI is constructed.
@@ -168,7 +184,11 @@ public class ConfigurableDI : DI {
    *   By default, all bindings that do not hold references (e.g. not singleton or multiton) are copied.
    * @exception IllegalStateException When calling this function after [getOrConstruct] or any `DI` retrieval function.
    */
-  public fun addExtend(di: DI, allowOverride: Boolean = false, copy: Copy = Copy.NonCached): ConfigurableDI =
+  public fun addExtend(
+    di: DI,
+    allowOverride: Boolean = false,
+    copy: Copy = Copy.NonCached,
+  ): ConfigurableDI =
     addConfig {
       extend(di, allowOverride, copy)
     }

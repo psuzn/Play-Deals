@@ -4,21 +4,19 @@ import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
 import kotlin.math.roundToInt
 
-
 fun Float.format(): String {
-
   val int = toInt()
   val decimal = ((this - int) * 10).roundToInt()
 
-  return "${toInt()}.${decimal}"
+  return "${toInt()}.$decimal"
 }
 
-
 val String.currencySymbol
-  get() = when (this) {
-    "USD" -> "$"
-    else -> this
-  }
+  get() =
+    when (this) {
+      "USD" -> "$"
+      else -> this
+    }
 
 @Serializable
 data class AppDeal(
@@ -35,7 +33,7 @@ data class AppDeal(
   private val rating: Float,
   val offerExpiresIn: Instant,
   val createdAt: Instant,
-  val updatedAt: Instant
+  val updatedAt: Instant,
 ) {
   val ratingFormatted: String
     get() = rating.format()
@@ -44,6 +42,10 @@ data class AppDeal(
     get() = "${currency.currencySymbol}${normalPrice.format()}"
 
   val formattedCurrentPrice: String
-    get() = if (currentPrice == 0f) "Free"
-    else "${currency.currencySymbol}${currentPrice.format()}"
+    get() =
+      if (currentPrice == 0f) {
+        "Free"
+      } else {
+        "${currency.currencySymbol}${currentPrice.format()}"
+      }
 }

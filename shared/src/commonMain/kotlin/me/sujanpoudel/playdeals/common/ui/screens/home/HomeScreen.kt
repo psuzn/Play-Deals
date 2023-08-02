@@ -22,18 +22,16 @@ import me.sujanpoudel.playdeals.common.ui.components.home.ScreenSwipeState
 import me.sujanpoudel.playdeals.common.ui.components.home.withScreenSwipeIndicator
 import me.sujanpoudel.playdeals.common.viewModel.viewModel
 
-
 @Composable
 fun HomeScreen() {
-
   val viewModel = viewModel<HomeScreenViewModel>()
   val swipeState = remember { ScreenSwipeState() }
 
   Box(
-    modifier = Modifier
-      .withScreenSwipeIndicator(swipeState)
+    modifier =
+      Modifier
+        .withScreenSwipeIndicator(swipeState),
   ) {
-
     Scaffold(
       title = Strings.APP_DEALS,
       topRightAction = { navigator ->
@@ -41,8 +39,9 @@ fun HomeScreen() {
           navigator.push(Screens.NEW_DEAL)
         }
       },
-      modifier = Modifier
-        .offset { IntOffset(swipeState.pageOffsetX, 0) }
+      modifier =
+        Modifier
+          .offset { IntOffset(swipeState.pageOffsetX, 0) },
     ) { navigator, scaffoldState ->
 
       val openSecondScreen = remember(swipeState.stretchPercentage) { swipeState.stretchPercentage >= 1f }
@@ -73,7 +72,3 @@ fun HomeScreen() {
     ScreenSwipeIndicator(swipeState)
   }
 }
-
-
-
-

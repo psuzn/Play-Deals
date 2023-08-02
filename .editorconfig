@@ -16,3 +16,8 @@ wildcard_import_limit = 99999
 ij_kotlin_name_count_to_use_star_import = 99999
 ij_kotlin_name_count_to_use_star_import_for_members = 99999
 ij_java_names_count_to_use_import_on_demand = 99999
+
+ktlint_code_style = ktlint_official
+ktlint_standard_filename = disabled
+
+
