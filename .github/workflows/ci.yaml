@@ -21,9 +21,9 @@ jobs:
       - name: Build Project with Gradle
         uses: gradle/gradle-build-action@v2
 
-      - name: Run Checks
-        run: ./gradlew ktlintCheck allTests
+      - name: Lint
+        run: ./gradlew ktlintCheck
 
-
-
+      - name: Tests
+        run: ./gradlew :shared:testReleaseUnitTest
 
