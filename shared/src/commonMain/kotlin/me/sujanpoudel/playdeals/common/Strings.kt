@@ -6,6 +6,7 @@ object Strings {
   object HomeScreen {
     const val RETRY = "Retry"
     const val TRY_AGAIN = "Try Again"
+    const val REFRESH = "Refresh"
     const val ADD = "Add"
   }
 }
