@@ -15,8 +15,8 @@ import me.sujanpoudel.playdeals.common.Strings
 import me.sujanpoudel.playdeals.common.ui.components.common.Scaffold
 import me.sujanpoudel.playdeals.common.ui.components.home.AppDealContent
 import me.sujanpoudel.playdeals.common.ui.components.home.HomeScreen
-import me.sujanpoudel.playdeals.common.ui.components.home.HomeScreen.FullScreenLoading
-import me.sujanpoudel.playdeals.common.ui.components.home.HomeScreen.FullscreenError
+import me.sujanpoudel.playdeals.common.ui.components.home.HomeScreen.Error
+import me.sujanpoudel.playdeals.common.ui.components.home.HomeScreen.Loading
 import me.sujanpoudel.playdeals.common.ui.components.home.HomeScreen.ScreenSwipeIndicator
 import me.sujanpoudel.playdeals.common.ui.components.home.ScreenSwipeState
 import me.sujanpoudel.playdeals.common.ui.components.home.withScreenSwipeIndicator
@@ -63,9 +63,9 @@ fun HomeScreen() {
       }
 
       when {
-        state.persistentError != null -> FullscreenError(state.persistentError!!, viewModel::refreshDeals)
-        state.isLoading -> FullScreenLoading()
-        state.allAppDeals.isEmpty() -> HomeScreen.NoDealsMessage( refreshBy = viewModel::refreshDeals)
+        state.persistentError != null -> Error(state.persistentError!!, viewModel::refreshDeals)
+        state.isLoading -> Loading()
+        state.allAppDeals.isEmpty() -> HomeScreen.NoDeals( refreshBy = viewModel::refreshDeals)
         else -> AppDealContent(state, viewModel::refreshDeals, viewModel::toggleFilterItem)
       }
     }

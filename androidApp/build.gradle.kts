@@ -20,13 +20,13 @@ kotlin {
 
 android {
   compileSdk = 33
-  namespace = "me.sujanpoudel.playdeals"
+  namespace = Artifact.APP_ID
   defaultConfig {
-    applicationId = "me.sujanpoudel.playdeals"
+    applicationId = Artifact.APP_ID
     minSdk = 26
     targetSdk = 33
-    versionCode = 1
-    versionName = "1.0"
+    versionCode =  Artifact.VERSION_CODE
+    versionName =  Artifact.VERSION_NAME
   }
 
   compileOptions {

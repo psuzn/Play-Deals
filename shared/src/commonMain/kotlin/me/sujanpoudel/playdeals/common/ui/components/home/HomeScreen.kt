@@ -54,7 +54,7 @@ object HomeScreen {
   }
 
   @Composable
-  fun FullScreenLoading() {
+  fun Loading() {
     Box(
       modifier = Modifier.fillMaxSize(),
       contentAlignment = Alignment.Center,
@@ -64,7 +64,7 @@ object HomeScreen {
   }
 
   @Composable
-  fun FullscreenError(
+  fun Error(
     message: String,
     onRetry: () -> Unit,
     modifier: Modifier = Modifier,
@@ -91,7 +91,7 @@ object HomeScreen {
   }
 
   @Composable
-  fun NoDealsMessage(
+  fun NoDeals(
     modifier: Modifier = Modifier,
     refreshBy: () -> Unit,
   ) {

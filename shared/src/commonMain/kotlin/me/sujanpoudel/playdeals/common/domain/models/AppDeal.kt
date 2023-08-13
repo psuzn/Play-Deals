@@ -1,22 +1,13 @@
 package me.sujanpoudel.playdeals.common.domain.models
 
+import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
-import kotlin.math.roundToInt
+import me.sujanpoudel.playdeals.common.Strings
+import me.sujanpoudel.playdeals.common.utils.asCurrencySymbol
+import me.sujanpoudel.playdeals.common.utils.formatAsPrice
+import me.sujanpoudel.playdeals.common.utils.shallowFormatted
 
-fun Float.format(): String {
-  val int = toInt()
-  val decimal = ((this - int) * 10).roundToInt()
-
-  return "${toInt()}.$decimal"
-}
-
-val String.currencySymbol
-  get() =
-    when (this) {
-      "USD" -> "$"
-      else -> this
-    }
 
 @Serializable
 data class AppDeal(
@@ -36,16 +27,26 @@ data class AppDeal(
   val updatedAt: Instant,
 ) {
   val ratingFormatted: String
-    get() = rating.format()
+    get() = rating.formatAsPrice()
 
-  val formattedNormalPrice: String
-    get() = "${currency.currencySymbol}${normalPrice.format()}"
+  fun formattedNormalPrice() = "${currency.asCurrencySymbol()}${normalPrice.formatAsPrice()}"
 
-  val formattedCurrentPrice: String
-    get() =
-      if (currentPrice == 0f) {
-        "Free"
-      } else {
-        "${currency.currencySymbol}${currentPrice.format()}"
-      }
+  fun formattedCurrentPrice() =
+    if (currentPrice == 0f) {
+      Strings.HomeScreen.FREE
+    } else {
+      "${currency.asCurrencySymbol()}${currentPrice.formatAsPrice()}"
+    }
+
+  fun formattedExpiryInfo(): String {
+
+    val now = Clock.System.now()
+
+    val duration = now - offerExpiresIn
+
+    return if (now > offerExpiresIn)
+      "${Strings.HomeScreen.EXPIRED} ${duration.shallowFormatted()} ${Strings.HomeScreen.AGO}"
+    else
+      "${Strings.HomeScreen.EXPIRES_IN} ${duration.shallowFormatted()}"
+  }
 }

@@ -18,22 +18,6 @@ kotlin {
   ios()
   iosSimulatorArm64()
 
-  macosX64 {
-    binaries {
-      executable {
-        entryPoint = "main"
-      }
-    }
-  }
-
-  macosArm64 {
-    binaries {
-      executable {
-        entryPoint = "main"
-      }
-    }
-  }
-
   cocoapods {
     summary = "Shared code for the sample"
     homepage = "https://github.com/JetBrains/compose-jb"
@@ -43,8 +27,7 @@ kotlin {
       baseName = "shared"
       isStatic = true
     }
-    extraSpecAttributes["resources"] =
-      "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
+    extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
   }
 
   sourceSets {
@@ -108,18 +91,6 @@ kotlin {
         implementation("io.ktor:ktor-client-okhttp:${Versions.KTOR}")
       }
     }
-
-    val macosMain by creating {
-      dependsOn(commonMain)
-    }
-
-    val macosX64Main by getting {
-      dependsOn(macosMain)
-    }
-
-    val macosArm64Main by getting {
-      dependsOn(macosMain)
-    }
   }
 }
 
@@ -139,6 +110,7 @@ android {
 
   buildFeatures {
     compose = true
+    buildConfig = true
   }
 
   composeOptions {

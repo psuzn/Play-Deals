@@ -39,9 +39,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import me.sujanpoudel.playdeals.common.Strings
 import me.sujanpoudel.playdeals.common.domain.models.AppDeal
 import me.sujanpoudel.playdeals.common.ui.components.common.LazyImage
 import me.sujanpoudel.playdeals.common.ui.components.home.HomeScreen.PriceButton
+import me.sujanpoudel.playdeals.common.ui.screens.home.LocalAppDealActionHandler
 import me.sujanpoudel.playdeals.common.ui.theme.SOFT_COLOR_ALPHA
 
 object AppDealItem {
@@ -50,15 +52,18 @@ object AppDealItem {
     appDeal: AppDeal,
     modifier: Modifier,
   ) {
+
+
+    val appDealActionHandler = LocalAppDealActionHandler.current
+
     Box(
       modifier
         .fillMaxWidth()
         .background(MaterialTheme.colors.background),
     ) {
       Column(
-        modifier =
-          Modifier
-            .fillMaxWidth(),
+        modifier = Modifier
+          .fillMaxWidth(),
       ) {
         Box {
           FeaturedImages(appDeal)
@@ -70,9 +75,11 @@ object AppDealItem {
       }
 
       PriceButton(
-        normalPrice = appDeal.formattedNormalPrice,
-        currentPrice = appDeal.formattedCurrentPrice,
-        onClick = {},
+        normalPrice = appDeal.formattedNormalPrice(),
+        currentPrice = appDeal.formattedCurrentPrice(),
+        onClick = {
+          appDealActionHandler.handle(appDeal)
+        },
       )
     }
   }
@@ -80,10 +87,9 @@ object AppDealItem {
   @Composable
   private fun AppDetails(appDeal: AppDeal) {
     Row(
-      modifier =
-        Modifier.padding(start = 16.dp, end = 16.dp, top = 10.dp)
-          .height(80.dp)
-          .fillMaxWidth(),
+      modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 10.dp)
+        .height(80.dp)
+        .fillMaxWidth(),
       horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
       AppIcon(
@@ -137,10 +143,10 @@ object AppDealItem {
           model = it,
           contentDescription = appDeal.name,
           modifier =
-            Modifier.fillMaxHeight()
-              .clip(RoundedCornerShape(percent = 5))
-              .defaultMinSize(minWidth = 100.dp)
-              .animateContentSize(animationSpec = tween(500)),
+          Modifier.fillMaxHeight()
+            .clip(RoundedCornerShape(percent = 5))
+            .defaultMinSize(minWidth = 100.dp)
+            .animateContentSize(animationSpec = tween(500)),
           contentScale = ContentScale.FillHeight,
         )
       }
@@ -155,11 +161,10 @@ object AppDealItem {
     LazyImage(
       model = url,
       contentDescription = appName,
-      modifier =
-        Modifier.fillMaxHeight()
-          .aspectRatio(1f, true)
-          .fillMaxSize()
-          .clip(RoundedCornerShape(percent = 10)),
+      modifier = Modifier.fillMaxHeight()
+        .aspectRatio(1f, true)
+        .fillMaxSize()
+        .clip(RoundedCornerShape(percent = 10)),
       contentScale = ContentScale.Inside,
     )
   }
@@ -167,13 +172,12 @@ object AppDealItem {
   @Composable
   fun BoxScope.FloatingNewChip() {
     Row(
-      modifier =
-        Modifier
-          .padding(bottom = 6.dp, end = 6.dp)
-          .clip(MaterialTheme.shapes.medium)
-          .background(MaterialTheme.colors.primary)
-          .align(Alignment.BottomEnd)
-          .padding(vertical = 4.dp, horizontal = 6.dp),
+      modifier = Modifier
+        .padding(bottom = 6.dp, end = 6.dp)
+        .clip(MaterialTheme.shapes.medium)
+        .background(MaterialTheme.colors.primary)
+        .align(Alignment.BottomEnd)
+        .padding(vertical = 4.dp, horizontal = 6.dp),
       horizontalArrangement = Arrangement.spacedBy(4.dp),
       verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -215,7 +219,7 @@ object AppDealItem {
 
       Icon(
         Icons.Default.SaveAlt,
-        contentDescription = "Download",
+        contentDescription = Strings.HomeScreen.DOWNLOADS,
         modifier = Modifier.size(14.dp),
         tint = MaterialTheme.colors.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
       )
@@ -242,13 +246,13 @@ object AppDealItem {
 
       Icon(
         Icons.Outlined.Star,
-        "Ratings",
+        Strings.HomeScreen.RATINGS,
         modifier = Modifier.size(14.dp),
         tint = MaterialTheme.colors.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
       )
 
       Text(
-        "Expires in 2 days",
+        text = appDeal.formattedExpiryInfo(),
         style = MaterialTheme.typography.body1,
         color = MaterialTheme.colors.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
       )
