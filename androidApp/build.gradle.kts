@@ -25,8 +25,8 @@ android {
     applicationId = Artifact.APP_ID
     minSdk = 26
     targetSdk = 33
-    versionCode =  Artifact.VERSION_CODE
-    versionName =  Artifact.VERSION_NAME
+    versionCode = Artifact.VERSION_CODE
+    versionName = Artifact.VERSION_NAME
   }
 
   compileOptions {

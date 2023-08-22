@@ -48,7 +48,5 @@ compose.desktop {
         iconFile.set(project.file("app_icon.png"))
       }
     }
-
   }
-
 }

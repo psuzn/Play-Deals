@@ -121,13 +121,13 @@ class HomeScreenViewModel(
     _state.update { state ->
       state.copy(
         filterOptions =
-        state.filterOptions.map {
-          if (it.data == item) {
-            it.copy(selected = !it.selected)
-          } else {
-            it
-          }
-        },
+          state.filterOptions.map {
+            if (it.data == item) {
+              it.copy(selected = !it.selected)
+            } else {
+              it
+            }
+          },
       )
     }
   }
@@ -163,9 +163,9 @@ class HomeScreenViewModel(
       Selectable(
         data = newItem,
         selected =
-        state.filterOptions.any { oldItem ->
-          oldItem.data.instanceOf(newItem::class) && oldItem.selected
-        },
+          state.filterOptions.any { oldItem ->
+            oldItem.data.instanceOf(newItem::class) && oldItem.selected
+          },
       )
     }
 

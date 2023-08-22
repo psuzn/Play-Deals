@@ -52,8 +52,6 @@ object AppDealItem {
     appDeal: AppDeal,
     modifier: Modifier,
   ) {
-
-
     val appDealActionHandler = LocalAppDealActionHandler.current
 
     Box(
@@ -143,10 +141,10 @@ object AppDealItem {
           model = it,
           contentDescription = appDeal.name,
           modifier =
-          Modifier.fillMaxHeight()
-            .clip(RoundedCornerShape(percent = 5))
-            .defaultMinSize(minWidth = 100.dp)
-            .animateContentSize(animationSpec = tween(500)),
+            Modifier.fillMaxHeight()
+              .clip(RoundedCornerShape(percent = 5))
+              .defaultMinSize(minWidth = 100.dp)
+              .animateContentSize(animationSpec = tween(500)),
           contentScale = ContentScale.FillHeight,
         )
       }

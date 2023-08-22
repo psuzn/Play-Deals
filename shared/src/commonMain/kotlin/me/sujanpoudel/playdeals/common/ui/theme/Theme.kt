@@ -73,5 +73,4 @@ fun AppTheme(
     content = content,
     typography = defaultTypography(),
   )
-
 }

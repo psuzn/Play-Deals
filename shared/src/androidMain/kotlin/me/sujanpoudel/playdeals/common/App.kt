@@ -10,7 +10,6 @@ import me.sujanpoudel.playdeals.common.ui.theme.AppearanceModeManager
 
 @Composable
 fun PlayDealsAppAndroid(appearanceModeManager: AppearanceModeManager) {
-
   val context = LocalContext.current
 
   val appDealActionHandler = remember {
@@ -20,9 +19,8 @@ fun PlayDealsAppAndroid(appearanceModeManager: AppearanceModeManager) {
     }
   }
 
-
   PlayDealsApp(
     appearanceModeManager,
-    appDealActionHandler
+    appDealActionHandler,
   )
 }

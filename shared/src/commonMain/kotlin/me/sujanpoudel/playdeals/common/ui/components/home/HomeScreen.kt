@@ -48,8 +48,8 @@ object HomeScreen {
       contentDescription = Strings.HomeScreen.ADD,
       tint = MaterialTheme.colors.onBackground,
       modifier =
-      Modifier.padding(8.dp)
-        .clickableBoundless(true, onClick),
+        Modifier.padding(8.dp)
+          .clickableBoundless(true, onClick),
     )
   }
 
@@ -125,8 +125,8 @@ object HomeScreen {
     Button(
       onClick = onClick,
       modifier =
-      Modifier.align(Alignment.BottomEnd)
-        .padding(end = 16.dp),
+        Modifier.align(Alignment.BottomEnd)
+          .padding(end = 16.dp),
     ) {
       Text(
         text = normalPrice,
@@ -187,16 +187,16 @@ object HomeScreen {
       CircularProgressIndicator(
         progress = swipeState.stretchPercentage,
         modifier =
-        Modifier
-          .rotate(-90f)
-          .fillMaxSize(),
+          Modifier
+            .rotate(-90f)
+            .fillMaxSize(),
         strokeWidth = 3.dp,
         color =
-        if (swipeState.stretchPercentage < 0.8f) {
-          MaterialTheme.colors.primary
-        } else {
-          MaterialTheme.colors.onPrimary
-        },
+          if (swipeState.stretchPercentage < 0.8f) {
+            MaterialTheme.colors.primary
+          } else {
+            MaterialTheme.colors.onPrimary
+          },
         strokeCap = StrokeCap.Round,
       )
 

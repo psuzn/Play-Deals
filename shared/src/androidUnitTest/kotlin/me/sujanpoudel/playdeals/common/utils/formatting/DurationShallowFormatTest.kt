@@ -40,5 +40,4 @@ class DurationShallowFormatTest {
   fun `should format correctly with biggest unit`() = runTest {
     125.minutes.shallowFormatted() shouldBe "2 hour(s)"
   }
-
 }

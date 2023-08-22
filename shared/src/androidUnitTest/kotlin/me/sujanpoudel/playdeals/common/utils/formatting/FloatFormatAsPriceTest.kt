@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test
 
 class FloatFormatAsPriceTest {
 
-
   @Test
   fun `should correctly format`() = runTest {
     2.001f.formatAsPrice() shouldBe "2.00"
@@ -25,4 +24,3 @@ class FloatFormatAsPriceTest {
     2.2299f.formatAsPrice() shouldBe "2.23"
   }
 }
-

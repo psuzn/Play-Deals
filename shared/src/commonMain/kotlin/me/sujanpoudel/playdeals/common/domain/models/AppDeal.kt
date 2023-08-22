@@ -8,7 +8,6 @@ import me.sujanpoudel.playdeals.common.utils.asCurrencySymbol
 import me.sujanpoudel.playdeals.common.utils.formatAsPrice
 import me.sujanpoudel.playdeals.common.utils.shallowFormatted
 
-
 @Serializable
 data class AppDeal(
   val id: String,
@@ -39,14 +38,14 @@ data class AppDeal(
     }
 
   fun formattedExpiryInfo(): String {
-
     val now = Clock.System.now()
 
     val duration = now - offerExpiresIn
 
-    return if (now > offerExpiresIn)
+    return if (now > offerExpiresIn) {
       "${Strings.HomeScreen.EXPIRED} ${duration.shallowFormatted()} ${Strings.HomeScreen.AGO}"
-    else
+    } else {
       "${Strings.HomeScreen.EXPIRES_IN} ${duration.shallowFormatted()}"
+    }
   }
 }

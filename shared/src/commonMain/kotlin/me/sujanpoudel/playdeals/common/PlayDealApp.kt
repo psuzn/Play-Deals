@@ -46,12 +46,11 @@ val navGraph =
 @Composable
 fun PlayDealsApp(
   appearanceModeManager: AppearanceModeManager,
-  appDealActionHandler: AppDealActionHandler = AppDealActionHandler { }
+  appDealActionHandler: AppDealActionHandler = AppDealActionHandler { },
 ) {
-
   CompositionLocalProvider(
     LocalAppearanceModeManager provides appearanceModeManager,
-    LocalAppDealActionHandler provides appDealActionHandler
+    LocalAppDealActionHandler provides appDealActionHandler,
   ) {
     AppTheme {
       Box(

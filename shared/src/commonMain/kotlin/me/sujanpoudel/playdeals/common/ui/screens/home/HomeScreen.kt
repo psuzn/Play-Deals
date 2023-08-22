@@ -29,8 +29,8 @@ fun HomeScreen() {
 
   Box(
     modifier =
-    Modifier
-      .withScreenSwipeIndicator(swipeState),
+      Modifier
+        .withScreenSwipeIndicator(swipeState),
   ) {
     Scaffold(
       title = Strings.APP_DEALS,
@@ -40,8 +40,8 @@ fun HomeScreen() {
         }
       },
       modifier =
-      Modifier
-        .offset { IntOffset(swipeState.pageOffsetX, 0) },
+        Modifier
+          .offset { IntOffset(swipeState.pageOffsetX, 0) },
     ) { navigator, scaffoldState ->
 
       val openSecondScreen = remember(swipeState.stretchPercentage) { swipeState.stretchPercentage >= 1f }
@@ -65,7 +65,7 @@ fun HomeScreen() {
       when {
         state.persistentError != null -> Error(state.persistentError!!, viewModel::refreshDeals)
         state.isLoading -> Loading()
-        state.allAppDeals.isEmpty() -> HomeScreen.NoDeals( refreshBy = viewModel::refreshDeals)
+        state.allAppDeals.isEmpty() -> HomeScreen.NoDeals(refreshBy = viewModel::refreshDeals)
         else -> AppDealContent(state, viewModel::refreshDeals, viewModel::toggleFilterItem)
       }
     }

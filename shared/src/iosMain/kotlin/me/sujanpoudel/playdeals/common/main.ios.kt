@@ -9,7 +9,6 @@ import platform.UIKit.UIApplication
 
 @Suppress("FunctionName", "unused")
 fun MainViewController(appearanceModeManager: AppearanceModeManager) = ComposeUIViewController {
-
   val appDealActionHandler = remember {
     AppDealActionHandler {
       UIApplication.sharedApplication.openURL(URLWithString(it.storeUrl)!!)
@@ -18,6 +17,6 @@ fun MainViewController(appearanceModeManager: AppearanceModeManager) = ComposeUI
 
   PlayDealsApp(
     appearanceModeManager,
-    appDealActionHandler
+    appDealActionHandler,
   )
 }

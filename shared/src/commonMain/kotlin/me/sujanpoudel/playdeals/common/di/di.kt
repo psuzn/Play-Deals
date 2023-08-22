@@ -17,7 +17,6 @@ import org.kodein.di.bindProvider
 import org.kodein.di.bindSingleton
 import org.kodein.di.instance
 
-
 private val mainModule =
   DI.Module("mainModule") {
 

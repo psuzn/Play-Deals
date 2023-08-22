@@ -9,10 +9,13 @@ fun Float.formatAsPrice(): String {
   val int = toInt()
   val decimal = ((this - int) * 100).roundToInt()
 
-  val formattedDecimal = if (decimal < 10) "${decimal}0"
-  else "$decimal"
+  val formattedDecimal = if (decimal < 10) {
+    "${decimal}0"
+  } else {
+    "$decimal"
+  }
 
-  return "${int}.${formattedDecimal}"
+  return "$int.$formattedDecimal"
 }
 
 fun String.asCurrencySymbol() = when (this) {
