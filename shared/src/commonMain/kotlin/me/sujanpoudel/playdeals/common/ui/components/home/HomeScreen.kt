@@ -54,7 +54,7 @@ object HomeScreen {
   }
 
   @Composable
-  fun FullScreenLoading() {
+  fun Loading() {
     Box(
       modifier = Modifier.fillMaxSize(),
       contentAlignment = Alignment.Center,
@@ -64,7 +64,7 @@ object HomeScreen {
   }
 
   @Composable
-  fun FullscreenError(
+  fun Error(
     message: String,
     onRetry: () -> Unit,
     modifier: Modifier = Modifier,
@@ -86,6 +86,32 @@ object HomeScreen {
 
       Button(onRetry) {
         Text(Strings.HomeScreen.TRY_AGAIN)
+      }
+    }
+  }
+
+  @Composable
+  fun NoDeals(
+    modifier: Modifier = Modifier,
+    refreshBy: () -> Unit,
+  ) {
+    Column(
+      modifier = modifier.fillMaxSize(),
+      horizontalAlignment = Alignment.CenterHorizontally,
+      verticalArrangement = Arrangement.Center,
+    ) {
+      Text(
+        "Such an emptiness",
+        style = MaterialTheme.typography.body1,
+        color = MaterialTheme.colors.onBackground,
+      )
+
+      Spacer(
+        modifier = Modifier.height(18.dp),
+      )
+
+      Button(refreshBy) {
+        Text(Strings.HomeScreen.REFRESH)
       }
     }
   }

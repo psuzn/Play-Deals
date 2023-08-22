@@ -148,28 +148,26 @@ class HomeScreenViewModel(
         }.map { newItem ->
           Selectable(
             data = newItem,
-            selected =
-              state.filterOptions.any { oldItem ->
-                oldItem.data is DealFilterOption.Category &&
-                  newItem.value == oldItem.data.value &&
-                  oldItem.selected
-              },
+            selected = state.filterOptions.any { oldItem ->
+              oldItem.data is DealFilterOption.Category &&
+                newItem.value == oldItem.data.value &&
+                oldItem.selected
+            },
           )
         }
 
-    val otherFilters =
-      listOf(
-        DealFilterOption.NewlyAddedApps,
-        DealFilterOption.FreeApps,
-      ).map { newItem ->
-        Selectable(
-          data = newItem,
-          selected =
-            state.filterOptions.any { oldItem ->
-              oldItem.data.instanceOf(newItem::class) && oldItem.selected
-            },
-        )
-      }
+    val otherFilters = listOf(
+      DealFilterOption.NewlyAddedApps,
+      DealFilterOption.FreeApps,
+    ).map { newItem ->
+      Selectable(
+        data = newItem,
+        selected =
+          state.filterOptions.any { oldItem ->
+            oldItem.data.instanceOf(newItem::class) && oldItem.selected
+          },
+      )
+    }
 
     return otherFilters + categoryFilters
   }
