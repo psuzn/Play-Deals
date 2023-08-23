@@ -29,7 +29,7 @@ fun NavHost(navigator: Navigator) {
   }
 
   CompositionLocalProvider(
-    LocalNavigator provides navigator,
+    Navigator.Local provides navigator,
     LocalViewModelFactory provides navigator.viewModelFactory,
   ) {
     // TODO: add a way to customize transition animations

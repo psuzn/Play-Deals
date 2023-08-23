@@ -1,5 +1,7 @@
 package me.sujanpoudel.playdeals.common.navigation
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.compositionLocalOf
@@ -66,9 +68,15 @@ class Navigator(
   override fun save(viewModel: ViewModel) {
     currentEntry.value?.addTag(viewModel)
   }
+
+  companion object {
+    internal val Local = compositionLocalOf<Navigator> { throw Error("No Navigator found") }
+    val current
+      @ReadOnlyComposable
+      @Composable get() = Local.current
+  }
 }
 
-val LocalNavigator = compositionLocalOf<Navigator> { throw Error("No Navigator found") }
 val LocalViewModelFactory =
   compositionLocalOf<ViewModelFactory> {
     throw Error("No ViewModelFactory found")

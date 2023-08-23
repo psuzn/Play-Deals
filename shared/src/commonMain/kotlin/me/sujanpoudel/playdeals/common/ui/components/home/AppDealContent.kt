@@ -14,14 +14,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.ChipDefaults
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.FilterChip
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,62 +29,47 @@ import me.sujanpoudel.playdeals.common.ui.screens.home.HomeScreenState
 import me.sujanpoudel.playdeals.common.ui.theme.SOFT_COLOR_ALPHA
 
 object AppDealContent {
-  @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
+  @OptIn(ExperimentalFoundationApi::class)
   @Composable
   operator fun invoke(
-    state: HomeScreenState,
-    onRequestRefresh: () -> Unit,
+    homeScreenState: HomeScreenState,
     onToggleFilterOption: (DealFilterOption) -> Unit,
   ) {
-    val pullToRefreshState = rememberPullRefreshState(state.isRefreshing, onRequestRefresh)
-
-    Box(
-      modifier =
-        Modifier.fillMaxSize()
-          .pullRefresh(pullToRefreshState),
+    Column(
+      modifier = Modifier.fillMaxSize(),
     ) {
-      Column {
-        if (state.filterOptions.isNotEmpty()) {
-          LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-          ) {
-            itemsIndexed(state.filterOptions) { index, it ->
-              FilterChipItem(
-                index = index,
-                filterOption = it,
-                onToggleFilterOption = onToggleFilterOption,
-              )
-            }
-          }
-        }
-
-        LazyColumn(
-          verticalArrangement = Arrangement.spacedBy(32.dp),
-          contentPadding = PaddingValues(top = 16.dp, bottom = 48.dp),
-          modifier = Modifier.fillMaxSize(),
+      if (homeScreenState.filterOptions.isNotEmpty()) {
+        LazyRow(
+          horizontalArrangement = Arrangement.spacedBy(8.dp),
+          contentPadding = PaddingValues(horizontal = 16.dp),
+          verticalAlignment = Alignment.CenterVertically,
         ) {
-          items(state.dealsToDisplay, key = { it.id }) {
-            AppDealItem(
-              appDeal = it,
-              modifier = Modifier.animateItemPlacement(),
+          itemsIndexed(homeScreenState.filterOptions) { index, it ->
+            FilterChipItem(
+              index = index,
+              filterOption = it,
+              onToggleFilterOption = onToggleFilterOption,
             )
           }
         }
       }
 
-      PullRefreshIndicator(
-        state.isRefreshing,
-        pullToRefreshState,
-        Modifier.align(Alignment.TopCenter),
-        scale = true,
-        contentColor = MaterialTheme.colors.primary,
-      )
+      LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(32.dp),
+        contentPadding = PaddingValues(top = 16.dp, bottom = 48.dp),
+        modifier = Modifier.fillMaxSize(),
+      ) {
+        items(homeScreenState.dealsToDisplay, key = { it.id }) {
+          AppDealItem(
+            appDeal = it,
+            modifier = Modifier.animateItemPlacement(),
+          )
+        }
+      }
     }
   }
 
-  @OptIn(ExperimentalMaterialApi::class)
+  @OptIn(ExperimentalMaterial3Api::class)
   @Composable
   fun FilterChipItem(
     index: Int,
@@ -97,31 +79,30 @@ object AppDealContent {
     FilterChip(
       onClick = { onToggleFilterOption(filterOption.data) },
       selected = filterOption.selected,
-      colors =
-        ChipDefaults.filterChipColors(
-          selectedBackgroundColor = MaterialTheme.colors.primary,
-        ),
-    ) {
-      Text(
-        text = filterOption.data.label,
-        color =
-          if (filterOption.selected) {
-            MaterialTheme.colors.onPrimary
+      elevation = null,
+      colors = FilterChipDefaults.filterChipColors(
+        selectedContainerColor = MaterialTheme.colorScheme.primary,
+      ),
+      label = {
+        Text(
+          text = filterOption.data.label,
+          color = if (filterOption.selected) {
+            MaterialTheme.colorScheme.onPrimary
           } else {
-            MaterialTheme.colors.onSurface
+            MaterialTheme.colorScheme.onSurface
           },
-        style = MaterialTheme.typography.body1,
-      )
-    }
+          style = MaterialTheme.typography.labelMedium,
+        )
+      },
+    )
 
     if (index == 1) {
       Box(
-        modifier =
-          Modifier
-            .padding(start = 8.dp)
-            .width(1.dp)
-            .height(22.dp)
-            .background(MaterialTheme.colors.onBackground.copy(alpha = SOFT_COLOR_ALPHA)),
+        modifier = Modifier
+          .padding(start = 8.dp)
+          .width(1.dp)
+          .height(22.dp)
+          .background(MaterialTheme.colorScheme.onBackground.copy(alpha = SOFT_COLOR_ALPHA)),
       )
     }
   }

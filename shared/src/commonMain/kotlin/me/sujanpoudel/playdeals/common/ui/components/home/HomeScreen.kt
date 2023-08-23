@@ -16,15 +16,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.material.Button
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.Menu
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.BiasAlignment
@@ -32,8 +31,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import me.sujanpoudel.playdeals.common.Strings
@@ -42,14 +39,13 @@ import me.sujanpoudel.playdeals.common.ui.components.common.clickableBoundless
 
 object HomeScreen {
   @Composable
-  fun NavPlusButton(onClick: () -> Unit) {
+  fun NavMenu(onClick: () -> Unit) {
     Icon(
-      Icons.Outlined.Add,
-      contentDescription = Strings.HomeScreen.ADD,
-      tint = MaterialTheme.colors.onBackground,
-      modifier =
-        Modifier.padding(8.dp)
-          .clickableBoundless(true, onClick),
+      Icons.Outlined.Menu,
+      contentDescription = "",
+      tint = MaterialTheme.colorScheme.onBackground,
+      modifier = Modifier.padding(8.dp)
+        .clickableBoundless(onclick = onClick),
     )
   }
 
@@ -76,8 +72,8 @@ object HomeScreen {
     ) {
       Text(
         message,
-        style = MaterialTheme.typography.body1,
-        color = MaterialTheme.colors.error,
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.error,
       )
 
       Spacer(
@@ -102,8 +98,8 @@ object HomeScreen {
     ) {
       Text(
         "Such an emptiness",
-        style = MaterialTheme.typography.body1,
-        color = MaterialTheme.colors.onBackground,
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.onBackground,
       )
 
       Spacer(
@@ -116,37 +112,10 @@ object HomeScreen {
     }
   }
 
-  @Composable
-  fun BoxScope.PriceButton(
-    normalPrice: String,
-    currentPrice: String,
-    onClick: () -> Unit,
-  ) {
-    Button(
-      onClick = onClick,
-      modifier =
-        Modifier.align(Alignment.BottomEnd)
-          .padding(end = 16.dp),
-    ) {
-      Text(
-        text = normalPrice,
-        textDecoration = TextDecoration.LineThrough,
-        color = MaterialTheme.colors.onPrimary,
-      )
-
-      Spacer(modifier = Modifier.width(4.dp))
-
-      Text(
-        text = currentPrice,
-        color = MaterialTheme.colors.onPrimary,
-      )
-    }
-  }
-
   @OptIn(ExperimentalAnimationApi::class)
   @Composable
-  fun BoxScope.ScreenSwipeIndicator(swipeState: ScreenSwipeState) {
-    val stretchIndicatorColor = MaterialTheme.colors.primary.copy(swipeState.stretchIndicatorColorAlpha)
+  fun BoxScope.RightSwipeIndicator(swipeState: HomeScreenSwipeState) {
+    val stretchIndicatorColor = MaterialTheme.colorScheme.primary.copy(swipeState.stretchIndicatorColorAlpha)
 
     Canvas(
       modifier = Modifier.fillMaxSize(),
@@ -186,18 +155,15 @@ object HomeScreen {
     ) {
       CircularProgressIndicator(
         progress = swipeState.stretchPercentage,
-        modifier =
-          Modifier
-            .rotate(-90f)
-            .fillMaxSize(),
+        modifier = Modifier
+          .rotate(-90f)
+          .fillMaxSize(),
         strokeWidth = 3.dp,
-        color =
-          if (swipeState.stretchPercentage < 0.8f) {
-            MaterialTheme.colors.primary
-          } else {
-            MaterialTheme.colors.onPrimary
-          },
-        strokeCap = StrokeCap.Round,
+        color = if (swipeState.stretchPercentage < 0.8f) {
+          MaterialTheme.colorScheme.primary
+        } else {
+          MaterialTheme.colorScheme.onPrimary
+        },
       )
 
       AnimatedVisibility(
@@ -208,7 +174,7 @@ object HomeScreen {
         Icon(
           Icons.Filled.AddCircle,
           "",
-          tint = MaterialTheme.colors.onPrimary,
+          tint = MaterialTheme.colorScheme.onPrimary,
           modifier = Modifier.fillMaxSize(),
         )
       }

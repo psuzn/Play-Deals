@@ -17,3 +17,14 @@ fun Modifier.clickableBoundless(
   onClick = onclick,
   enabled = enabled,
 )
+
+@Composable
+fun Modifier.clickableWithoutIndicator(
+  enabled: Boolean = true,
+  onclick: () -> Unit,
+) = clickable(
+  interactionSource = remember { MutableInteractionSource() },
+  indication = null,
+  onClick = onclick,
+  enabled = enabled,
+)

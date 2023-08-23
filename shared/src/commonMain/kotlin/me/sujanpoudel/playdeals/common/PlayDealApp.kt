@@ -2,7 +2,7 @@ package me.sujanpoudel.playdeals.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
@@ -55,7 +55,7 @@ fun PlayDealsApp(
     AppTheme {
       Box(
         modifier = Modifier
-          .background(MaterialTheme.colors.background)
+          .background(MaterialTheme.colorScheme.background)
           .withWindowInsetPaddings(),
       ) {
         val navigator = remember { Navigator(navGraph) }
