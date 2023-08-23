@@ -54,8 +54,11 @@ val LocalAppearanceModeManager = compositionLocalOf<AppearanceModeManager> {
 @Composable
 fun AppearanceMode.asUITheme() =
   when (this) {
-    AppearanceMode.SYSTEM -> if (isSystemInDarkTheme()) UIAppearanceMode.DARK
-    else UIAppearanceMode.LIGHT
+    AppearanceMode.SYSTEM -> if (isSystemInDarkTheme()) {
+      UIAppearanceMode.DARK
+    } else {
+      UIAppearanceMode.LIGHT
+    }
 
     AppearanceMode.DARK -> UIAppearanceMode.DARK
     AppearanceMode.LIGHT -> UIAppearanceMode.LIGHT
@@ -77,6 +80,6 @@ fun AppTheme(
   MaterialTheme(
     colorScheme = colorScheme,
     typography = defaultTypography(),
-    content = content
+    content = content,
   )
 }

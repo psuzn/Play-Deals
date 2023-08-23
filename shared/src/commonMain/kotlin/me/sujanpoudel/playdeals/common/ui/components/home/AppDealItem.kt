@@ -4,10 +4,10 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.SaveAlt
@@ -36,13 +37,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import me.sujanpoudel.playdeals.common.Strings
 import me.sujanpoudel.playdeals.common.domain.models.AppDeal
 import me.sujanpoudel.playdeals.common.ui.components.common.LazyImage
-import me.sujanpoudel.playdeals.common.ui.components.home.HomeScreen.PriceButton
 import me.sujanpoudel.playdeals.common.ui.screens.home.LocalAppDealActionHandler
 import me.sujanpoudel.playdeals.common.ui.theme.SOFT_COLOR_ALPHA
 
@@ -66,7 +66,11 @@ object AppDealItem {
         Box {
           FeaturedImages(appDeal)
 
-          FloatingNewChip()
+          FloatingNewChip(
+            modifier = Modifier
+              .padding(bottom = 6.dp, end = 6.dp)
+              .align(Alignment.BottomEnd),
+          )
         }
 
         AppDetails(appDeal)
@@ -75,10 +79,12 @@ object AppDealItem {
       PriceButton(
         normalPrice = appDeal.formattedNormalPrice(),
         currentPrice = appDeal.formattedCurrentPrice(),
-        onClick = {
-          appDealActionHandler.handle(appDeal)
-        },
-      )
+        modifier = Modifier
+          .align(Alignment.BottomEnd)
+          .padding(end = 16.dp),
+      ) {
+        appDealActionHandler.handle(appDeal)
+      }
     }
   }
 
@@ -96,12 +102,12 @@ object AppDealItem {
       )
 
       Column(
-        verticalArrangement = Arrangement.spacedBy(2.2.dp),
+        verticalArrangement = Arrangement.spacedBy(1.dp),
         modifier = Modifier.align(Alignment.CenterVertically),
       ) {
         Text(
           appDeal.name,
-          style = MaterialTheme.typography.bodyMedium.copy(fontSize = 16.sp),
+          style = MaterialTheme.typography.titleSmall,
           overflow = TextOverflow.Ellipsis,
           modifier = Modifier.fillMaxWidth(),
         )
@@ -116,7 +122,7 @@ object AppDealItem {
         ) {
           Text(
             "r/googlePlayDeals",
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
           )
         }
@@ -141,10 +147,10 @@ object AppDealItem {
           model = it,
           contentDescription = appDeal.name,
           modifier =
-          Modifier.fillMaxHeight()
-            .clip(RoundedCornerShape(percent = 5))
-            .defaultMinSize(minWidth = 100.dp)
-            .animateContentSize(animationSpec = tween(500)),
+            Modifier.fillMaxHeight()
+              .clip(RoundedCornerShape(percent = 5))
+              .defaultMinSize(minWidth = 100.dp)
+              .animateContentSize(animationSpec = tween(500)),
           contentScale = ContentScale.FillHeight,
         )
       }
@@ -168,14 +174,14 @@ object AppDealItem {
   }
 
   @Composable
-  fun BoxScope.FloatingNewChip() {
+  fun FloatingNewChip(
+    modifier: Modifier = Modifier,
+  ) {
     Row(
-      modifier = Modifier
-        .padding(bottom = 6.dp, end = 6.dp)
+      modifier = modifier
         .clip(MaterialTheme.shapes.medium)
         .background(MaterialTheme.colorScheme.primary)
-        .align(Alignment.BottomEnd)
-        .padding(vertical = 4.dp, horizontal = 6.dp),
+        .padding(vertical = 4.dp, horizontal = 8.dp),
       horizontalArrangement = Arrangement.spacedBy(4.dp),
       verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -188,7 +194,7 @@ object AppDealItem {
       Text(
         text = "new",
         color = MaterialTheme.colorScheme.onPrimary,
-        style = MaterialTheme.typography.bodyMedium.copy(fontSize = 14.sp),
+        style = MaterialTheme.typography.labelSmall,
         textAlign = TextAlign.Center,
         modifier = Modifier.padding(bottom = 1.dp),
       )
@@ -202,7 +208,7 @@ object AppDealItem {
     ) {
       Text(
         appDeal.category,
-        style = MaterialTheme.typography.bodyMedium,
+        style = MaterialTheme.typography.labelMedium,
         color = MaterialTheme.colorScheme.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
       )
 
@@ -224,7 +230,7 @@ object AppDealItem {
 
       Text(
         appDeal.downloads,
-        style = MaterialTheme.typography.bodyMedium,
+        style = MaterialTheme.typography.labelMedium,
         color = MaterialTheme.colorScheme.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
       )
     }
@@ -238,7 +244,7 @@ object AppDealItem {
     ) {
       Text(
         appDeal.ratingFormatted,
-        style = MaterialTheme.typography.bodyMedium,
+        style = MaterialTheme.typography.labelMedium,
         color = MaterialTheme.colorScheme.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
       )
 
@@ -251,8 +257,40 @@ object AppDealItem {
 
       Text(
         text = appDeal.formattedExpiryInfo(),
-        style = MaterialTheme.typography.bodyMedium,
+        style = MaterialTheme.typography.labelMedium,
         color = MaterialTheme.colorScheme.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
+      )
+    }
+  }
+
+  @Composable
+  fun PriceButton(
+    modifier: Modifier = Modifier,
+    normalPrice: String,
+    currentPrice: String,
+    onClick: () -> Unit,
+  ) {
+    Row(
+      modifier = modifier
+        .height(36.dp)
+        .clip(RoundedCornerShape(corner = CornerSize(percent = 100)))
+        .background(MaterialTheme.colorScheme.primary)
+        .clickable(onClick = onClick)
+        .padding(horizontal = 12.dp, vertical = 2.dp),
+      verticalAlignment = Alignment.CenterVertically,
+      horizontalArrangement = Arrangement.spacedBy(4.dp),
+    ) {
+      Text(
+        text = normalPrice,
+        style = MaterialTheme.typography.labelMedium,
+        textDecoration = TextDecoration.LineThrough,
+        color = MaterialTheme.colorScheme.onPrimary,
+      )
+
+      Text(
+        text = currentPrice,
+        style = MaterialTheme.typography.labelMedium,
+        color = MaterialTheme.colorScheme.onPrimary,
       )
     }
   }

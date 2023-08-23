@@ -22,7 +22,7 @@ android {
   compileSdk = 33
   namespace = Artifact.APP_ID
   defaultConfig {
-    applicationId = Artifact.APP_ID
+    applicationId = "me.sujanpoudel.playdeals.app" // Artifact.APP_ID
     minSdk = 26
     targetSdk = 33
     versionCode = Artifact.VERSION_CODE

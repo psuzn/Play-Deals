@@ -44,7 +44,7 @@ fun defaultTypography() = robotoFontFamily().let { fontFamily ->
       bodySmall = typography.bodySmall.copy(fontFamily = fontFamily),
       labelLarge = typography.labelLarge.copy(fontFamily = fontFamily),
       labelMedium = typography.labelMedium.copy(fontFamily = fontFamily),
-      labelSmall = typography.labelSmall.copy(fontFamily = fontFamily)
+      labelSmall = typography.labelSmall.copy(fontFamily = fontFamily),
     )
   }
 }

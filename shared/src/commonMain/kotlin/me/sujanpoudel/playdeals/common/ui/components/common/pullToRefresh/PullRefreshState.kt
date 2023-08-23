@@ -16,7 +16,6 @@ package me.sujanpoudel.playdeals.common.ui.components.common.pullToRefresh
  * limitations under the License.
  */
 
-
 import androidx.compose.animation.core.animate
 import androidx.compose.foundation.MutatorMutex
 import androidx.compose.runtime.Composable

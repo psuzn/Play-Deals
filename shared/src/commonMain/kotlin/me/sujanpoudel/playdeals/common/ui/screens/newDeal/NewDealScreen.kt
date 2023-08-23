@@ -42,19 +42,19 @@ fun NewDealScreen() {
       Spacer(Modifier.height(20.dp))
 
       Button(onClick = { navigator.push(Screens.Home) }) {
-        Text("Screen", color =MaterialTheme.colorScheme.onPrimary)
+        Text("Screen", color = MaterialTheme.colorScheme.onPrimary)
       }
 
       Spacer(Modifier.height(50.dp))
 
       Button(onClick = { navigator.push(Screens.NEW_DEAL) }) {
-        Text("Screen B", color =MaterialTheme.colorScheme.onPrimary)
+        Text("Screen B", color = MaterialTheme.colorScheme.onPrimary)
       }
 
       Spacer(Modifier.height(55.dp))
 
       Button(onClick = { navigator.pop() }) {
-        Text("Back", color =MaterialTheme.colorScheme.onPrimary)
+        Text("Back", color = MaterialTheme.colorScheme.onPrimary)
       }
     }
   }

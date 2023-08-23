@@ -32,41 +32,38 @@ object AppDealContent {
   @OptIn(ExperimentalFoundationApi::class)
   @Composable
   operator fun invoke(
-    state: HomeScreenState,
+    homeScreenState: HomeScreenState,
     onToggleFilterOption: (DealFilterOption) -> Unit,
   ) {
-
-    Box(
+    Column(
       modifier = Modifier.fillMaxSize(),
     ) {
-      Column {
-        if (state.filterOptions.isNotEmpty()) {
-          LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-          ) {
-            itemsIndexed(state.filterOptions) { index, it ->
-              FilterChipItem(
-                index = index,
-                filterOption = it,
-                onToggleFilterOption = onToggleFilterOption,
-              )
-            }
-          }
-        }
-
-        LazyColumn(
-          verticalArrangement = Arrangement.spacedBy(32.dp),
-          contentPadding = PaddingValues(top = 16.dp, bottom = 48.dp),
-          modifier = Modifier.fillMaxSize(),
+      if (homeScreenState.filterOptions.isNotEmpty()) {
+        LazyRow(
+          horizontalArrangement = Arrangement.spacedBy(8.dp),
+          contentPadding = PaddingValues(horizontal = 16.dp),
+          verticalAlignment = Alignment.CenterVertically,
         ) {
-          items(state.dealsToDisplay, key = { it.id }) {
-            AppDealItem(
-              appDeal = it,
-              modifier = Modifier.animateItemPlacement(),
+          itemsIndexed(homeScreenState.filterOptions) { index, it ->
+            FilterChipItem(
+              index = index,
+              filterOption = it,
+              onToggleFilterOption = onToggleFilterOption,
             )
           }
+        }
+      }
+
+      LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(32.dp),
+        contentPadding = PaddingValues(top = 16.dp, bottom = 48.dp),
+        modifier = Modifier.fillMaxSize(),
+      ) {
+        items(homeScreenState.dealsToDisplay, key = { it.id }) {
+          AppDealItem(
+            appDeal = it,
+            modifier = Modifier.animateItemPlacement(),
+          )
         }
       }
     }
@@ -93,9 +90,9 @@ object AppDealContent {
           } else {
             MaterialTheme.colorScheme.onSurface
           },
-          style = MaterialTheme.typography.bodyMedium,
+          style = MaterialTheme.typography.labelMedium,
         )
-      }
+      },
     )
 
     if (index == 1) {
