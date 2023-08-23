@@ -79,6 +79,7 @@ object AppDealContent {
     FilterChip(
       onClick = { onToggleFilterOption(filterOption.data) },
       selected = filterOption.selected,
+      elevation = null,
       colors = FilterChipDefaults.filterChipColors(
         selectedContainerColor = MaterialTheme.colorScheme.primary,
       ),

@@ -114,7 +114,7 @@ object HomeScreen {
 
   @OptIn(ExperimentalAnimationApi::class)
   @Composable
-  fun BoxScope.SwipeForNewItemIndicator(swipeState: HomeScreenSwipeState) {
+  fun BoxScope.RightSwipeIndicator(swipeState: HomeScreenSwipeState) {
     val stretchIndicatorColor = MaterialTheme.colorScheme.primary.copy(swipeState.stretchIndicatorColorAlpha)
 
     Canvas(
