@@ -35,7 +35,7 @@ class ScreenSwipeState {
   }
 }
 
-fun Modifier.withScreenSwipeIndicator(state: ScreenSwipeState): Modifier =
+fun Modifier.withSwipeForNewItem(state: ScreenSwipeState): Modifier =
   this
     .onSizeChanged { state.contentSize = it }
     .pointerInput(Unit) {

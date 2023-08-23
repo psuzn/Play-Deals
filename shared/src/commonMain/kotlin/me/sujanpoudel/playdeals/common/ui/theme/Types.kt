@@ -1,12 +1,10 @@
 package me.sujanpoudel.playdeals.common.ui.theme
 
-import androidx.compose.material.Typography
+import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.compose.asFont
 import me.sujanpoudel.playdeals.common.resources.MR
 
@@ -29,45 +27,24 @@ fun robotoFontFamily(): FontFamily =
   )
 
 @Composable
-fun defaultTypography(): Typography =
-  robotoFontFamily().let { fontFamily ->
-    Typography(
-      defaultFontFamily = fontFamily,
-      body1 =
-        TextStyle(
-          fontFamily = fontFamily,
-          fontWeight = FontWeight.Normal,
-          fontSize = 14.sp,
-        ),
-      body2 =
-        TextStyle(
-          fontFamily = fontFamily,
-          fontWeight = FontWeight.Bold,
-          fontSize = 14.sp,
-        ),
-      h1 =
-        TextStyle(
-          fontFamily = fontFamily,
-          fontWeight = FontWeight.SemiBold,
-          fontSize = 26.sp,
-        ),
-      h2 =
-        TextStyle(
-          fontFamily = fontFamily,
-          fontSize = 23.sp,
-          fontWeight = FontWeight.Bold,
-        ),
-      h3 =
-        TextStyle(
-          fontFamily = fontFamily,
-          fontSize = 16.sp,
-          fontWeight = FontWeight.SemiBold,
-        ),
-      button =
-        TextStyle(
-          fontFamily = fontFamily,
-          fontWeight = FontWeight.Medium,
-          fontSize = 14.sp,
-        ),
+fun defaultTypography() = robotoFontFamily().let { fontFamily ->
+  Typography().let { typography ->
+    typography.copy(
+      displayLarge = typography.displayLarge.copy(fontFamily = fontFamily),
+      displayMedium = typography.displayMedium.copy(fontFamily = fontFamily),
+      displaySmall = typography.displaySmall.copy(fontFamily = fontFamily),
+      headlineLarge = typography.headlineLarge.copy(fontFamily = fontFamily),
+      headlineMedium = typography.headlineMedium.copy(fontFamily = fontFamily),
+      headlineSmall = typography.headlineSmall.copy(fontFamily = fontFamily),
+      titleLarge = typography.titleLarge.copy(fontFamily = fontFamily),
+      titleMedium = typography.titleMedium.copy(fontFamily = fontFamily),
+      titleSmall = typography.titleSmall.copy(fontFamily = fontFamily),
+      bodyLarge = typography.bodyLarge.copy(fontFamily = fontFamily),
+      bodyMedium = typography.bodyMedium.copy(fontFamily = fontFamily),
+      bodySmall = typography.bodySmall.copy(fontFamily = fontFamily),
+      labelLarge = typography.labelLarge.copy(fontFamily = fontFamily),
+      labelMedium = typography.labelMedium.copy(fontFamily = fontFamily),
+      labelSmall = typography.labelSmall.copy(fontFamily = fontFamily)
     )
   }
+}

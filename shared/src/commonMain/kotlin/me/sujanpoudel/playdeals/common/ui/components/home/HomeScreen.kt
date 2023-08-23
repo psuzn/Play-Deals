@@ -6,33 +6,38 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.material.Button
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -46,10 +51,10 @@ object HomeScreen {
     Icon(
       Icons.Outlined.Add,
       contentDescription = Strings.HomeScreen.ADD,
-      tint = MaterialTheme.colors.onBackground,
+      tint = MaterialTheme.colorScheme.onBackground,
       modifier =
-        Modifier.padding(8.dp)
-          .clickableBoundless(true, onClick),
+      Modifier.padding(8.dp)
+        .clickableBoundless(true, onClick),
     )
   }
 
@@ -76,8 +81,8 @@ object HomeScreen {
     ) {
       Text(
         message,
-        style = MaterialTheme.typography.body1,
-        color = MaterialTheme.colors.error,
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.error,
       )
 
       Spacer(
@@ -102,8 +107,8 @@ object HomeScreen {
     ) {
       Text(
         "Such an emptiness",
-        style = MaterialTheme.typography.body1,
-        color = MaterialTheme.colors.onBackground,
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.onBackground,
       )
 
       Spacer(
@@ -122,31 +127,38 @@ object HomeScreen {
     currentPrice: String,
     onClick: () -> Unit,
   ) {
-    Button(
-      onClick = onClick,
-      modifier =
-        Modifier.align(Alignment.BottomEnd)
-          .padding(end = 16.dp),
+
+    Row(
+      modifier = Modifier
+        .padding(end = 16.dp)
+        .align(Alignment.BottomEnd)
+        .height(36.dp)
+        .clip(RoundedCornerShape(corner = CornerSize(percent = 100)))
+        .background(MaterialTheme.colorScheme.primary)
+        .clickable(onClick = onClick)
+        .padding(horizontal = 12.dp, vertical = 2.dp),
+      verticalAlignment = Alignment.CenterVertically,
+      horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
       Text(
         text = normalPrice,
+        style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
         textDecoration = TextDecoration.LineThrough,
-        color = MaterialTheme.colors.onPrimary,
+        color = MaterialTheme.colorScheme.onPrimary,
       )
-
-      Spacer(modifier = Modifier.width(4.dp))
 
       Text(
         text = currentPrice,
-        color = MaterialTheme.colors.onPrimary,
+        style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
+        color = MaterialTheme.colorScheme.onPrimary,
       )
     }
   }
 
   @OptIn(ExperimentalAnimationApi::class)
   @Composable
-  fun BoxScope.ScreenSwipeIndicator(swipeState: ScreenSwipeState) {
-    val stretchIndicatorColor = MaterialTheme.colors.primary.copy(swipeState.stretchIndicatorColorAlpha)
+  fun BoxScope.SwipeForNewItemIndicator(swipeState: ScreenSwipeState) {
+    val stretchIndicatorColor = MaterialTheme.colorScheme.primary.copy(swipeState.stretchIndicatorColorAlpha)
 
     Canvas(
       modifier = Modifier.fillMaxSize(),
@@ -184,20 +196,18 @@ object HomeScreen {
         },
       contentAlignment = Alignment.Center,
     ) {
+
       CircularProgressIndicator(
         progress = swipeState.stretchPercentage,
-        modifier =
-          Modifier
-            .rotate(-90f)
-            .fillMaxSize(),
+        modifier = Modifier
+          .rotate(-90f)
+          .fillMaxSize(),
         strokeWidth = 3.dp,
-        color =
-          if (swipeState.stretchPercentage < 0.8f) {
-            MaterialTheme.colors.primary
-          } else {
-            MaterialTheme.colors.onPrimary
-          },
-        strokeCap = StrokeCap.Round,
+        color = if (swipeState.stretchPercentage < 0.8f) {
+          MaterialTheme.colorScheme.primary
+        } else {
+          MaterialTheme.colorScheme.onPrimary
+        }
       )
 
       AnimatedVisibility(
@@ -208,7 +218,7 @@ object HomeScreen {
         Icon(
           Icons.Filled.AddCircle,
           "",
-          tint = MaterialTheme.colors.onPrimary,
+          tint = MaterialTheme.colorScheme.onPrimary,
           modifier = Modifier.fillMaxSize(),
         )
       }

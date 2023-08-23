@@ -23,13 +23,13 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.SaveAlt
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Star
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -57,7 +57,7 @@ object AppDealItem {
     Box(
       modifier
         .fillMaxWidth()
-        .background(MaterialTheme.colors.background),
+        .background(MaterialTheme.colorScheme.background),
     ) {
       Column(
         modifier = Modifier
@@ -101,7 +101,7 @@ object AppDealItem {
       ) {
         Text(
           appDeal.name,
-          style = MaterialTheme.typography.body2.copy(fontSize = 16.sp),
+          style = MaterialTheme.typography.bodyMedium.copy(fontSize = 16.sp),
           overflow = TextOverflow.Ellipsis,
           modifier = Modifier.fillMaxWidth(),
         )
@@ -116,8 +116,8 @@ object AppDealItem {
         ) {
           Text(
             "r/googlePlayDeals",
-            style = MaterialTheme.typography.body1,
-            color = MaterialTheme.colors.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
           )
         }
       }
@@ -141,10 +141,10 @@ object AppDealItem {
           model = it,
           contentDescription = appDeal.name,
           modifier =
-            Modifier.fillMaxHeight()
-              .clip(RoundedCornerShape(percent = 5))
-              .defaultMinSize(minWidth = 100.dp)
-              .animateContentSize(animationSpec = tween(500)),
+          Modifier.fillMaxHeight()
+            .clip(RoundedCornerShape(percent = 5))
+            .defaultMinSize(minWidth = 100.dp)
+            .animateContentSize(animationSpec = tween(500)),
           contentScale = ContentScale.FillHeight,
         )
       }
@@ -173,7 +173,7 @@ object AppDealItem {
       modifier = Modifier
         .padding(bottom = 6.dp, end = 6.dp)
         .clip(MaterialTheme.shapes.medium)
-        .background(MaterialTheme.colors.primary)
+        .background(MaterialTheme.colorScheme.primary)
         .align(Alignment.BottomEnd)
         .padding(vertical = 4.dp, horizontal = 6.dp),
       horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -182,13 +182,13 @@ object AppDealItem {
       Icon(
         Icons.Outlined.Info,
         "New item",
-        tint = MaterialTheme.colors.onPrimary,
+        tint = MaterialTheme.colorScheme.onPrimary,
         modifier = Modifier.size(16.dp),
       )
       Text(
         text = "new",
-        color = MaterialTheme.colors.onPrimary,
-        style = MaterialTheme.typography.body1.copy(fontSize = 14.sp),
+        color = MaterialTheme.colorScheme.onPrimary,
+        style = MaterialTheme.typography.bodyMedium.copy(fontSize = 14.sp),
         textAlign = TextAlign.Center,
         modifier = Modifier.padding(bottom = 1.dp),
       )
@@ -202,8 +202,8 @@ object AppDealItem {
     ) {
       Text(
         appDeal.category,
-        style = MaterialTheme.typography.body1,
-        color = MaterialTheme.colors.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
       )
 
       Box(
@@ -212,20 +212,20 @@ object AppDealItem {
           .size(4.dp)
           .align(Alignment.CenterVertically)
           .clip(RoundedCornerShape(percent = 100))
-          .background(MaterialTheme.colors.onBackground.copy(alpha = SOFT_COLOR_ALPHA)),
+          .background(MaterialTheme.colorScheme.onBackground.copy(alpha = SOFT_COLOR_ALPHA)),
       )
 
       Icon(
         Icons.Default.SaveAlt,
         contentDescription = Strings.HomeScreen.DOWNLOADS,
         modifier = Modifier.size(14.dp),
-        tint = MaterialTheme.colors.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
+        tint = MaterialTheme.colorScheme.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
       )
 
       Text(
         appDeal.downloads,
-        style = MaterialTheme.typography.body1,
-        color = MaterialTheme.colors.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
       )
     }
   }
@@ -238,21 +238,21 @@ object AppDealItem {
     ) {
       Text(
         appDeal.ratingFormatted,
-        style = MaterialTheme.typography.body1,
-        color = MaterialTheme.colors.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
       )
 
       Icon(
         Icons.Outlined.Star,
         Strings.HomeScreen.RATINGS,
         modifier = Modifier.size(14.dp),
-        tint = MaterialTheme.colors.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
+        tint = MaterialTheme.colorScheme.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
       )
 
       Text(
         text = appDeal.formattedExpiryInfo(),
-        style = MaterialTheme.typography.body1,
-        color = MaterialTheme.colors.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
       )
     }
   }
