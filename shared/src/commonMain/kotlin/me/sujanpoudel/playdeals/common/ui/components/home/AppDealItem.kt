@@ -43,7 +43,7 @@ import androidx.compose.ui.unit.dp
 import me.sujanpoudel.playdeals.common.Strings
 import me.sujanpoudel.playdeals.common.domain.models.AppDeal
 import me.sujanpoudel.playdeals.common.ui.components.common.LazyImage
-import me.sujanpoudel.playdeals.common.ui.screens.home.LocalAppDealActionHandler
+import me.sujanpoudel.playdeals.common.ui.screens.home.LocalLinkOpener
 import me.sujanpoudel.playdeals.common.ui.theme.SOFT_COLOR_ALPHA
 
 object AppDealItem {
@@ -52,7 +52,7 @@ object AppDealItem {
     appDeal: AppDeal,
     modifier: Modifier,
   ) {
-    val appDealActionHandler = LocalAppDealActionHandler.current
+    val appDealActionHandler = LocalLinkOpener.current
 
     Box(
       modifier
@@ -83,7 +83,7 @@ object AppDealItem {
           .align(Alignment.BottomEnd)
           .padding(end = 16.dp),
       ) {
-        appDealActionHandler.handle(appDeal)
+        appDealActionHandler.openLink(appDeal.storeUrl)
       }
     }
   }

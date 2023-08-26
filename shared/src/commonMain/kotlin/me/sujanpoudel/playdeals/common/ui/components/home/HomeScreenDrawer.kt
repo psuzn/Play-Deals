@@ -36,9 +36,17 @@ import me.sujanpoudel.playdeals.common.Strings
 import me.sujanpoudel.playdeals.common.ui.components.common.clickableWithoutIndicator
 
 object HomeScreenDrawer {
+
+  enum class Menu {
+    SETTINGS,
+    WHAT_NEW,
+    FOOTER,
+  }
+
   @Composable
   operator fun invoke(
     modifier: Modifier = Modifier,
+    onMenuClicked: (Menu) -> Unit,
   ) {
     Column(
       modifier = modifier
@@ -55,13 +63,18 @@ object HomeScreenDrawer {
         modifier = Modifier
           .weight(1f),
       ) {
-        DrawerMenuItem(Strings.HomeScreen.SETTINGS, Icons.Outlined.Settings, {})
-        DrawerMenuItem(Strings.HomeScreen.WHAT_NEW, Icons.Outlined.Info, {})
+        DrawerMenuItem(Strings.HomeScreen.SETTINGS, Icons.Outlined.Settings) {
+          onMenuClicked(Menu.SETTINGS)
+        }
+        DrawerMenuItem(Strings.HomeScreen.WHAT_NEW, Icons.Outlined.Info) {
+          onMenuClicked(Menu.WHAT_NEW)
+        }
       }
 
       Divider(thickness = 1.dp)
-
-      DrawerFooter({})
+      DrawerFooter {
+        onMenuClicked(Menu.FOOTER)
+      }
     }
   }
 
