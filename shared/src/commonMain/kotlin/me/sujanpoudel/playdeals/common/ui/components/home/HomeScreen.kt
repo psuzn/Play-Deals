@@ -115,7 +115,7 @@ object HomeScreen {
   @OptIn(ExperimentalAnimationApi::class)
   @Composable
   fun BoxScope.RightSwipeIndicator(swipeState: HomeScreenSwipeState) {
-    val stretchIndicatorColor = MaterialTheme.colorScheme.primary.copy(swipeState.stretchIndicatorColorAlpha)
+    val stretchIndicatorColor = MaterialTheme.colorScheme.primary.copy(swipeState.rightStretchIndicatorAlpha)
 
     Canvas(
       modifier = Modifier.fillMaxSize(),
@@ -125,10 +125,10 @@ object HomeScreen {
         val points =
           listOf(
             Offset(0f, 0f),
-            Offset(0f, swipeState.contentSize.height * .33f),
-            Offset(swipeState.pathOffsetX, swipeState.contentSize.height * .5f),
-            Offset(0f, swipeState.contentSize.height * .67f),
-            Offset(0f, swipeState.contentSize.height.toFloat()),
+            Offset(0f, swipeState.containerSize.height * .33f),
+            Offset(swipeState.rightStretchPathOffsetX, swipeState.containerSize.height * .5f),
+            Offset(0f, swipeState.containerSize.height * .67f),
+            Offset(0f, swipeState.containerSize.height.toFloat()),
           )
 
         points.forEachIndexed { index, item ->
@@ -147,19 +147,19 @@ object HomeScreen {
         .align(BiasAlignment(-1.1f, 0f))
         .offset {
           IntOffset(
-            x = swipeState.progressOffsetX,
+            x = swipeState.rightStretchProgressIndicatorOffsetX,
             y = 0,
           )
         },
       contentAlignment = Alignment.Center,
     ) {
       CircularProgressIndicator(
-        progress = swipeState.stretchPercentage,
+        progress = swipeState.rightStretchPercentage,
         modifier = Modifier
           .rotate(-90f)
           .fillMaxSize(),
         strokeWidth = 3.dp,
-        color = if (swipeState.stretchPercentage < 0.8f) {
+        color = if (swipeState.rightStretchPercentage < 0.8f) {
           MaterialTheme.colorScheme.primary
         } else {
           MaterialTheme.colorScheme.onPrimary
@@ -167,7 +167,7 @@ object HomeScreen {
       )
 
       AnimatedVisibility(
-        swipeState.stretchPercentage >= 1f,
+        swipeState.rightStretchPercentage >= 1f,
         enter = fadeIn() + scaleIn(initialScale = 2f),
         exit = fadeOut(),
       ) {

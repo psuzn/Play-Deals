@@ -1,6 +1,5 @@
 package me.sujanpoudel.playdeals.common.ui.screens.home
 
-import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -55,23 +54,16 @@ import me.sujanpoudel.playdeals.common.viewModel.viewModel
 @Composable
 fun HomeScreen() {
   val viewModel = viewModel<HomeScreenViewModel>()
-  val homeScreenSwipeState = remember { HomeScreenSwipeState() }
+  val swipeState = remember { HomeScreenSwipeState() }
   val state by viewModel.state.collectAsState()
   val pullToRefreshState = rememberPullRefreshState(state.isRefreshing, viewModel::refreshDeals)
 
-  val animatedOffset by animateIntAsState(homeScreenSwipeState.screenOffsetX)
-  val screenOffset = remember(homeScreenSwipeState.screenOffsetX, homeScreenSwipeState.drawerOpened, animatedOffset) {
-    if (homeScreenSwipeState.drawerOpened) {
-      IntOffset(animatedOffset, 0)
-    } else {
-      IntOffset(homeScreenSwipeState.screenOffsetX, 0)
-    }
-  }
+  val screenOffset by swipeState.rememberScreenOffset()
 
   val coroutineScope = rememberCoroutineScope()
 
   Box(
-    modifier = Modifier.withScreenSwipe(homeScreenSwipeState),
+    modifier = Modifier.withScreenSwipe(swipeState),
   ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val topBarState = rememberTopAppBarState()
@@ -92,7 +84,7 @@ fun HomeScreen() {
           actions = {
             HomeScreen.NavMenu {
               coroutineScope.launch {
-                homeScreenSwipeState.toggleDrawer()
+                swipeState.toggleDrawer()
               }
             }
           },
@@ -120,8 +112,8 @@ fun HomeScreen() {
         modifier = Modifier
           .padding(paddingValues),
       ) {
-        val openSecondScreen = remember(homeScreenSwipeState.stretchPercentage) {
-          homeScreenSwipeState.stretchPercentage >= 1f
+        val openSecondScreen = remember(swipeState.rightStretchPercentage) {
+          swipeState.rightStretchPercentage >= 1f
         }
 
         LaunchedEffect(openSecondScreen) {
@@ -150,7 +142,7 @@ fun HomeScreen() {
       }
     }
 
-    RightSwipeIndicator(homeScreenSwipeState)
+    RightSwipeIndicator(swipeState)
     PullRefreshIndicator(
       modifier = Modifier.align(BiasAlignment(0f, -0.9f)),
       refreshing = state.isRefreshing,
@@ -161,21 +153,21 @@ fun HomeScreen() {
 
     HomeScreenDrawer(
       modifier = Modifier.absoluteOffset {
-        IntOffset(homeScreenSwipeState.contentSize.width + screenOffset.x, 0)
+        IntOffset(swipeState.containerSize.width + screenOffset.x, 0)
       }.width(
         with(LocalDensity.current) {
-          homeScreenSwipeState.contentSize.width.toDp().times(HomeScreenSwipeState.DRAWER_WIDTH)
+          swipeState.containerSize.width.toDp().times(HomeScreenSwipeState.DRAWER_WIDTH_PERCENTAGE)
         },
       ),
     )
-  }
 
-  DrawerBackDrop(
-    isDrawerOpen = homeScreenSwipeState.drawerOpened,
-    onClick = {
-      coroutineScope.launch { homeScreenSwipeState.toggleDrawer() }
-    },
-    modifier = Modifier
-      .offset { screenOffset },
-  )
+    DrawerBackDrop(
+      isVisible = swipeState.drawerOpened,
+      onClick = {
+        coroutineScope.launch { swipeState.toggleDrawer() }
+      },
+      modifier = Modifier
+        .offset { screenOffset },
+    )
+  }
 }

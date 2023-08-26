@@ -27,12 +27,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import me.sujanpoudel.playdeals.common.Strings
 import me.sujanpoudel.playdeals.common.ui.components.common.clickableWithoutIndicator
-import me.sujanpoudel.playdeals.common.ui.theme.SOFT_COLOR_ALPHA
 
 object HomeScreenDrawer {
   @Composable
@@ -54,8 +55,8 @@ object HomeScreenDrawer {
         modifier = Modifier
           .weight(1f),
       ) {
-        DrawerMenuItem("Settings", Icons.Outlined.Settings, {})
-        DrawerMenuItem("What's New", Icons.Outlined.Info, {})
+        DrawerMenuItem(Strings.HomeScreen.SETTINGS, Icons.Outlined.Settings, {})
+        DrawerMenuItem(Strings.HomeScreen.WHAT_NEW, Icons.Outlined.Info, {})
       }
 
       Divider(thickness = 1.dp)
@@ -67,11 +68,11 @@ object HomeScreenDrawer {
   @Composable
   private fun DrawerTitle() {
     Text(
-      text = "More Info",
+      text = Strings.HomeScreen.MORE_INFO,
       style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold, fontSize = 18.sp),
       modifier = Modifier
         .padding(horizontal = 16.dp)
-        .height(56.dp)
+        .height(48.dp)
         .wrapContentHeight(),
     )
   }
@@ -81,7 +82,7 @@ object HomeScreenDrawer {
     Row(
       verticalAlignment = Alignment.CenterVertically,
       horizontalArrangement = Arrangement.spacedBy(ButtonDefaults.IconSpacing),
-      modifier = Modifier.height(56.dp)
+      modifier = Modifier.height(48.dp)
         .fillMaxWidth()
         .clickable(onClick = onClick)
         .padding(horizontal = 16.dp),
@@ -105,32 +106,34 @@ object HomeScreenDrawer {
       verticalAlignment = Alignment.CenterVertically,
       horizontalArrangement = Arrangement.spacedBy(4.dp),
       modifier = Modifier
-        .height(56.dp)
+        .height(48.dp)
         .fillMaxWidth()
         .clickable(onClick = onClick)
         .padding(horizontal = 16.dp),
     ) {
       Text(
-        text = "About me",
+        text = Strings.HomeScreen.ABOUT_ME,
         style = MaterialTheme.typography.titleSmall,
+        color = MaterialTheme.colorScheme.onBackground.copy(0.8f),
       )
 
       Icon(
         Icons.Default.OpenInNew,
         contentDescription = "",
-        tint = MaterialTheme.colorScheme.onBackground.copy(SOFT_COLOR_ALPHA),
+        tint = MaterialTheme.colorScheme.onBackground.copy(0.8f),
+        modifier = Modifier.scale(0.8f),
       )
     }
   }
 
   @Composable
   fun DrawerBackDrop(
-    isDrawerOpen: Boolean,
+    isVisible: Boolean,
     onClick: () -> Unit,
     modifier: Modifier,
   ) {
     AnimatedVisibility(
-      isDrawerOpen,
+      isVisible,
       enter = EnterTransition.None,
       exit = ExitTransition.None,
     ) {
