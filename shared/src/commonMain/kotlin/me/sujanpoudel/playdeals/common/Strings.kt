@@ -18,5 +18,9 @@ object Strings {
     const val FREE = "Free"
     const val AGO = "ago"
     const val A_MOMENT = "a moment"
+    const val MORE_INFO = "More Info"
+    const val ABOUT_ME = "About me"
+    const val SETTINGS = "Settings"
+    const val WHAT_NEW = "What's New"
   }
 }
