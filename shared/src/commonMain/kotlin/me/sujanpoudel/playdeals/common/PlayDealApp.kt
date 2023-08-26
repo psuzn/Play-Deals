@@ -10,9 +10,9 @@ import androidx.compose.ui.Modifier
 import me.sujanpoudel.playdeals.common.navigation.NavGraph
 import me.sujanpoudel.playdeals.common.navigation.NavHost
 import me.sujanpoudel.playdeals.common.navigation.Navigator
-import me.sujanpoudel.playdeals.common.ui.screens.home.AppDealActionHandler
 import me.sujanpoudel.playdeals.common.ui.screens.home.HomeScreen
-import me.sujanpoudel.playdeals.common.ui.screens.home.LocalAppDealActionHandler
+import me.sujanpoudel.playdeals.common.ui.screens.home.LinkOpener
+import me.sujanpoudel.playdeals.common.ui.screens.home.LocalLinkOpener
 import me.sujanpoudel.playdeals.common.ui.screens.newDeal.NewDealScreen
 import me.sujanpoudel.playdeals.common.ui.screens.themeSwitcher.ThemeSwitcherScreen
 import me.sujanpoudel.playdeals.common.ui.theme.AppTheme
@@ -46,11 +46,11 @@ val navGraph =
 @Composable
 fun PlayDealsApp(
   appearanceModeManager: AppearanceModeManager,
-  appDealActionHandler: AppDealActionHandler = AppDealActionHandler { },
+  linkOpener: LinkOpener = LinkOpener { },
 ) {
   CompositionLocalProvider(
     LocalAppearanceModeManager provides appearanceModeManager,
-    LocalAppDealActionHandler provides appDealActionHandler,
+    LocalLinkOpener provides linkOpener,
   ) {
     AppTheme {
       Box(

@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import me.sujanpoudel.playdeals.common.Constants
 import me.sujanpoudel.playdeals.common.Screens
 import me.sujanpoudel.playdeals.common.Strings
 import me.sujanpoudel.playdeals.common.navigation.Navigator
@@ -57,10 +58,10 @@ fun HomeScreen() {
   val swipeState = remember { HomeScreenSwipeState() }
   val state by viewModel.state.collectAsState()
   val pullToRefreshState = rememberPullRefreshState(state.isRefreshing, viewModel::refreshDeals)
-
   val screenOffset by swipeState.rememberScreenOffset()
-
   val coroutineScope = rememberCoroutineScope()
+
+  val linkOpener = LocalLinkOpener.current
 
   Box(
     modifier = Modifier.withScreenSwipe(swipeState),
@@ -159,6 +160,16 @@ fun HomeScreen() {
           swipeState.containerSize.width.toDp().times(HomeScreenSwipeState.DRAWER_WIDTH_PERCENTAGE)
         },
       ),
+      onMenuClicked = {
+        coroutineScope.launch {
+          swipeState.toggleDrawer()
+          when (it) {
+            HomeScreenDrawer.Menu.SETTINGS -> {}
+            HomeScreenDrawer.Menu.WHAT_NEW -> {}
+            HomeScreenDrawer.Menu.FOOTER -> linkOpener.openLink(Constants.ABOUT_ME_URL)
+          }
+        }
+      },
     )
 
     DrawerBackDrop(

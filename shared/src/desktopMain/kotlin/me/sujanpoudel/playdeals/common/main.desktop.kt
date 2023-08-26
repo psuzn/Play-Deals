@@ -2,7 +2,7 @@ package me.sujanpoudel.playdeals.common
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import me.sujanpoudel.playdeals.common.ui.screens.home.AppDealActionHandler
+import me.sujanpoudel.playdeals.common.ui.screens.home.LinkOpener
 import me.sujanpoudel.playdeals.common.ui.theme.AppearanceModeManager
 import java.awt.Desktop
 import java.net.URI
@@ -11,11 +11,11 @@ import java.net.URI
 fun MainDesktopView(
   appearanceModeManager: AppearanceModeManager,
 ) {
-  val appDealActionHandler = remember {
-    AppDealActionHandler {
+  val linkOpener = remember {
+    LinkOpener {
       Desktop.getDesktop().browse(URI.create(it.storeUrl))
     }
   }
 
-  PlayDealsApp(appearanceModeManager, appDealActionHandler)
+  PlayDealsApp(appearanceModeManager, linkOpener)
 }

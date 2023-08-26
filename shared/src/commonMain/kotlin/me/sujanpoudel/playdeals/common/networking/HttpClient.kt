@@ -13,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import me.sujanpoudel.playdeals.common.Config.API_BASE_URL
+import me.sujanpoudel.playdeals.common.Constants.API_BASE_URL
 import me.sujanpoudel.playdeals.common.domain.models.Response
 
 @OptIn(InternalAPI::class)
