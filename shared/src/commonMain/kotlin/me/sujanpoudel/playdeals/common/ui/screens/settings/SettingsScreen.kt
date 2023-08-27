@@ -18,11 +18,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -30,10 +28,10 @@ import androidx.compose.ui.unit.dp
 import me.sujanpoudel.playdeals.common.Strings
 import me.sujanpoudel.playdeals.common.ui.components.common.Scaffold
 import me.sujanpoudel.playdeals.common.ui.theme.AppearanceMode
-import me.sujanpoudel.playdeals.common.ui.theme.LocalAppearanceModeManager
 import me.sujanpoudel.playdeals.common.ui.theme.SOFT_COLOR_ALPHA
 import me.sujanpoudel.playdeals.common.ui.theme.UIAppearanceMode
 import me.sujanpoudel.playdeals.common.ui.theme.asUITheme
+import me.sujanpoudel.playdeals.common.viewModel.viewModel
 
 val AppearanceMode.icon: ImageVector
   @Composable
@@ -44,14 +42,16 @@ val AppearanceMode.icon: ImageVector
   }
 
 @Composable
-fun ThemeSwitcherScreen() {
-  val appearanceManager = LocalAppearanceModeManager.current
-  val appearanceMode by appearanceManager.appearanceMode.collectAsState()
+fun SettingsScreen() {
+  val viewModel = viewModel<SettingsScreenViewModel>()
 
-  appearanceMode.asUITheme().isDark
+  val appearanceMode by viewModel.appearanceMode.collectAsState()
+  val newDealNotification by viewModel.newDealNotification.collectAsState()
+  val developerModeEnabled by viewModel.developerModeEnabled.collectAsState()
 
-  var notificationEnabled by remember { mutableStateOf(true) }
-  var developerModeEnabled by remember { mutableStateOf(true) }
+  LaunchedEffect(newDealNotification) {
+    println(newDealNotification)
+  }
 
   Scaffold(
     title = Strings.SETTINGS,
@@ -67,7 +67,7 @@ fun ThemeSwitcherScreen() {
 
           val nextValue = (values.indexOf(appearanceMode) + 1) % values.size
 
-          appearanceManager.setAppearanceMode(values[nextValue])
+          viewModel.setAppearanceMode(values[nextValue])
         },
       ) {
         Icon(
@@ -79,12 +79,12 @@ fun ThemeSwitcherScreen() {
       SettingItem(
         title = "Don't miss any deals",
         description = "Get notification for all new app deals",
-        onClick = { notificationEnabled = notificationEnabled.not() },
+        onClick = { viewModel.setNewDealNotificationEnabled(newDealNotification.not()) },
       ) {
         Switch(
-          checked = notificationEnabled,
+          checked = newDealNotification,
           onCheckedChange = {
-            notificationEnabled = notificationEnabled.not()
+            viewModel.setNewDealNotificationEnabled(newDealNotification.not())
           },
         )
       }
@@ -94,12 +94,20 @@ fun ThemeSwitcherScreen() {
       Column(
         Modifier
           .fillMaxWidth()
-          .clickable { }
+          .clickable {
+            viewModel.setDeveloperModeEnabled(developerModeEnabled.not())
+          }
           .padding(vertical = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
       ) {
-        Text(Strings.APP_DEALS, style = MaterialTheme.typography.titleSmall)
-        Text("V1.1.5-16", style = MaterialTheme.typography.bodySmall)
+        val color = if (developerModeEnabled) {
+          MaterialTheme.colorScheme.primary
+        } else {
+          MaterialTheme.colorScheme.onBackground
+        }
+
+        Text(Strings.APP_DEALS, style = MaterialTheme.typography.titleSmall, color = color)
+        Text("V1.1.5-16", style = MaterialTheme.typography.bodySmall, color = color)
       }
     }
   }

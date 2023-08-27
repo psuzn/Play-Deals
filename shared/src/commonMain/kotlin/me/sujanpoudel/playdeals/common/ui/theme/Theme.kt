@@ -5,10 +5,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import me.sujanpoudel.playdeals.common.AppPreferences
+import me.sujanpoudel.playdeals.common.di.PrimaryDI
+import org.kodein.di.direct
+import org.kodein.di.instance
 
 val blueishPurple = Color(0xFF7477CC)
 
@@ -47,10 +52,6 @@ private val DarkColorPalette = darkColorScheme(
 
 private val BlackColorPalette = DarkColorPalette.copy(background = Color.Black)
 
-val LocalAppearanceModeManager = compositionLocalOf<AppearanceModeManager> {
-  throw Error("AppearanceManager Not Found")
-}
-
 @Composable
 fun AppearanceMode.asUITheme() =
   when (this) {
@@ -66,10 +67,10 @@ fun AppearanceMode.asUITheme() =
   }
 
 @Composable
-fun AppTheme(
-  content: @Composable () -> Unit,
-) {
-  val appearanceMode by LocalAppearanceModeManager.current.appearanceMode.collectAsState()
+fun AppTheme(content: @Composable () -> Unit) {
+  val preferences = remember { PrimaryDI.direct.instance<AppPreferences>() }
+
+  val appearanceMode by preferences.appearanceMode.collectAsState()
 
   val colorScheme = when (appearanceMode.asUITheme()) {
     UIAppearanceMode.DARK -> DarkColorPalette
@@ -77,9 +78,11 @@ fun AppTheme(
     UIAppearanceMode.BLACK -> BlackColorPalette
   }
 
-  MaterialTheme(
-    colorScheme = colorScheme,
-    typography = defaultTypography(),
-    content = content,
-  )
+  CompositionLocalProvider(LocalAppearanceMode provides appearanceMode) {
+    MaterialTheme(
+      colorScheme = colorScheme,
+      typography = defaultTypography(),
+      content = content,
+    )
+  }
 }
