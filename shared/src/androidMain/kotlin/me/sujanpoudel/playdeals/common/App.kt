@@ -6,10 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import me.sujanpoudel.playdeals.common.ui.screens.home.LinkOpener
-import me.sujanpoudel.playdeals.common.ui.theme.AppearanceModeManager
 
 @Composable
-fun PlayDealsAppAndroid(appearanceModeManager: AppearanceModeManager) {
+fun PlayDealsAppAndroid() {
   val context = LocalContext.current
 
   val linkOpener = remember {
@@ -19,8 +18,5 @@ fun PlayDealsAppAndroid(appearanceModeManager: AppearanceModeManager) {
     }
   }
 
-  PlayDealsApp(
-    appearanceModeManager,
-    linkOpener,
-  )
+  PlayDealsApp(linkOpener)
 }

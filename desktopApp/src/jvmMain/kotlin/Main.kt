@@ -1,10 +1,9 @@
-import androidx.compose.runtime.remember
+
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.singleWindowApplication
 import me.sujanpoudel.playdeals.common.MainDesktopView
-import me.sujanpoudel.playdeals.common.ui.theme.AppearanceModeManager
 
 fun main() = singleWindowApplication(
   title = "App Deals",
@@ -13,9 +12,5 @@ fun main() = singleWindowApplication(
   ),
   resizable = false,
 ) {
-  val appearanceModeManager = remember { AppearanceModeManager() }
-
-  MainDesktopView(
-    appearanceModeManager,
-  )
+  MainDesktopView()
 }

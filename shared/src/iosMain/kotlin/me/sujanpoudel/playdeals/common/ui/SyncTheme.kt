@@ -5,11 +5,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.interop.LocalUIViewController
+import me.sujanpoudel.playdeals.common.AppPreferences
+import me.sujanpoudel.playdeals.common.di.PrimaryDI
 import me.sujanpoudel.playdeals.common.ui.theme.AppearanceMode
-import me.sujanpoudel.playdeals.common.ui.theme.LocalAppearanceModeManager
 import me.sujanpoudel.playdeals.common.ui.theme.asUITheme
+import org.kodein.di.direct
+import org.kodein.di.instance
 import platform.UIKit.UIColor
 import platform.UIKit.UIUserInterfaceStyle
 
@@ -22,7 +26,9 @@ private fun Color.toUIColor(): UIColor = UIColor(
 
 @Composable
 actual fun ConfigureThemeForSystemUI() {
-  val appearanceMode by LocalAppearanceModeManager.current.appearanceMode.collectAsState()
+  val appPreferences = remember { PrimaryDI.direct.instance<AppPreferences>() }
+
+  val appearanceMode by appPreferences.appearanceMode.collectAsState()
 
   val uiController = LocalUIViewController.current
 

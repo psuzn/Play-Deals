@@ -21,10 +21,8 @@ import me.sujanpoudel.playdeals.common.ui.screens.home.HomeScreen
 import me.sujanpoudel.playdeals.common.ui.screens.home.LinkOpener
 import me.sujanpoudel.playdeals.common.ui.screens.home.LocalLinkOpener
 import me.sujanpoudel.playdeals.common.ui.screens.newDeal.NewDealScreen
-import me.sujanpoudel.playdeals.common.ui.screens.settings.ThemeSwitcherScreen
+import me.sujanpoudel.playdeals.common.ui.screens.settings.SettingsScreen
 import me.sujanpoudel.playdeals.common.ui.theme.AppTheme
-import me.sujanpoudel.playdeals.common.ui.theme.AppearanceModeManager
-import me.sujanpoudel.playdeals.common.ui.theme.LocalAppearanceModeManager
 
 enum class Screens() {
   Home,
@@ -42,7 +40,7 @@ val navGraph = NavGraph {
   }
 
   destination(Screens.SETTINGS) {
-    ThemeSwitcherScreen()
+    SettingsScreen()
   }
 
   homePath = Screens.Home
@@ -50,16 +48,11 @@ val navGraph = NavGraph {
 
 @Composable
 fun PlayDealsApp(
-  appearanceModeManager: AppearanceModeManager,
   linkOpener: LinkOpener = LinkOpener { },
 ) {
-  CompositionLocalProvider(
-    LocalAppearanceModeManager provides appearanceModeManager,
-    LocalLinkOpener provides linkOpener,
-  ) {
+  CompositionLocalProvider(LocalLinkOpener provides linkOpener) {
     AppTheme {
       ConfigureThemeForSystemUI()
-
       Box(
         modifier = Modifier
           .background(MaterialTheme.colorScheme.background)
