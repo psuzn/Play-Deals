@@ -54,12 +54,15 @@ kotlin {
         implementation("dev.icerock.moko:resources-compose:${Versions.MOKO_RESOURCES}")
 
         implementation("media.kamel:kamel-image:0.6.0")
+        implementation("com.russhwolf:multiplatform-settings:${Versions.SETTINGS}")
+        implementation("com.russhwolf:multiplatform-settings-no-arg:${Versions.SETTINGS}")
       }
     }
 
     val androidMain by getting {
       dependencies {
         implementation("io.ktor:ktor-client-android:${Versions.KTOR}")
+        api("androidx.appcompat:appcompat:1.6.1")
       }
     }
 
@@ -99,7 +102,7 @@ multiplatformResources {
 
 android {
   namespace = "me.sujanpoudel.playdeals.common"
-  compileSdk = 33
+  compileSdk = 34
   sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
   sourceSets["main"].res.srcDirs("src/androidMain/res")
   sourceSets["main"].resources.srcDirs("src/commonMain/resources")

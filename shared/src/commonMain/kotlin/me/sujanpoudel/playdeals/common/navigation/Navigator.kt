@@ -77,7 +77,6 @@ class Navigator(
   }
 }
 
-val LocalViewModelFactory =
-  compositionLocalOf<ViewModelFactory> {
-    throw Error("No ViewModelFactory found")
-  }
+val LocalViewModelFactory = compositionLocalOf<ViewModelFactory> {
+  throw Error("No ViewModelFactory found")
+}

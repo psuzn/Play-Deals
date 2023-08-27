@@ -63,7 +63,7 @@ object HomeScreenDrawer {
         modifier = Modifier
           .weight(1f),
       ) {
-        DrawerMenuItem(Strings.HomeScreen.SETTINGS, Icons.Outlined.Settings) {
+        DrawerMenuItem(Strings.SETTINGS, Icons.Outlined.Settings) {
           onMenuClicked(Menu.SETTINGS)
         }
         DrawerMenuItem(Strings.HomeScreen.WHAT_NEW, Icons.Outlined.Info) {
@@ -83,6 +83,7 @@ object HomeScreenDrawer {
     Text(
       text = Strings.HomeScreen.MORE_INFO,
       style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold, fontSize = 18.sp),
+      color = MaterialTheme.colorScheme.onBackground,
       modifier = Modifier
         .padding(horizontal = 16.dp)
         .height(48.dp)
@@ -109,6 +110,7 @@ object HomeScreenDrawer {
       Text(
         text = label,
         style = MaterialTheme.typography.titleSmall,
+        color = MaterialTheme.colorScheme.onBackground,
       )
     }
   }

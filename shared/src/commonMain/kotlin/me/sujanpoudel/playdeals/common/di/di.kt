@@ -1,5 +1,6 @@
 package me.sujanpoudel.playdeals.common.di
 
+import com.russhwolf.settings.Settings
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
@@ -10,7 +11,7 @@ import me.sujanpoudel.playdeals.common.di.conf.ConfigurableDI
 import me.sujanpoudel.playdeals.common.networking.RemoteAPI
 import me.sujanpoudel.playdeals.common.ui.screens.home.HomeScreenViewModel
 import me.sujanpoudel.playdeals.common.ui.screens.newDeal.NewDealScreenViewModel
-import me.sujanpoudel.playdeals.common.ui.screens.themeSwitcher.ThemeSwitcherViewModel
+import me.sujanpoudel.playdeals.common.ui.screens.settings.SettingsScreenViewModel
 import me.sujanpoudel.playdeals.common.utils.isDebugBuild
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
@@ -25,10 +26,6 @@ private val mainModule =
         remoteAPI = instance(),
       )
     }
-
-    bindProvider { NewDealScreenViewModel() }
-    bindProvider { ThemeSwitcherViewModel() }
-
     bindSingleton {
       HttpClient {
         install(ContentNegotiation) { json() }
@@ -44,9 +41,12 @@ private val mainModule =
       }
     }
 
-    bindSingleton {
-      RemoteAPI(instance())
-    }
+    bindSingleton { RemoteAPI(instance()) }
+
+    bindSingleton { Settings() }
+
+    bindProvider { NewDealScreenViewModel() }
+    bindProvider { SettingsScreenViewModel() }
   }
 
 val PrimaryDI =

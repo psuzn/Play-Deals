@@ -13,7 +13,7 @@ fun MainDesktopView(
 ) {
   val linkOpener = remember {
     LinkOpener {
-      Desktop.getDesktop().browse(URI.create(it.storeUrl))
+      Desktop.getDesktop().browse(URI.create(it))
     }
   }
 
