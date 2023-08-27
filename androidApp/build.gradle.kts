@@ -11,7 +11,6 @@ kotlin {
       dependencies {
         implementation(project(":shared"))
         api("androidx.activity:activity-compose:1.7.2")
-        api("androidx.appcompat:appcompat:1.6.1")
         api("androidx.core:core-ktx:1.10.1")
       }
     }
@@ -19,12 +18,12 @@ kotlin {
 }
 
 android {
-  compileSdk = 33
+  compileSdk = 34
   namespace = Artifact.APP_ID
   defaultConfig {
     applicationId = "me.sujanpoudel.playdeals.app" // Artifact.APP_ID
     minSdk = 26
-    targetSdk = 33
+    targetSdk = 34
     versionCode = Artifact.VERSION_CODE
     versionName = Artifact.VERSION_NAME
   }

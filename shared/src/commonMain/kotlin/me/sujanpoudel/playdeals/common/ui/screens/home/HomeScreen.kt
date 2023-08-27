@@ -2,18 +2,15 @@ package me.sujanpoudel.playdeals.common.ui.screens.home
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.absoluteOffset
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -24,19 +21,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import me.sujanpoudel.playdeals.common.Constants
 import me.sujanpoudel.playdeals.common.Screens
 import me.sujanpoudel.playdeals.common.Strings
 import me.sujanpoudel.playdeals.common.navigation.Navigator
+import me.sujanpoudel.playdeals.common.ui.components.common.ScaffoldToolbar
 import me.sujanpoudel.playdeals.common.ui.components.common.pullToRefresh.PullRefreshIndicator
 import me.sujanpoudel.playdeals.common.ui.components.common.pullToRefresh.pullRefresh
 import me.sujanpoudel.playdeals.common.ui.components.common.pullToRefresh.rememberPullRefreshState
@@ -62,6 +56,7 @@ fun HomeScreen() {
   val coroutineScope = rememberCoroutineScope()
 
   val linkOpener = LocalLinkOpener.current
+  val navigator = Navigator.current
 
   Box(
     modifier = Modifier.withScreenSwipe(swipeState),
@@ -69,19 +64,12 @@ fun HomeScreen() {
     val snackBarHostState = remember { SnackbarHostState() }
     val topBarState = rememberTopAppBarState()
     val topBarScrollBehaviour = TopAppBarDefaults.enterAlwaysScrollBehavior(topBarState)
-    val navigator: Navigator = Navigator.current
 
     Scaffold(
       topBar = {
-        CenterAlignedTopAppBar(
-          title = {
-            Text(
-              text = Strings.APP_DEALS,
-              style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold, fontSize = 18.sp),
-              textAlign = TextAlign.Center,
-              modifier = Modifier.fillMaxWidth(),
-            )
-          },
+        ScaffoldToolbar(
+          title = Strings.APP_DEALS,
+          behaviour = topBarScrollBehaviour,
           actions = {
             HomeScreen.NavMenu {
               coroutineScope.launch {
@@ -89,8 +77,6 @@ fun HomeScreen() {
               }
             }
           },
-          colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Transparent),
-          scrollBehavior = topBarScrollBehaviour,
         )
       },
       snackbarHost = {
@@ -161,13 +147,15 @@ fun HomeScreen() {
         },
       ),
       onMenuClicked = {
+        when (it) {
+          HomeScreenDrawer.Menu.SETTINGS -> navigator.push(Screens.SETTINGS)
+          HomeScreenDrawer.Menu.WHAT_NEW -> {}
+          HomeScreenDrawer.Menu.FOOTER -> linkOpener.openLink(Constants.ABOUT_ME_URL)
+        }
+
         coroutineScope.launch {
+          delay(1000)
           swipeState.toggleDrawer()
-          when (it) {
-            HomeScreenDrawer.Menu.SETTINGS -> {}
-            HomeScreenDrawer.Menu.WHAT_NEW -> {}
-            HomeScreenDrawer.Menu.FOOTER -> linkOpener.openLink(Constants.ABOUT_ME_URL)
-          }
         }
       },
     )

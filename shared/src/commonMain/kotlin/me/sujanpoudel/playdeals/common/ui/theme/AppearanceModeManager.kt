@@ -32,7 +32,7 @@ class AppearanceModeManager() {
   }
 
   private fun loadAppearanceMode(): AppearanceMode {
-    return AppearanceMode.LIGHT //  AppearanceMode.SYSTEM
+    return AppearanceMode.SYSTEM //  AppearanceMode.SYSTEM
   }
 
   private fun saveAppearanceMode(uiAppearanceMode: AppearanceMode) {

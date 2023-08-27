@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import me.sujanpoudel.playdeals.common.Screens
+import me.sujanpoudel.playdeals.common.navigation.Navigator
 import me.sujanpoudel.playdeals.common.ui.components.common.Scaffold
 import me.sujanpoudel.playdeals.common.viewModel.viewModel
 
@@ -26,7 +27,9 @@ fun NewDealScreen() {
 
   Scaffold(
     modifier = Modifier.background(Color.Cyan),
-  ) { navigator, state ->
+  ) {
+    val navigator = Navigator.current
+
     Column(
       horizontalAlignment = Alignment.CenterHorizontally,
       verticalArrangement = Arrangement.Center,

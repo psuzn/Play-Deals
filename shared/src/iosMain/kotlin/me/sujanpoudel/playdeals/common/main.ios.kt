@@ -8,7 +8,9 @@ import platform.Foundation.NSURL.Companion.URLWithString
 import platform.UIKit.UIApplication
 
 @Suppress("FunctionName", "unused")
-fun MainViewController(appearanceModeManager: AppearanceModeManager) = ComposeUIViewController {
+fun MainViewController() = ComposeUIViewController() {
+  val appearanceModeManager = remember { AppearanceModeManager() }
+
   val linkOpener = remember {
     LinkOpener {
       UIApplication.sharedApplication.openURL(URLWithString(it)!!)

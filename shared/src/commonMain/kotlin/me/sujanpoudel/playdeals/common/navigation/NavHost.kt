@@ -1,10 +1,10 @@
 package me.sujanpoudel.playdeals.common.navigation
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.with
+import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
@@ -33,14 +33,14 @@ fun NavHost(navigator: Navigator) {
     LocalViewModelFactory provides navigator.viewModelFactory,
   ) {
     // TODO: add a way to customize transition animations
-    val transitionSpec: AnimatedContentScope<NavEntry>.() -> ContentTransform = {
+    val transitionSpec: AnimatedContentTransitionScope<NavEntry>.() -> ContentTransform = {
       if (this.initialState.id < this.targetState.id) {
-        slideIntoContainer(AnimatedContentScope.SlideDirection.Left).with(
-          slideOutOfContainer(AnimatedContentScope.SlideDirection.Left),
+        slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left).togetherWith(
+          slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left),
         )
       } else {
-        slideIntoContainer(AnimatedContentScope.SlideDirection.Right).with(
-          slideOutOfContainer(AnimatedContentScope.SlideDirection.Right),
+        slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right).togetherWith(
+          slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right),
         )
       }
     }
