@@ -26,6 +26,7 @@ private val mainModule = DI.Module("mainModule") {
   bindProvider {
     HomeScreenViewModel(
       remoteAPI = instance(),
+      appPreferences = instance(),
     )
   }
 

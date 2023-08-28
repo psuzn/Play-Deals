@@ -122,10 +122,10 @@ fun HomeScreen() {
         when {
           state.persistentError != null -> Error(state.persistentError!!, viewModel::refreshDeals)
           state.isLoading -> Loading()
-          state.allAppDeals.isEmpty() -> HomeScreen.NoDeals(refreshBy = viewModel::refreshDeals)
           else -> AppDealContent(
             state,
             onToggleFilterOption = viewModel::toggleFilterItem,
+            refreshAppDeals = viewModel::refreshDeals,
           )
         }
       }
