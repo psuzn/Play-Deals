@@ -32,7 +32,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import me.sujanpoudel.playdeals.common.Strings
+import me.sujanpoudel.playdeals.common.strings.Strings
 import me.sujanpoudel.playdeals.common.ui.components.common.clickableWithoutIndicator
 
 object HomeScreenDrawer {
@@ -50,6 +50,7 @@ object HomeScreenDrawer {
   ) {
     Column(
       modifier = modifier
+        .padding(top = 8.dp)
         .fillMaxHeight()
         .background(MaterialTheme.colorScheme.outlineVariant)
         .padding(start = 1.dp)
@@ -63,10 +64,10 @@ object HomeScreenDrawer {
         modifier = Modifier
           .weight(1f),
       ) {
-        DrawerMenuItem(Strings.SETTINGS, Icons.Outlined.Settings) {
+        DrawerMenuItem(Strings.settings, Icons.Outlined.Settings) {
           onMenuClicked(Menu.SETTINGS)
         }
-        DrawerMenuItem(Strings.HomeScreen.WHAT_NEW, Icons.Outlined.Info) {
+        DrawerMenuItem(Strings.whatsNew, Icons.Outlined.Info) {
           onMenuClicked(Menu.WHAT_NEW)
         }
       }
@@ -81,7 +82,7 @@ object HomeScreenDrawer {
   @Composable
   private fun DrawerTitle() {
     Text(
-      text = Strings.HomeScreen.MORE_INFO,
+      text = Strings.moreInfo,
       style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold, fontSize = 18.sp),
       color = MaterialTheme.colorScheme.onBackground,
       modifier = Modifier
@@ -127,7 +128,7 @@ object HomeScreenDrawer {
         .padding(horizontal = 16.dp),
     ) {
       Text(
-        text = Strings.HomeScreen.ABOUT_ME,
+        text = Strings.aboutMe,
         style = MaterialTheme.typography.titleSmall,
         color = MaterialTheme.colorScheme.onBackground.copy(0.8f),
       )

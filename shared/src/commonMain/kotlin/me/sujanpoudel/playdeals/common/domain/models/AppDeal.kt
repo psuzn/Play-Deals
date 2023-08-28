@@ -1,9 +1,10 @@
 package me.sujanpoudel.playdeals.common.domain.models
 
+import androidx.compose.runtime.Composable
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
-import me.sujanpoudel.playdeals.common.Strings
+import me.sujanpoudel.playdeals.common.strings.Strings
 import me.sujanpoudel.playdeals.common.utils.asCurrencySymbol
 import me.sujanpoudel.playdeals.common.utils.formatAsPrice
 import me.sujanpoudel.playdeals.common.utils.shallowFormatted
@@ -30,22 +31,24 @@ data class AppDeal(
 
   fun formattedNormalPrice() = "${currency.asCurrencySymbol()}${normalPrice.formatAsPrice()}"
 
+  @Composable
   fun formattedCurrentPrice() =
     if (currentPrice == 0f) {
-      Strings.HomeScreen.FREE
+      Strings.free
     } else {
       "${currency.asCurrencySymbol()}${currentPrice.formatAsPrice()}"
     }
 
+  @Composable
   fun formattedExpiryInfo(): String {
     val now = Clock.System.now()
 
     val duration = now - offerExpiresIn
 
     return if (now > offerExpiresIn) {
-      "${Strings.HomeScreen.EXPIRED} ${duration.shallowFormatted()} ${Strings.HomeScreen.AGO}"
+      "${Strings.expired} ${duration.shallowFormatted()} ${Strings.ago}"
     } else {
-      "${Strings.HomeScreen.EXPIRES_IN} ${duration.shallowFormatted()}"
+      "${Strings.expiresIn} ${duration.shallowFormatted()}"
     }
   }
 }

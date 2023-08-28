@@ -1,6 +1,6 @@
 package me.sujanpoudel.playdeals.common.utils
 
-import me.sujanpoudel.playdeals.common.Strings
+import me.sujanpoudel.playdeals.common.strings.StringEn
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 import kotlin.time.Duration
@@ -25,16 +25,16 @@ fun String.asCurrencySymbol() = when (this) {
 
 fun Duration.shallowFormatted(): String {
   if (inWholeDays.absoluteValue > 0) {
-    return "${inWholeDays.absoluteValue} ${Strings.HomeScreen.DAYS}"
+    return "${inWholeDays.absoluteValue} ${StringEn.days}"
   }
 
   if (inWholeHours.absoluteValue > 0) {
-    return "${inWholeHours.absoluteValue} ${Strings.HomeScreen.HOURS}"
+    return "${inWholeHours.absoluteValue} ${StringEn.hours}"
   }
 
   if (inWholeMinutes.absoluteValue > 0) {
-    return "${inWholeMinutes.absoluteValue} ${Strings.HomeScreen.MINUTES}"
+    return "${inWholeMinutes.absoluteValue} ${StringEn.minutes}"
   }
 
-  return Strings.HomeScreen.A_MOMENT
+  return StringEn.aMoment
 }
