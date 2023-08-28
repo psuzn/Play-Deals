@@ -51,6 +51,7 @@ object AppDealItem {
   operator fun invoke(
     appDeal: AppDeal,
     modifier: Modifier,
+    isAppNewlyAdded: Boolean,
   ) {
     val appDealActionHandler = LocalLinkOpener.current
 
@@ -66,11 +67,13 @@ object AppDealItem {
         Box {
           FeaturedImages(appDeal)
 
-          FloatingNewChip(
-            modifier = Modifier
-              .padding(bottom = 6.dp, end = 6.dp)
-              .align(Alignment.BottomEnd),
-          )
+          if (isAppNewlyAdded) {
+            FloatingNewChip(
+              modifier = Modifier
+                .padding(bottom = 6.dp, end = 6.dp)
+                .align(Alignment.BottomEnd),
+            )
+          }
         }
 
         AppDetails(appDeal)

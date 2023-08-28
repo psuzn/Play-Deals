@@ -1,7 +1,6 @@
 package me.sujanpoudel.playdeals.common.ui.components.home
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -86,33 +85,6 @@ object HomeScreen {
     }
   }
 
-  @Composable
-  fun NoDeals(
-    modifier: Modifier = Modifier,
-    refreshBy: () -> Unit,
-  ) {
-    Column(
-      modifier = modifier.fillMaxSize(),
-      horizontalAlignment = Alignment.CenterHorizontally,
-      verticalArrangement = Arrangement.Center,
-    ) {
-      Text(
-        "Such an emptiness",
-        style = MaterialTheme.typography.bodyMedium,
-        color = MaterialTheme.colorScheme.onBackground,
-      )
-
-      Spacer(
-        modifier = Modifier.height(18.dp),
-      )
-
-      Button(refreshBy) {
-        Text(Strings.refresh)
-      }
-    }
-  }
-
-  @OptIn(ExperimentalAnimationApi::class)
   @Composable
   fun BoxScope.RightSwipeIndicator(swipeState: HomeScreenSwipeState) {
     val stretchIndicatorColor = MaterialTheme.colorScheme.primary.copy(swipeState.rightStretchIndicatorAlpha)

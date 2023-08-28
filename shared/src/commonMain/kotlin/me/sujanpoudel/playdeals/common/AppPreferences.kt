@@ -1,6 +1,7 @@
 package me.sujanpoudel.playdeals.common
 
 import com.russhwolf.settings.ObservableSettings
+import kotlinx.datetime.Instant
 import me.sujanpoudel.playdeals.common.strings.AppLanguage
 import me.sujanpoudel.playdeals.common.ui.theme.AppearanceMode
 import me.sujanpoudel.playdeals.common.utils.settings.boolSettingState
@@ -25,6 +26,12 @@ class AppPreferences(settings: ObservableSettings) {
     Keys.PREFERRED_LANGUAGE,
     AppLanguage.EN,
     fromString = { AppLanguage.valueOf(it) },
+  )
+
+  val lastUpdatedTime = settings.stringBackedSettingState(
+    Keys.LAST_UPDATED_TIME,
+    Instant.fromEpochMilliseconds(0),
+    fromString = { Instant.parse(it) },
   )
 
   val developerMode = settings.boolSettingState(Keys.DEVELOPER_MODE, false)
