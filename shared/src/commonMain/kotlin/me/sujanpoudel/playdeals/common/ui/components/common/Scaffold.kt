@@ -14,6 +14,7 @@ fun Scaffold(
   modifier: Modifier = Modifier,
   title: String? = null,
   showNavBackIcon: Boolean = true,
+  navigationIcon: @Composable (Navigator) -> Unit = { it -> ScaffoldToolbar.NavigationIcon(it) },
   actions: (@Composable (Navigator) -> Unit)? = null,
   content: @Composable BoxScope.() -> Unit,
 ) {
@@ -23,6 +24,7 @@ fun Scaffold(
         title = title,
         showNavBackIcon = showNavBackIcon,
         actions = actions,
+        navigationIcon = navigationIcon,
       )
     },
     modifier = modifier,

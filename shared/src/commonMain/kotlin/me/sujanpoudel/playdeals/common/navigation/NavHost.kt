@@ -32,16 +32,11 @@ fun NavHost(navigator: Navigator) {
     Navigator.Local provides navigator,
     LocalViewModelFactory provides navigator.viewModelFactory,
   ) {
-    // TODO: add a way to customize transition animations
     val transitionSpec: AnimatedContentTransitionScope<NavEntry>.() -> ContentTransform = {
-      if (this.initialState.id < this.targetState.id) {
-        slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left).togetherWith(
-          slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left),
-        )
-      } else {
-        slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right).togetherWith(
-          slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right),
-        )
+      if (initialState.id < targetState.id) { // pushing new entry
+        targetState.enter(this).togetherWith(targetState.exitTransition(this))
+      } else { // popping old entry
+        initialState.popEnter(this).togetherWith(initialState.popExit(this))
       }
     }
 

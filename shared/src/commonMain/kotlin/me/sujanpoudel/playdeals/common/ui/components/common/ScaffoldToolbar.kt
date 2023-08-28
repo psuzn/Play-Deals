@@ -20,12 +20,23 @@ import androidx.compose.ui.unit.sp
 import me.sujanpoudel.playdeals.common.navigation.Navigator
 
 object ScaffoldToolbar {
+
+  @Composable
+  fun NavigationIcon(navigator: Navigator) {
+    if (navigator.backStackCount.value > 1) {
+      IconButton(onClick = navigator::pop) {
+        Icon(Icons.Default.ArrowBack, contentDescription = "")
+      }
+    }
+  }
+
   @OptIn(ExperimentalMaterial3Api::class)
   @Composable
   operator fun invoke(
     modifier: Modifier = Modifier,
     title: String? = null,
     showNavBackIcon: Boolean = true,
+    navigationIcon: @Composable (Navigator) -> Unit = { it -> NavigationIcon(it) },
     actions: (@Composable (Navigator) -> Unit)? = null,
     behaviour: TopAppBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState()),
   ) {
@@ -43,10 +54,8 @@ object ScaffoldToolbar {
         }
       },
       navigationIcon = {
-        if (navigator.backStackCount.value > 1 && showNavBackIcon) {
-          IconButton(onClick = navigator::pop) {
-            Icon(Icons.Default.ArrowBack, contentDescription = "")
-          }
+        if (showNavBackIcon) {
+          navigationIcon(navigator)
         }
       },
       actions = { actions?.invoke(navigator) },
