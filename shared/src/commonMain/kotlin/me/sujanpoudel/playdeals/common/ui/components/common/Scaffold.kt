@@ -17,8 +17,6 @@ fun Scaffold(
   actions: (@Composable (Navigator) -> Unit)? = null,
   content: @Composable BoxScope.() -> Unit,
 ) {
-  val navigator = Navigator.current
-
   androidx.compose.material3.Scaffold(
     topBar = {
       ScaffoldToolbar(

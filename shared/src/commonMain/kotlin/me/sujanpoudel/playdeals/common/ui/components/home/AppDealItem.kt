@@ -40,8 +40,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import me.sujanpoudel.playdeals.common.Strings
 import me.sujanpoudel.playdeals.common.domain.models.AppDeal
+import me.sujanpoudel.playdeals.common.strings.Strings
 import me.sujanpoudel.playdeals.common.ui.components.common.LazyImage
 import me.sujanpoudel.playdeals.common.ui.screens.home.LocalLinkOpener
 import me.sujanpoudel.playdeals.common.ui.theme.SOFT_COLOR_ALPHA
@@ -223,7 +223,7 @@ object AppDealItem {
 
       Icon(
         Icons.Default.SaveAlt,
-        contentDescription = Strings.HomeScreen.DOWNLOADS,
+        contentDescription = Strings.downloads,
         modifier = Modifier.size(14.dp),
         tint = MaterialTheme.colorScheme.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
       )
@@ -250,7 +250,7 @@ object AppDealItem {
 
       Icon(
         Icons.Outlined.Star,
-        Strings.HomeScreen.RATINGS,
+        Strings.rating,
         modifier = Modifier.size(14.dp),
         tint = MaterialTheme.colorScheme.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
       )

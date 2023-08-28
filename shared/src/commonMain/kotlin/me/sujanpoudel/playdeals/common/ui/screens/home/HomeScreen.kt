@@ -28,8 +28,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import me.sujanpoudel.playdeals.common.Constants
 import me.sujanpoudel.playdeals.common.Screens
-import me.sujanpoudel.playdeals.common.Strings
 import me.sujanpoudel.playdeals.common.navigation.Navigator
+import me.sujanpoudel.playdeals.common.strings.Strings
 import me.sujanpoudel.playdeals.common.ui.components.common.ScaffoldToolbar
 import me.sujanpoudel.playdeals.common.ui.components.common.pullToRefresh.PullRefreshIndicator
 import me.sujanpoudel.playdeals.common.ui.components.common.pullToRefresh.pullRefresh
@@ -58,6 +58,8 @@ fun HomeScreen() {
   val linkOpener = LocalLinkOpener.current
   val navigator = Navigator.current
 
+  val strings = Strings
+
   Box(
     modifier = Modifier.withScreenSwipe(swipeState),
   ) {
@@ -68,7 +70,7 @@ fun HomeScreen() {
     Scaffold(
       topBar = {
         ScaffoldToolbar(
-          title = Strings.APP_DEALS,
+          title = Strings.appDeals,
           behaviour = topBarScrollBehaviour,
           actions = {
             HomeScreen.NavMenu {
@@ -112,7 +114,7 @@ fun HomeScreen() {
 
         LaunchedEffect(state.errorOneOff) {
           state.errorOneOff?.let {
-            snackBarHostState.showSnackbar(it, Strings.HomeScreen.RETRY)
+            snackBarHostState.showSnackbar(it, strings.retry)
             viewModel.clearErrorOneOff()
           }
         }
@@ -139,13 +141,12 @@ fun HomeScreen() {
     )
 
     HomeScreenDrawer(
-      modifier = Modifier.absoluteOffset {
-        IntOffset(swipeState.containerSize.width + screenOffset.x, 0)
-      }.width(
-        with(LocalDensity.current) {
-          swipeState.containerSize.width.toDp().times(HomeScreenSwipeState.DRAWER_WIDTH_PERCENTAGE)
-        },
-      ),
+      modifier = Modifier.absoluteOffset { IntOffset(swipeState.containerSize.width + screenOffset.x, 0) }
+        .width(
+          with(LocalDensity.current) {
+            swipeState.containerSize.width.toDp().times(HomeScreenSwipeState.DRAWER_WIDTH_PERCENTAGE)
+          },
+        ),
       onMenuClicked = {
         when (it) {
           HomeScreenDrawer.Menu.SETTINGS -> navigator.push(Screens.SETTINGS)

@@ -12,10 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import me.sujanpoudel.playdeals.common.AppPreferences
-import me.sujanpoudel.playdeals.common.di.PrimaryDI
 import me.sujanpoudel.playdeals.common.ui.ConfigureThemeForSystemUI
-import org.kodein.di.direct
-import org.kodein.di.instance
 
 val blueishPurple = Color(0xFF7477CC)
 
@@ -91,9 +88,7 @@ fun rememberColorScheme(uiAppearanceMode: UIAppearanceMode): ColorScheme {
 }
 
 @Composable
-fun AppTheme(content: @Composable () -> Unit) {
-  val preferences = remember { PrimaryDI.direct.instance<AppPreferences>() }
-
+fun AppTheme(preferences: AppPreferences, content: @Composable () -> Unit) {
   val appearanceMode by preferences.appearanceMode.collectAsState()
 
   val uiAppearanceMode = appearanceMode.asUITheme()

@@ -50,7 +50,7 @@ object ScaffoldToolbar {
         }
       },
       actions = { actions?.invoke(navigator) },
-      colors = TopAppBarDefaults.smallTopAppBarColors(
+      colors = TopAppBarDefaults.topAppBarColors(
         containerColor = Color.Transparent,
       ),
       scrollBehavior = behaviour,

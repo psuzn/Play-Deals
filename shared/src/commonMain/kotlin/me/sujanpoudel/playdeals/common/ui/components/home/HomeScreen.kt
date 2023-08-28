@@ -33,8 +33,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import me.sujanpoudel.playdeals.common.Strings
 import me.sujanpoudel.playdeals.common.extensions.drawQuad
+import me.sujanpoudel.playdeals.common.strings.Strings
 import me.sujanpoudel.playdeals.common.ui.components.common.clickableBoundless
 
 object HomeScreen {
@@ -81,7 +81,7 @@ object HomeScreen {
       )
 
       Button(onRetry) {
-        Text(Strings.HomeScreen.TRY_AGAIN)
+        Text(Strings.tryAgain)
       }
     }
   }
@@ -107,7 +107,7 @@ object HomeScreen {
       )
 
       Button(refreshBy) {
-        Text(Strings.HomeScreen.REFRESH)
+        Text(Strings.refresh)
       }
     }
   }

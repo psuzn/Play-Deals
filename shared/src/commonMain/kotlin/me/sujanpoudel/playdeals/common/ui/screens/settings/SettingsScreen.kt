@@ -7,21 +7,18 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.outlined.DarkMode
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import me.sujanpoudel.playdeals.common.Strings
+import me.sujanpoudel.playdeals.common.strings.Strings
 import me.sujanpoudel.playdeals.common.ui.components.common.Scaffold
-import me.sujanpoudel.playdeals.common.ui.components.settings.SettingsScreen.ChooseThemeDialog
+import me.sujanpoudel.playdeals.common.ui.components.settings.SettingsScreen.AppearanceModeSetting
 import me.sujanpoudel.playdeals.common.ui.components.settings.SettingsScreen.Footer
+import me.sujanpoudel.playdeals.common.ui.components.settings.SettingsScreen.LanguageSetting
 import me.sujanpoudel.playdeals.common.ui.components.settings.SettingsScreen.SettingItem
 import me.sujanpoudel.playdeals.common.ui.theme.AppearanceMode
 import me.sujanpoudel.playdeals.common.ui.theme.UIAppearanceMode
@@ -43,26 +40,17 @@ fun SettingsScreen() {
   val appearanceMode by viewModel.appearanceMode.collectAsState()
   val newDealNotification by viewModel.newDealNotification.collectAsState()
   val developerModeEnabled by viewModel.developerModeEnabled.collectAsState()
+  val appLanguage by viewModel.appLanguage.collectAsState()
 
-  var showAppearanceModeDialog by remember { mutableStateOf(false) }
-
-  Scaffold(title = Strings.SETTINGS) {
+  Scaffold(title = Strings.settings) {
     Column(
       modifier = Modifier.fillMaxSize(),
     ) {
-      SettingItem(
-        title = "Appearance",
-        description = "Choose your light ot dark theme preference",
-        onClick = {
-          showAppearanceModeDialog = true
-        },
-      ) {
-        Icon(appearanceMode.icon, contentDescription = "", tint = MaterialTheme.colorScheme.primary)
-      }
+      AppearanceModeSetting(appearanceMode, viewModel::setAppearanceMode)
 
       SettingItem(
-        title = "Don't miss any deals",
-        description = "Get notification for all new app deals",
+        title = Strings.dontMissDeal,
+        description = Strings.dontMissDealDescription,
         onClick = { viewModel.setNewDealNotificationEnabled(newDealNotification.not()) },
       ) {
         Switch(
@@ -72,6 +60,8 @@ fun SettingsScreen() {
           },
         )
       }
+
+      LanguageSetting(appLanguage, viewModel::setAppLanguage)
 
       Spacer(Modifier.weight(1f))
 
@@ -84,11 +74,5 @@ fun SettingsScreen() {
         },
       )
     }
-
-    ChooseThemeDialog(
-      showAppearanceModeDialog,
-      closeRequest = { showAppearanceModeDialog = false },
-      setAppearanceMode = viewModel::setAppearanceMode,
-    )
   }
 }
