@@ -74,6 +74,7 @@ kotlin {
         implementation("io.kotest:kotest-assertions-core:${Versions.KO_TEST}")
         implementation("io.mockk:mockk:${Versions.MOCKK}")
         implementation("org.junit.jupiter:junit-jupiter:${Versions.JUNIT_JUPITER}")
+        implementation("com.russhwolf:multiplatform-settings-test:${Versions.SETTINGS}")
       }
     }
 

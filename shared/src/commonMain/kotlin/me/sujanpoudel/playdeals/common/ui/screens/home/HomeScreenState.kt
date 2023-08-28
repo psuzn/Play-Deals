@@ -1,6 +1,7 @@
 package me.sujanpoudel.playdeals.common.ui.screens.home
 
 import androidx.compose.runtime.Immutable
+import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import me.sujanpoudel.playdeals.common.domain.models.AppDeal
 import me.sujanpoudel.playdeals.common.domain.models.DealFilterOption
@@ -10,7 +11,7 @@ import me.sujanpoudel.playdeals.common.domain.models.Selectable
 data class HomeScreenState(
   val allAppDeals: List<AppDeal> = emptyList(),
   val filterOptions: List<Selectable<DealFilterOption>> = emptyList(),
-  val lastUpdatedTime: Instant,
+  val lastUpdatedTime: Instant = Clock.System.now(),
   val isLoading: Boolean = false,
   val isRefreshing: Boolean = false,
   val persistentError: String? = null,

@@ -1,5 +1,6 @@
 package me.sujanpoudel.playdeals.common.ui.screens
 
+import com.russhwolf.settings.MapSettings
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
@@ -13,6 +14,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
+import me.sujanpoudel.playdeals.common.AppPreferences
 import me.sujanpoudel.playdeals.common.domain.models.AppDeal
 import me.sujanpoudel.playdeals.common.networking.Failure
 import me.sujanpoudel.playdeals.common.networking.RemoteAPI
@@ -20,6 +22,7 @@ import me.sujanpoudel.playdeals.common.networking.Result
 import me.sujanpoudel.playdeals.common.ui.screens.home.HomeScreenState
 import me.sujanpoudel.playdeals.common.ui.screens.home.HomeScreenViewModel
 import me.sujanpoudel.playdeals.common.utils.setMainDispatcher
+import me.sujanpoudel.playdeals.common.utils.settings.asObservableSettings
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -31,6 +34,10 @@ class HomeScreenViewModelTest {
   @BeforeEach
   fun setup() {
     MockKAnnotations.init(this)
+  }
+
+  private fun appPreference(): AppPreferences {
+    return AppPreferences(MapSettings().asObservableSettings())
   }
 
   @Test
@@ -49,7 +56,7 @@ class HomeScreenViewModelTest {
 
       coEvery { remoteAPI.getDeals() } returns Result.success(emptyList())
 
-      HomeScreenViewModel(remoteAPI)
+      HomeScreenViewModel(remoteAPI, appPreference())
 
       coVerify { remoteAPI.getDeals() }
     }
@@ -63,7 +70,7 @@ class HomeScreenViewModelTest {
 
       coEvery { remoteAPI.getDeals() } returns Result.success(emptyList())
 
-      val viewModel = HomeScreenViewModel(remoteAPI)
+      val viewModel = HomeScreenViewModel(remoteAPI, appPreference())
 
       viewModel.state.value.let {
         it.allAppDeals shouldHaveSize 0
@@ -81,7 +88,7 @@ class HomeScreenViewModelTest {
 
       coEvery { remoteAPI.getDeals() } returns Result.failure(Failure.UnknownError)
 
-      val viewModel = HomeScreenViewModel(remoteAPI)
+      val viewModel = HomeScreenViewModel(remoteAPI, appPreference())
 
       dispatcher.scheduler.runCurrent()
 
@@ -106,7 +113,7 @@ class HomeScreenViewModelTest {
 
       coEvery { remoteAPI.getDeals() } returns Result.success(listOf(deal))
 
-      val viewModel = HomeScreenViewModel(remoteAPI)
+      val viewModel = HomeScreenViewModel(remoteAPI, appPreference())
 
       dispatcher.scheduler.runCurrent()
 
@@ -133,7 +140,7 @@ class HomeScreenViewModelTest {
         Result.failure(Failure.UnknownError) andThen
         Result.success(listOf(deal))
 
-      val viewModel = HomeScreenViewModel(remoteAPI)
+      val viewModel = HomeScreenViewModel(remoteAPI, appPreference())
 
       dispatcher.scheduler.advanceUntilIdle()
 
@@ -171,7 +178,7 @@ class HomeScreenViewModelTest {
         Result.success(listOf(deal)) andThen
         Result.success(listOf(deal))
 
-      val viewModel = HomeScreenViewModel(remoteAPI)
+      val viewModel = HomeScreenViewModel(remoteAPI, appPreference())
 
       dispatcher.scheduler.advanceUntilIdle()
 
@@ -211,7 +218,7 @@ class HomeScreenViewModelTest {
         Result.success(listOf(deal)) andThen
         Result.success(listOf(deal, deal2))
 
-      val viewModel = HomeScreenViewModel(remoteAPI)
+      val viewModel = HomeScreenViewModel(remoteAPI, appPreference())
 
       dispatcher.scheduler.advanceUntilIdle()
 
