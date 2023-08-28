@@ -1,6 +1,7 @@
 package me.sujanpoudel.playdeals.common.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
@@ -12,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import me.sujanpoudel.playdeals.common.AppPreferences
 import me.sujanpoudel.playdeals.common.di.PrimaryDI
+import me.sujanpoudel.playdeals.common.ui.ConfigureThemeForSystemUI
 import org.kodein.di.direct
 import org.kodein.di.instance
 
@@ -31,7 +33,10 @@ private val LightColorPalette = lightColorScheme(
 
   background = Color.White,
   onBackground = Color.Black,
+
   error = Color.Red,
+
+  outlineVariant = Color.White,
 )
 
 private val DarkColorPalette = darkColorScheme(
@@ -50,7 +55,11 @@ private val DarkColorPalette = darkColorScheme(
   error = Color.Red,
 )
 
-private val BlackColorPalette = DarkColorPalette.copy(background = Color.Black)
+private val BlackColorPalette = DarkColorPalette.copy(
+  surface = Color(0xFF181818),
+
+  background = Color.Black,
+)
 
 @Composable
 fun AppearanceMode.asUITheme() =
@@ -67,22 +76,38 @@ fun AppearanceMode.asUITheme() =
   }
 
 @Composable
+fun rememberColorScheme(uiAppearanceMode: UIAppearanceMode): ColorScheme {
+  return remember(uiAppearanceMode) {
+    when (uiAppearanceMode) {
+      UIAppearanceMode.DARK -> DarkColorPalette
+      UIAppearanceMode.LIGHT -> LightColorPalette
+      UIAppearanceMode.BLACK -> BlackColorPalette
+    }.let { colorScheme ->
+      colorScheme.copy(
+        outlineVariant = colorScheme.onBackground.copy(alpha = 0.1f),
+      )
+    }
+  }
+}
+
+@Composable
 fun AppTheme(content: @Composable () -> Unit) {
   val preferences = remember { PrimaryDI.direct.instance<AppPreferences>() }
 
   val appearanceMode by preferences.appearanceMode.collectAsState()
 
-  val colorScheme = when (appearanceMode.asUITheme()) {
-    UIAppearanceMode.DARK -> DarkColorPalette
-    UIAppearanceMode.LIGHT -> LightColorPalette
-    UIAppearanceMode.BLACK -> BlackColorPalette
-  }
+  val uiAppearanceMode = appearanceMode.asUITheme()
+
+  val colorScheme = rememberColorScheme(appearanceMode.asUITheme())
 
   CompositionLocalProvider(LocalAppearanceMode provides appearanceMode) {
     MaterialTheme(
       colorScheme = colorScheme,
       typography = defaultTypography(),
-      content = content,
-    )
+    ) {
+      ConfigureThemeForSystemUI(appearanceMode, uiAppearanceMode)
+
+      content()
+    }
   }
 }
