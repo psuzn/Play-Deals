@@ -20,6 +20,7 @@ import me.sujanpoudel.playdeals.common.navigation.NavGraph
 import me.sujanpoudel.playdeals.common.navigation.NavHost
 import me.sujanpoudel.playdeals.common.navigation.Navigator
 import me.sujanpoudel.playdeals.common.strings.LocalAppLanguage
+import me.sujanpoudel.playdeals.common.ui.screens.ChangeLogScreen
 import me.sujanpoudel.playdeals.common.ui.screens.home.HomeScreen
 import me.sujanpoudel.playdeals.common.ui.screens.home.LinkOpener
 import me.sujanpoudel.playdeals.common.ui.screens.home.LocalLinkOpener
@@ -29,10 +30,11 @@ import me.sujanpoudel.playdeals.common.ui.theme.AppTheme
 import org.kodein.di.direct
 import org.kodein.di.instance
 
-enum class Screens() {
+enum class Screens {
   Home,
   NEW_DEAL,
   SETTINGS,
+  CHANGELOG,
 }
 
 val navGraph = NavGraph {
@@ -46,6 +48,10 @@ val navGraph = NavGraph {
 
   destination(Screens.SETTINGS) {
     SettingsScreen()
+  }
+
+  destination(Screens.CHANGELOG) {
+    ChangeLogScreen()
   }
 
   homePath = Screens.Home

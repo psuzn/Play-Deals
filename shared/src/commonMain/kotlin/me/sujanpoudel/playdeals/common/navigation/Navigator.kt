@@ -1,5 +1,8 @@
 package me.sujanpoudel.playdeals.common.navigation
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.Stable
@@ -47,12 +50,24 @@ class Navigator(
     return true
   }
 
-  fun push(path: PathIdentifier) {
-    push(navGraph.getDestination(path))
+  fun push(
+    path: PathIdentifier,
+    enterTransition: NavEnterTransition = NavTransitions.slideInFromRight,
+    exitTransition: NavExitTransition = NavTransitions.slideOutToLeft,
+    popEnter: NavEnterTransition = NavTransitions.slideInFromLeft,
+    popExit: NavExitTransition = NavTransitions.slideOutToRight,
+  ) {
+    push(navGraph.getDestination(path), enterTransition, exitTransition, popEnter, popExit)
   }
 
-  private fun push(destination: NavDestination) {
-    val entry = NavEntry(lastNavEntryId + 1, destination)
+  private fun push(
+    destination: NavDestination,
+    enterTransition: NavEnterTransition = NavTransitions.slideInFromRight,
+    exitTransition: NavExitTransition = NavTransitions.slideOutToLeft,
+    popEnter: NavEnterTransition = NavTransitions.slideInFromLeft,
+    popExit: NavExitTransition = NavTransitions.slideOutToRight,
+  ) {
+    val entry = NavEntry(lastNavEntryId + 1, destination, enterTransition, exitTransition, popEnter, popExit)
     backStack += entry
     lastNavEntryId = entry.id
     _currentEntry.value = entry
@@ -79,4 +94,35 @@ class Navigator(
 
 val LocalViewModelFactory = compositionLocalOf<ViewModelFactory> {
   throw Error("No ViewModelFactory found")
+}
+
+typealias NavEnterTransition = AnimatedContentTransitionScope<*>.() -> EnterTransition
+typealias NavExitTransition = AnimatedContentTransitionScope<*>.() -> ExitTransition
+
+object NavTransitions {
+  val slideInFromRight: NavEnterTransition = {
+    slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left)
+  }
+  val slideInFromLeft: NavEnterTransition = {
+    slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right)
+  }
+  val slideInFromBottom: NavEnterTransition = {
+    slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Up)
+  }
+  val slideInFromTop: NavEnterTransition = {
+    slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Down)
+  }
+
+  val slideOutToRight: NavExitTransition = {
+    slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right)
+  }
+  val slideOutToLeft: NavExitTransition = {
+    slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left)
+  }
+  val slideOutToBottom: NavExitTransition = {
+    slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Down)
+  }
+  val slideOutToTop: NavExitTransition = {
+    slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Up)
+  }
 }

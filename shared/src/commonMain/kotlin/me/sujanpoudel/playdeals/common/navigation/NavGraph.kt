@@ -8,26 +8,6 @@ typealias Content = @Composable () -> Unit
 
 data class NavDestination(val path: PathIdentifier, val content: Content)
 
-/**
- *  Nav entry can save the things limited to it's own lifecycle eg: ViewModel
- */
-@OptIn(ExperimentalStdlibApi::class)
-data class NavEntry(val id: Long, val destination: NavDestination) {
-  @OptIn(ExperimentalStdlibApi::class)
-  val bagOfTags = mutableSetOf<AutoCloseable>()
-
-  fun addTag(closable: AutoCloseable) {
-    bagOfTags.add(closable)
-  }
-
-  fun destroy() {
-    bagOfTags.forEach {
-      it.close()
-    }
-    bagOfTags.clear()
-  }
-}
-
 interface NavGraphBuilder {
   fun destination(
     path: PathIdentifier,

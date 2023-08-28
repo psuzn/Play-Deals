@@ -28,6 +28,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import me.sujanpoudel.playdeals.common.Constants
 import me.sujanpoudel.playdeals.common.Screens
+import me.sujanpoudel.playdeals.common.navigation.NavTransitions
 import me.sujanpoudel.playdeals.common.navigation.Navigator
 import me.sujanpoudel.playdeals.common.strings.Strings
 import me.sujanpoudel.playdeals.common.ui.components.common.ScaffoldToolbar
@@ -132,6 +133,7 @@ fun HomeScreen() {
     }
 
     RightSwipeIndicator(swipeState)
+
     PullRefreshIndicator(
       modifier = Modifier.align(BiasAlignment(0f, -0.9f)),
       refreshing = state.isRefreshing,
@@ -150,12 +152,21 @@ fun HomeScreen() {
       onMenuClicked = {
         when (it) {
           HomeScreenDrawer.Menu.SETTINGS -> navigator.push(Screens.SETTINGS)
-          HomeScreenDrawer.Menu.WHAT_NEW -> {}
+          HomeScreenDrawer.Menu.WHAT_NEW -> navigator.push(
+            Screens.CHANGELOG,
+            enterTransition = NavTransitions.slideInFromBottom,
+            exitTransition = NavTransitions.slideOutToTop,
+            popEnter = NavTransitions.slideInFromTop,
+            popExit = NavTransitions.slideOutToBottom,
+          )
+
           HomeScreenDrawer.Menu.FOOTER -> linkOpener.openLink(Constants.ABOUT_ME_URL)
         }
 
         coroutineScope.launch {
-          delay(1000)
+          if (it != HomeScreenDrawer.Menu.WHAT_NEW) {
+            delay(1000)
+          }
           swipeState.toggleDrawer()
         }
       },
