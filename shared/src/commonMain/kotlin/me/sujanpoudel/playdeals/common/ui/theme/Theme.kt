@@ -98,7 +98,7 @@ fun AppTheme(preferences: AppPreferences, content: @Composable () -> Unit) {
   CompositionLocalProvider(LocalAppearanceMode provides appearanceMode) {
     MaterialTheme(
       colorScheme = colorScheme,
-      typography = defaultTypography(),
+      typography = rememberTypography(),
     ) {
       ConfigureThemeForSystemUI(appearanceMode, uiAppearanceMode)
 

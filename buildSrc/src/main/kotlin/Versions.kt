@@ -1,7 +1,7 @@
 object Versions {
   const val KOTLIN = "1.8.22"
-  const val AGP = "8.1.0"
-  const val COMPOSE = "1.5.0-rc06"
+  const val AGP = "8.1.1"
+  const val COMPOSE = "1.5.0"
   const val KO_TEST = "5.5.5"
 
   const val KTOR = "2.3.2"
@@ -11,6 +11,5 @@ object Versions {
 
   const val JUNIT_JUPITER = "5.9.3"
   const val MOCKK = "1.13.5"
-  const val MOKO_RESOURCES = "0.23.0"
   const val SETTINGS = "1.0.0"
 }

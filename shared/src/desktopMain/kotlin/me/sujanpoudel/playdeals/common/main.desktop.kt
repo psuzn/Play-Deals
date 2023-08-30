@@ -6,13 +6,14 @@ import me.sujanpoudel.playdeals.common.ui.screens.home.LinkOpener
 import java.awt.Desktop
 import java.net.URI
 
+fun String.asURI() = URI(replace(" ", "+"))
+
 @Composable
 fun MainDesktopView() {
   val linkOpener = remember {
     LinkOpener {
-      Desktop.getDesktop().browse(URI.create(it))
+      Desktop.getDesktop().browse(it.asURI())
     }
   }
-
   PlayDealsApp(linkOpener)
 }

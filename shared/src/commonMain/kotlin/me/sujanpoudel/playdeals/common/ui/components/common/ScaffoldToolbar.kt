@@ -16,17 +16,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.sp
 import me.sujanpoudel.playdeals.common.navigation.Navigator
 
 object ScaffoldToolbar {
 
   @Composable
   fun NavigationIcon(navigator: Navigator) {
-    if (navigator.backStackCount.value > 1) {
-      IconButton(onClick = navigator::pop) {
-        Icon(Icons.Default.ArrowBack, contentDescription = "")
-      }
+    IconButton(onClick = navigator::pop) {
+      Icon(Icons.Default.ArrowBack, contentDescription = "")
     }
   }
 
@@ -48,13 +45,13 @@ object ScaffoldToolbar {
         title?.let {
           Text(
             text = title,
-            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold, fontSize = 18.sp),
+            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
             textAlign = TextAlign.Center,
           )
         }
       },
       navigationIcon = {
-        if (showNavBackIcon) {
+        if (showNavBackIcon && navigator.backStackCount.value > 1) {
           navigationIcon(navigator)
         }
       },
