@@ -18,12 +18,12 @@ kotlin {
 }
 
 android {
-  compileSdk = 34
+  compileSdk = Artifact.ANDROID_COMPILE_SDK
   namespace = Artifact.APP_ID
   defaultConfig {
-    applicationId = "me.sujanpoudel.playdeals.app" // Artifact.APP_ID
-    minSdk = 26
-    targetSdk = 34
+    applicationId = "me.sujanpoudel.playdeals.app"
+    minSdk = Artifact.ANDROID_MIN_SDK
+    targetSdk = Artifact.ANDROID_TARGET_SDK
     versionCode = Artifact.VERSION_CODE
     versionName = Artifact.VERSION_NAME
   }

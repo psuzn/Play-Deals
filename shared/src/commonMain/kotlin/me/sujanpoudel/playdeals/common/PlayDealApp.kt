@@ -58,9 +58,7 @@ val navGraph = NavGraph {
 }
 
 @Composable
-fun PlayDealsApp(
-  linkOpener: LinkOpener = LinkOpener { },
-) {
+fun PlayDealsApp(linkOpener: LinkOpener) {
   val preferences = remember { PrimaryDI.direct.instance<AppPreferences>() }
   val appLanguage by preferences.appLanguage.collectAsState()
 

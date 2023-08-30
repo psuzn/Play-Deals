@@ -1,3 +1,4 @@
+
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 import org.jlleitschuh.gradle.ktlint.KtlintPlugin
 
@@ -10,7 +11,6 @@ plugins {
   id("com.android.library") version Versions.AGP apply false
   id("org.jetbrains.compose") version Versions.COMPOSE apply false
   id("com.adarshr.test-logger") version "3.2.0" apply false
-  id("dev.icerock.mobile.multiplatform-resources") version "0.23.0" apply false
   id("org.jlleitschuh.gradle.ktlint") version "11.5.0" apply true
 }
 

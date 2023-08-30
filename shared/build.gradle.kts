@@ -1,34 +1,31 @@
 import com.android.build.gradle.tasks.factory.AndroidUnitTest
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
   kotlin("multiplatform")
   kotlin("plugin.serialization")
-  kotlin("native.cocoapods")
   id("com.android.library")
   id("org.jetbrains.compose")
   id("com.adarshr.test-logger")
-  id("dev.icerock.mobile.multiplatform-resources")
 }
 
 version = "1.0-SNAPSHOT"
 
+fun KotlinNativeTarget.configureFramework() {
+  binaries.framework {
+    baseName = "shared"
+    isStatic = true
+  }
+}
+
 kotlin {
+
+  jvmToolchain(17)
+
   android()
   jvm("desktop")
-  ios()
-  iosSimulatorArm64()
-
-  cocoapods {
-    summary = "Shared code for the sample"
-    homepage = "https://github.com/JetBrains/compose-jb"
-    ios.deploymentTarget = "14.1"
-    podfile = project.file("../iosApp/Podfile")
-    framework {
-      baseName = "shared"
-      isStatic = true
-    }
-    extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
-  }
+  ios { configureFramework() }
+  iosSimulatorArm64().configureFramework()
 
   sourceSets {
     val commonMain by getting {
@@ -49,9 +46,6 @@ kotlin {
         implementation("io.ktor:ktor-client-content-negotiation:${Versions.KTOR}")
         implementation("io.ktor:ktor-serialization-kotlinx-json:${Versions.KTOR}")
         implementation("io.ktor:ktor-client-logging:${Versions.KTOR}")
-
-        implementation("dev.icerock.moko:resources:${Versions.MOKO_RESOURCES}")
-        implementation("dev.icerock.moko:resources-compose:${Versions.MOKO_RESOURCES}")
 
         implementation("media.kamel:kamel-image:0.6.0")
         implementation("com.russhwolf:multiplatform-settings:${Versions.SETTINGS}")
@@ -97,18 +91,16 @@ kotlin {
   }
 }
 
-multiplatformResources {
-  multiplatformResourcesPackage = "me.sujanpoudel.playdeals.common.resources"
-}
-
 android {
   namespace = "me.sujanpoudel.playdeals.common"
-  compileSdk = 34
   sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-  sourceSets["main"].res.srcDirs("src/androidMain/res")
+  sourceSets["main"].res.srcDirs("src/androidMain/res", "src/commonMain/resources")
   sourceSets["main"].resources.srcDirs("src/commonMain/resources")
+
+  compileSdk = Artifact.ANDROID_COMPILE_SDK
+
   defaultConfig {
-    minSdk = 26
+    minSdk = Artifact.ANDROID_MIN_SDK
   }
 
   buildFeatures {

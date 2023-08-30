@@ -159,7 +159,6 @@ fun HomeScreen() {
             popEnter = NavTransitions.slideInFromTop,
             popExit = NavTransitions.slideOutToBottom,
           )
-
           HomeScreenDrawer.Menu.FOOTER -> linkOpener.openLink(Constants.ABOUT_ME_URL)
         }
 
