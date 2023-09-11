@@ -1,4 +1,8 @@
+
 import com.android.build.gradle.tasks.factory.AndroidUnitTest
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.BOOLEAN
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
@@ -7,9 +11,12 @@ plugins {
   id("com.android.library")
   id("org.jetbrains.compose")
   id("com.adarshr.test-logger")
+  id("com.codingfeline.buildkonfig")
 }
 
 version = "1.0-SNAPSHOT"
+
+val pkgName = "me.sujanpoudel.playdeals.common"
 
 fun KotlinNativeTarget.configureFramework() {
   binaries.framework {
@@ -19,10 +26,9 @@ fun KotlinNativeTarget.configureFramework() {
 }
 
 kotlin {
-
   jvmToolchain(17)
 
-  android()
+  androidTarget()
   jvm("desktop")
   ios { configureFramework() }
   iosSimulatorArm64().configureFramework()
@@ -32,6 +38,7 @@ kotlin {
       dependencies {
         implementation(compose.ui)
         implementation(compose.foundation)
+        implementation(compose.material)
         implementation(compose.material3)
         implementation(compose.animation)
         implementation(compose.materialIconsExtended)
@@ -50,6 +57,8 @@ kotlin {
         implementation("media.kamel:kamel-image:0.6.0")
         implementation("com.russhwolf:multiplatform-settings:${Versions.SETTINGS}")
         implementation("com.russhwolf:multiplatform-settings-no-arg:${Versions.SETTINGS}")
+
+        implementation("com.mikepenz:multiplatform-markdown-renderer:0.7.2")
       }
     }
 
@@ -92,7 +101,7 @@ kotlin {
 }
 
 android {
-  namespace = "me.sujanpoudel.playdeals.common"
+  namespace = pkgName
   sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
   sourceSets["main"].res.srcDirs("src/androidMain/res", "src/commonMain/resources")
   sourceSets["main"].resources.srcDirs("src/commonMain/resources")
@@ -109,15 +118,31 @@ android {
   }
 
   composeOptions {
-    kotlinCompilerExtensionVersion = "1.4.4"
+    kotlinCompilerExtensionVersion = "1.5.3"
   }
 
   compileOptions {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
   }
+
+  buildTypes {
+    getByName("release") {
+      isMinifyEnabled = false
+      proguardFiles("proguard-rules.pro")
+    }
+  }
 }
 
 tasks.withType<AndroidUnitTest> {
   useJUnitPlatform()
+}
+
+buildkonfig {
+  packageName = pkgName
+  defaultConfigs {
+    buildConfigField(STRING, "VERSION_NAME", Artifact.VERSION_NAME)
+    buildConfigField(INT, "VERSION_CODE", Artifact.VERSION_CODE.toString())
+    buildConfigField(BOOLEAN, "MAJOR_RELEASE", Artifact.MAJOR_RELEASE.toString())
+  }
 }

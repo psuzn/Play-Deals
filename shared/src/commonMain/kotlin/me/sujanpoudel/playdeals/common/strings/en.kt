@@ -4,6 +4,7 @@ object StringEn : AppStrings {
   override val appDeals = "App Deals"
   override val settings = "Settings"
 
+  // Home Screen
   override val retry = "Retry"
   override val tryAgain = "Try Again"
   override val refresh = "Refresh"
@@ -21,10 +22,16 @@ object StringEn : AppStrings {
   override val aboutMe = "About me"
   override val whatsNew = "What's New"
 
+  // Settings Screen
   override val appearance = "Appearance"
   override val appearanceModeDescription = "Choose your light ot dark theme preference"
   override val dontMissDeal = "Don't miss any deals"
   override val dontMissDealDescription = "Get notification for all new app deals"
   override val themePreference = "Theme Preference"
   override val chooseLanguage = "Choose Language"
+
+  // Changelog Screen
+  override val close = "Close"
+  override val changelog = "Changelog"
+  override val viewAll = "View All"
 }

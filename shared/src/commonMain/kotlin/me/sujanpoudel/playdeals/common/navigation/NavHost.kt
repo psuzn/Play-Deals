@@ -3,14 +3,11 @@ package me.sujanpoudel.playdeals.common.navigation
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ContentTransform
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun NavHost(navigator: Navigator) {
   val currentEntry by navigator.currentEntry
@@ -34,9 +31,16 @@ fun NavHost(navigator: Navigator) {
   ) {
     val transitionSpec: AnimatedContentTransitionScope<NavEntry>.() -> ContentTransform = {
       if (initialState.id < targetState.id) { // pushing new entry
-        targetState.enter(this).togetherWith(targetState.exitTransition(this))
+        ContentTransform(
+          targetState.enter(this),
+          targetState.exitTransition(this),
+        )
       } else { // popping old entry
-        initialState.popEnter(this).togetherWith(initialState.popExit(this))
+        ContentTransform(
+          initialState.popEnter(this),
+          initialState.popExit(this),
+          targetContentZIndex = -1f,
+        )
       }
     }
 

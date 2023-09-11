@@ -29,4 +29,7 @@ interface AppStrings {
   val dontMissDealDescription: String
   val themePreference: String
   val chooseLanguage: String
+  val close: String
+  val changelog: String
+  val viewAll: String
 }
