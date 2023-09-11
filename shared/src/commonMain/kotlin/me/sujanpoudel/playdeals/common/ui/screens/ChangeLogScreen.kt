@@ -1,130 +1,168 @@
 package me.sujanpoudel.playdeals.common.ui.screens
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.mikepenz.markdown.compose.Markdown
+import com.mikepenz.markdown.model.markdownColor
+import com.mikepenz.markdown.model.markdownTypography
+import me.sujanpoudel.playdeals.common.AppPreferences
+import me.sujanpoudel.playdeals.common.BuildKonfig
+import me.sujanpoudel.playdeals.common.di.PrimaryDI
+import me.sujanpoudel.playdeals.common.strings.Strings
 import me.sujanpoudel.playdeals.common.ui.components.ChangeLog
 import me.sujanpoudel.playdeals.common.ui.components.common.Scaffold
 import me.sujanpoudel.playdeals.common.ui.screens.home.LocalLinkOpener
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.resource
+import org.kodein.di.direct
+import org.kodein.di.instance
 
-class ChangeLog(
-  val version: String,
-  val date: String,
-  val bulletListItems: List<BulletListItem>,
-)
+private const val SEPARATOR = "-------------------------------------------"
+private const val CHANGELOG_PATH = "raw/changelog.md"
 
-class BulletListItem(
-  val title: String,
-  val description: String,
-)
-
-val changeLogs = listOf(
-  ChangeLog(
-    version = "v1.2.1",
-    date = "29th Aug 2023",
-    bulletListItems = listOf(
-      BulletListItem(
-        title = "Play Deal is now Open Source",
-        description = "Yes, Play deals is now open source. If you are nerd and " +
-          "want to look at the code it is viable at the play deal repo from here",
-      ),
-    ),
-  ),
-)
-
-val messages = listOf(
-  "Hey This is first paragraph",
-  "Hey this is my second paragraph. Any this is 2nd line.",
-  "Hey this is 3rd paragraph.",
-)
-
-@OptIn(ExperimentalResourceApi::class)
+@OptIn(ExperimentalResourceApi::class, ExperimentalFoundationApi::class)
 @Composable
-fun ChangeLogScreen() {
-  val linkOpener = LocalLinkOpener.current
+fun ChangeLogScreen() = Scaffold(
+  title = Strings.changelog,
+  showNavBackIcon = false,
+  actions = {
+    val outlineColor = MaterialTheme.colorScheme.outlineVariant
 
-  Scaffold(
-    title = "Changelog",
-    showNavBackIcon = false,
-    actions = {
-      val outlineColor = MaterialTheme.colorScheme.outlineVariant
-
-      IconButton(
-        onClick = it::pop,
-        modifier = Modifier
-          .drawBehind {
-            drawCircle(outlineColor, radius = size.minDimension / 2.5f)
-          },
-      ) {
-        Icon(
-          Icons.Default.Close,
-          contentDescription = "Close",
-          tint = MaterialTheme.colorScheme.onBackground,
-          modifier = Modifier.size(22.dp),
-        )
-      }
-    },
-  ) {
-    Column(
-      modifier = Modifier.padding(horizontal = 16.dp),
+    IconButton(
+      onClick = it::pop,
+      modifier = Modifier
+        .drawBehind {
+          drawCircle(outlineColor, radius = size.minDimension / 2.5f)
+        },
     ) {
-      var resource by remember { mutableStateOf("") }
+      Icon(
+        Icons.Default.Close,
+        contentDescription = Strings.close,
+        tint = MaterialTheme.colorScheme.onBackground,
+        modifier = Modifier.size(22.dp),
+      )
+    }
+  },
+) {
+  val appPreferences = remember { PrimaryDI.direct.instance<AppPreferences>() }
 
-      LaunchedEffect(Unit) {
-        resource = resource("raw/changelog.json").readBytes().decodeToString()
+  val linkOpener = LocalLinkOpener.current
+  var isChangelogExpanded by remember { mutableStateOf(false) }
+
+  var previousChangelogs by remember { mutableStateOf<List<String>>(emptyList()) }
+  var currentChangelog by remember { mutableStateOf<String?>(null) }
+
+  LaunchedEffect(Unit) {
+    appPreferences.setChangelogShownVersion(BuildKonfig.VERSION_CODE)
+  }
+
+  LaunchedEffect(CHANGELOG_PATH) {
+    val changelogs = resource(CHANGELOG_PATH).readBytes().decodeToString().split(SEPARATOR)
+      .filter { it.isNotEmpty() }
+
+    currentChangelog = changelogs.first()
+    previousChangelogs = changelogs.drop(1)
+  }
+
+  if (currentChangelog != null) {
+    LazyColumn(
+      modifier = Modifier
+        .fillMaxSize()
+        .padding(start = 16.dp, end = 16.dp),
+      contentPadding = PaddingValues(top = 24.dp, bottom = 16.dp),
+
+    ) {
+      currentChangelog?.also {
+        item {
+          ChangeLogItem(it)
+        }
       }
 
-      Spacer(Modifier.height(24.dp))
+      if (isChangelogExpanded && previousChangelogs.isNotEmpty()) {
+        items(previousChangelogs) {
+          ChangeLogItem(
+            string = it,
+            modifier = Modifier.animateItemPlacement(),
+          )
+        }
+      }
 
-      Text("What's New in v1.2.1", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold))
-      Text(
-        "15th Feb 2021",
-        style = MaterialTheme.typography.bodySmall,
-        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
-      )
+      item("button") {
+        Box(
+          modifier = Modifier
+            .fillMaxWidth()
+            .animateItemPlacement(),
+          contentAlignment = Alignment.Center,
+        ) {
+          TextButton(
+            onClick = { isChangelogExpanded = !isChangelogExpanded },
+          ) {
+            Text(if (isChangelogExpanded) Strings.close else Strings.viewAll)
+          }
+        }
+      }
 
-      Text(resource)
-
-//
-//      Text(
-//        buildAnnotatedString {
-//          messages.forEach {
-//            withStyle(style = ParagraphStyle(textIndent = TextIndent(restLine = 12.sp))) {
-//              append(Typography.bullet)
-//              append("\t\t")
-//              append(it)
-//            }
-//          }
-//        },
-//        modifier = Modifier.padding(top = 16.dp),
-//        style = MaterialTheme.typography.bodyMedium
-//      )
-
-      ChangeLog.SocialActions(
-        modifier = Modifier.padding(top = 24.dp),
-      ) {
-        linkOpener.openLink(it.url)
+      item("social-actions") {
+        Box(
+          modifier = Modifier
+            .fillMaxWidth()
+            .animateItemPlacement(),
+          contentAlignment = Alignment.Center,
+        ) {
+          ChangeLog.SocialActions(
+            modifier = Modifier
+              .padding(horizontal = 16.dp, vertical = 16.dp)
+              .align(Alignment.BottomCenter),
+          ) {
+            linkOpener.openLink(it.url)
+          }
+        }
       }
     }
   }
 }
+
+@Composable
+fun ChangeLogItem(
+  string: String,
+  modifier: Modifier = Modifier,
+) = Markdown(
+  modifier = modifier.fillMaxWidth(),
+  content = string,
+  colors = markdownColor(MaterialTheme.colorScheme.onBackground),
+  typography = markdownTypography(
+    h1 = MaterialTheme.typography.titleMedium.copy(
+      fontWeight = FontWeight.Medium,
+    ),
+    h2 = MaterialTheme.typography.titleMedium,
+    paragraph = MaterialTheme.typography.bodySmall.copy(
+      color = MaterialTheme.colorScheme.onBackground.copy(0.6f),
+    ),
+    bullet = MaterialTheme.typography.bodyMedium,
+  ),
+)

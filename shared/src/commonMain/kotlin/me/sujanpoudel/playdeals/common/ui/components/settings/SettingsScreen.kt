@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import me.sujanpoudel.playdeals.common.BuildKonfig
 import me.sujanpoudel.playdeals.common.extensions.capitalizeWords
 import me.sujanpoudel.playdeals.common.strings.AppLanguage
 import me.sujanpoudel.playdeals.common.strings.Strings
@@ -83,7 +84,11 @@ object SettingsScreen {
       horizontalAlignment = Alignment.CenterHorizontally,
     ) {
       Text(Strings.appDeals, style = MaterialTheme.typography.titleSmall, color = color)
-      Text("V1.1.5-16", style = MaterialTheme.typography.bodySmall, color = color)
+      Text(
+        "V${BuildKonfig.VERSION_NAME}-${BuildKonfig.VERSION_CODE}",
+        style = MaterialTheme.typography.bodySmall,
+        color = color,
+      )
     }
   }
 

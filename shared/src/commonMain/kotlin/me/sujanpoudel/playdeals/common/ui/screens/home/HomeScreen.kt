@@ -61,6 +61,13 @@ fun HomeScreen() {
 
   val strings = Strings
 
+  LaunchedEffect(state.destinationOneOff) {
+    state.destinationOneOff?.also {
+      viewModel.clearOneOffDestination()
+      navigator.navigateToChangelog()
+    }
+  }
+
   Box(
     modifier = Modifier.withScreenSwipe(swipeState),
   ) {
@@ -152,13 +159,8 @@ fun HomeScreen() {
       onMenuClicked = {
         when (it) {
           HomeScreenDrawer.Menu.SETTINGS -> navigator.push(Screens.SETTINGS)
-          HomeScreenDrawer.Menu.WHAT_NEW -> navigator.push(
-            Screens.CHANGELOG,
-            enterTransition = NavTransitions.slideInFromBottom,
-            exitTransition = NavTransitions.slideOutToTop,
-            popEnter = NavTransitions.slideInFromTop,
-            popExit = NavTransitions.slideOutToBottom,
-          )
+          HomeScreenDrawer.Menu.WHAT_NEW -> navigator.navigateToChangelog()
+
           HomeScreenDrawer.Menu.FOOTER -> linkOpener.openLink(Constants.ABOUT_ME_URL)
         }
 
@@ -180,4 +182,14 @@ fun HomeScreen() {
         .offset { screenOffset },
     )
   }
+}
+
+fun Navigator.navigateToChangelog() {
+  push(
+    Screens.CHANGELOG,
+    enterTransition = NavTransitions.slideInFromBottom,
+    exitTransition = NavTransitions.EmptyExitTransition,
+    popEnter = NavTransitions.EmptyEnterTransition,
+    popExit = NavTransitions.slideOutToBottom,
+  )
 }

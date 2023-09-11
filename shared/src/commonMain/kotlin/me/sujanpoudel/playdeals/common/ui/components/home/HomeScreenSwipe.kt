@@ -198,7 +198,6 @@ fun Modifier.withScreenSwipe(state: HomeScreenSwipeState): Modifier = composed {
   }
 
   LaunchedEffect(scrollState.isScrollInProgress) {
-    println("isScrollInProgress : ${scrollState.isScrollInProgress}")
     if (!scrollState.isScrollInProgress) {
       dragEnd()
     }

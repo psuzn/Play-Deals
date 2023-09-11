@@ -113,6 +113,10 @@ object NavTransitions {
     slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Down)
   }
 
+  val EmptyEnterTransition: NavEnterTransition = {
+    EnterTransition.None
+  }
+
   val slideOutToRight: NavExitTransition = {
     slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right)
   }
@@ -124,5 +128,9 @@ object NavTransitions {
   }
   val slideOutToTop: NavExitTransition = {
     slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Up)
+  }
+
+  val EmptyExitTransition: NavExitTransition = {
+    ExitTransition.None
   }
 }

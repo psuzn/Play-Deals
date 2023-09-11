@@ -12,6 +12,7 @@ plugins {
   id("org.jetbrains.compose") version Versions.COMPOSE apply false
   id("com.adarshr.test-logger") version "3.2.0" apply false
   id("org.jlleitschuh.gradle.ktlint") version "11.5.0" apply true
+  id("com.codingfeline.buildkonfig") version "0.14.0" apply false
 }
 
 allprojects {

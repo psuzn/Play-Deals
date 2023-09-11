@@ -1,12 +1,15 @@
 package me.sujanpoudel.playdeals.common.ui.screens.home
 
 import io.ktor.util.reflect.instanceOf
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import me.sujanpoudel.playdeals.common.AppPreferences
+import me.sujanpoudel.playdeals.common.BuildKonfig
+import me.sujanpoudel.playdeals.common.Screens
 import me.sujanpoudel.playdeals.common.domain.models.AppDeal
 import me.sujanpoudel.playdeals.common.domain.models.DealFilterOption
 import me.sujanpoudel.playdeals.common.domain.models.Selectable
@@ -29,11 +32,23 @@ class HomeScreenViewModel(
 
   init {
     getDeals()
+    checkIfChangelogNeedsToBeShown()
   }
 
-  fun refreshDeals() {
-    getDeals()
+  private fun checkIfChangelogNeedsToBeShown() {
+    if (BuildKonfig.MAJOR_RELEASE && appPreferences.getChangelogShownVersion() != BuildKonfig.VERSION_CODE) {
+      viewModelScope.launch {
+        delay(1000)
+        _state.update {
+          it.copy(
+            destinationOneOff = Screens.CHANGELOG,
+          )
+        }
+      }
+    }
   }
+
+  fun refreshDeals() = getDeals()
 
   private fun getDeals() {
     _state.update { state ->
@@ -75,6 +90,12 @@ class HomeScreenViewModel(
   fun clearErrorOneOff() {
     _state.update { state ->
       state.copy(errorOneOff = null)
+    }
+  }
+
+  fun clearOneOffDestination() {
+    _state.update { state ->
+      state.copy(destinationOneOff = null)
     }
   }
 
