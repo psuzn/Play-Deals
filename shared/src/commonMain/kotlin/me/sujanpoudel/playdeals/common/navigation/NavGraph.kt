@@ -1,7 +1,6 @@
 package me.sujanpoudel.playdeals.common.navigation
 
 import androidx.compose.runtime.Composable
-import me.sujanpoudel.playdeals.common.navGraph
 
 typealias PathIdentifier = Enum<*>
 typealias Content = @Composable () -> Unit
@@ -28,7 +27,7 @@ class NavGraph(buildBy: NavGraphBuilder.() -> Unit) {
   }
 
   fun getDestination(identifier: PathIdentifier): NavDestination {
-    return navGraph.destinations[identifier]
+    return destinations[identifier]
       ?: throw Error("No destination found for '$identifier'")
   }
 

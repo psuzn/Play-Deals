@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import me.sujanpoudel.playdeals.common.di.PrimaryDI
 import me.sujanpoudel.playdeals.common.navigation.NavGraph
 import me.sujanpoudel.playdeals.common.navigation.NavHost
-import me.sujanpoudel.playdeals.common.navigation.Navigator
 import me.sujanpoudel.playdeals.common.strings.LocalAppLanguage
 import me.sujanpoudel.playdeals.common.ui.screens.ChangeLogScreen
 import me.sujanpoudel.playdeals.common.ui.screens.home.HomeScreen
@@ -37,7 +36,7 @@ enum class Screens {
   CHANGELOG,
 }
 
-val navGraph = NavGraph {
+private val navGraph = NavGraph {
   destination(Screens.Home) {
     HomeScreen()
   }
@@ -76,9 +75,7 @@ fun PlayDealsApp(linkOpener: LinkOpener) {
               .union(WindowInsets.systemBars),
           ),
       ) {
-        val navigator = remember { Navigator(navGraph) }
-
-        NavHost(navigator)
+        NavHost(navGraph)
       }
     }
   }

@@ -9,6 +9,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.SaveableStateHolder
 import me.sujanpoudel.playdeals.common.viewModel.ViewModel
 import me.sujanpoudel.playdeals.common.viewModel.ViewModelFactory
 import me.sujanpoudel.playdeals.common.viewModel.ViewModelStore
@@ -19,6 +20,7 @@ import kotlin.reflect.safeCast
 @Stable
 class Navigator(
   private val navGraph: NavGraph,
+  private val savableStateHolder: SaveableStateHolder,
 ) : ViewModelStore {
   val viewModelFactory by lazy { ViewModelFactory(this) }
 
@@ -72,6 +74,10 @@ class Navigator(
     lastNavEntryId = entry.id
     _currentEntry.value = entry
     _backStackDepth.value = backStack.size
+
+    entry.addTag {
+      savableStateHolder.removeState(entry.id)
+    }
   }
 
   override fun <T : ViewModel> get(clazz: KClass<T>): T? {
