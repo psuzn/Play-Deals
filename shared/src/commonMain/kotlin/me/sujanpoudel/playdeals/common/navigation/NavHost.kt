@@ -7,9 +7,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 
 @Composable
-fun NavHost(navigator: Navigator) {
+fun NavHost(navGraph: NavGraph) {
+  val savableStateHolder = rememberSaveableStateHolder()
+  val navigator = remember(navGraph) { Navigator(navGraph, savableStateHolder) }
   val currentEntry by navigator.currentEntry
   val backStackSize by navigator.backStackCount
   val backDispatchConsumer = LocalBackPressConsumer.current
@@ -45,8 +49,10 @@ fun NavHost(navigator: Navigator) {
     }
 
     currentEntry?.let { entry ->
-      AnimatedContent(entry, transitionSpec = transitionSpec) {
-        it.destination.content()
+      savableStateHolder.SaveableStateProvider(entry.id) {
+        AnimatedContent(entry, transitionSpec = transitionSpec) {
+          it.destination.content()
+        }
       }
     }
   }

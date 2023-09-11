@@ -23,17 +23,18 @@ data class NavEntry(
     bagOfTags.add(closable)
   }
 
+  fun addTag(closable: () -> Unit) {
+    bagOfTags.add(object : AutoCloseable {
+      override fun close() {
+        closable()
+      }
+    })
+  }
+
   fun destroy() {
     bagOfTags.forEach {
       it.close()
     }
     bagOfTags.clear()
   }
-}
-
-interface Transition {
-  val enter: EnterTransition
-  val exit: EnterTransition
-  val popEnter: EnterTransition
-  val popExit: ExitTransition
 }
