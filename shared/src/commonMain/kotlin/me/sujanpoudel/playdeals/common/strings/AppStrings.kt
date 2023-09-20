@@ -30,6 +30,10 @@ interface AppStrings {
   val themePreference: String
   val chooseLanguage: String
   val close: String
+
+  // changelog
   val changelog: String
-  val viewAll: String
+  val oldChangeLog: String
+  val findMeOn: String
+  val addNewDeal: String
 }

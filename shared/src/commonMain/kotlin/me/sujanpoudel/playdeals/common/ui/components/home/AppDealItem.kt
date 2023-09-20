@@ -36,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
@@ -43,7 +44,6 @@ import androidx.compose.ui.unit.dp
 import me.sujanpoudel.playdeals.common.domain.models.AppDeal
 import me.sujanpoudel.playdeals.common.strings.Strings
 import me.sujanpoudel.playdeals.common.ui.components.common.LazyImage
-import me.sujanpoudel.playdeals.common.ui.screens.home.LocalLinkOpener
 import me.sujanpoudel.playdeals.common.ui.theme.SOFT_COLOR_ALPHA
 
 object AppDealItem {
@@ -53,8 +53,7 @@ object AppDealItem {
     modifier: Modifier,
     isAppNewlyAdded: Boolean,
   ) {
-    val appDealActionHandler = LocalLinkOpener.current
-
+    val uriHandler = LocalUriHandler.current
     Box(
       modifier
         .fillMaxWidth()
@@ -86,7 +85,7 @@ object AppDealItem {
           .align(Alignment.BottomEnd)
           .padding(end = 16.dp),
       ) {
-        appDealActionHandler.openLink(appDeal.storeUrl)
+        uriHandler.openUri(appDeal.storeUrl)
       }
     }
   }

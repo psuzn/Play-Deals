@@ -33,5 +33,9 @@ object StringEn : AppStrings {
   // Changelog Screen
   override val close = "Close"
   override val changelog = "Changelog"
-  override val viewAll = "View All"
+  override val oldChangeLog = "View All"
+  override val findMeOn = "Find me on"
+
+  // new deal screen
+  override val addNewDeal = "Add New Deal"
 }
