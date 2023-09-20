@@ -23,6 +23,7 @@ import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.IntOffset
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -56,7 +57,7 @@ fun HomeScreen() {
   val screenOffset by swipeState.rememberScreenOffset()
   val coroutineScope = rememberCoroutineScope()
 
-  val linkOpener = LocalLinkOpener.current
+  val uriHandler = LocalUriHandler.current
   val navigator = Navigator.current
 
   val strings = Strings
@@ -161,7 +162,7 @@ fun HomeScreen() {
           HomeScreenDrawer.Menu.SETTINGS -> navigator.push(Screens.SETTINGS)
           HomeScreenDrawer.Menu.WHAT_NEW -> navigator.navigateToChangelog()
 
-          HomeScreenDrawer.Menu.FOOTER -> linkOpener.openLink(Constants.ABOUT_ME_URL)
+          HomeScreenDrawer.Menu.FOOTER -> uriHandler.openUri(Constants.ABOUT_ME_URL)
         }
 
         coroutineScope.launch {

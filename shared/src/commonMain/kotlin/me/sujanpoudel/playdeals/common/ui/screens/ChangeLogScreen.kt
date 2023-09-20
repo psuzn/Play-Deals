@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.mikepenz.markdown.compose.Markdown
@@ -36,7 +37,6 @@ import me.sujanpoudel.playdeals.common.di.PrimaryDI
 import me.sujanpoudel.playdeals.common.strings.Strings
 import me.sujanpoudel.playdeals.common.ui.components.ChangeLog
 import me.sujanpoudel.playdeals.common.ui.components.common.Scaffold
-import me.sujanpoudel.playdeals.common.ui.screens.home.LocalLinkOpener
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.resource
 import org.kodein.di.direct
@@ -52,7 +52,6 @@ fun ChangeLogScreen() = Scaffold(
   showNavBackIcon = false,
   actions = {
     val outlineColor = MaterialTheme.colorScheme.outlineVariant
-
     IconButton(
       onClick = it::pop,
       modifier = Modifier
@@ -71,11 +70,11 @@ fun ChangeLogScreen() = Scaffold(
 ) {
   val appPreferences = remember { PrimaryDI.direct.instance<AppPreferences>() }
 
-  val linkOpener = LocalLinkOpener.current
   var isChangelogExpanded by remember { mutableStateOf(false) }
 
   var previousChangelogs by remember { mutableStateOf<List<String>>(emptyList()) }
   var currentChangelog by remember { mutableStateOf<String?>(null) }
+  val linkHandler = LocalUriHandler.current
 
   LaunchedEffect(Unit) {
     appPreferences.setChangelogShownVersion(BuildKonfig.VERSION_CODE)
@@ -95,7 +94,6 @@ fun ChangeLogScreen() = Scaffold(
         .fillMaxSize()
         .padding(start = 16.dp, end = 16.dp),
       contentPadding = PaddingValues(top = 24.dp, bottom = 16.dp),
-
     ) {
       currentChangelog?.also {
         item {
@@ -112,17 +110,19 @@ fun ChangeLogScreen() = Scaffold(
         }
       }
 
-      item("button") {
-        Box(
-          modifier = Modifier
-            .fillMaxWidth()
-            .animateItemPlacement(),
-          contentAlignment = Alignment.Center,
-        ) {
-          TextButton(
-            onClick = { isChangelogExpanded = !isChangelogExpanded },
+      if (previousChangelogs.isNotEmpty()) {
+        item("button") {
+          Box(
+            modifier = Modifier
+              .fillMaxWidth()
+              .animateItemPlacement(),
+            contentAlignment = Alignment.Center,
           ) {
-            Text(if (isChangelogExpanded) Strings.close else Strings.viewAll)
+            TextButton(
+              onClick = { isChangelogExpanded = !isChangelogExpanded },
+            ) {
+              Text(if (isChangelogExpanded) Strings.close else Strings.oldChangeLog)
+            }
           }
         }
       }
@@ -139,7 +139,7 @@ fun ChangeLogScreen() = Scaffold(
               .padding(horizontal = 16.dp, vertical = 16.dp)
               .align(Alignment.BottomCenter),
           ) {
-            linkOpener.openLink(it.url)
+            linkHandler.openUri(it.url)
           }
         }
       }

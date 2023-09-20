@@ -21,8 +21,6 @@ import me.sujanpoudel.playdeals.common.navigation.NavHost
 import me.sujanpoudel.playdeals.common.strings.LocalAppLanguage
 import me.sujanpoudel.playdeals.common.ui.screens.ChangeLogScreen
 import me.sujanpoudel.playdeals.common.ui.screens.home.HomeScreen
-import me.sujanpoudel.playdeals.common.ui.screens.home.LinkOpener
-import me.sujanpoudel.playdeals.common.ui.screens.home.LocalLinkOpener
 import me.sujanpoudel.playdeals.common.ui.screens.newDeal.NewDealScreen
 import me.sujanpoudel.playdeals.common.ui.screens.settings.SettingsScreen
 import me.sujanpoudel.playdeals.common.ui.theme.AppTheme
@@ -57,12 +55,11 @@ private val navGraph = NavGraph {
 }
 
 @Composable
-fun PlayDealsApp(linkOpener: LinkOpener) {
+fun PlayDealsApp() {
   val preferences = remember { PrimaryDI.direct.instance<AppPreferences>() }
   val appLanguage by preferences.appLanguage.collectAsState()
 
   CompositionLocalProvider(
-    LocalLinkOpener provides linkOpener,
     LocalAppLanguage provides appLanguage,
   ) {
     AppTheme(preferences) {
