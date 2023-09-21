@@ -10,7 +10,7 @@ import kotlinx.datetime.Clock
 import me.sujanpoudel.playdeals.common.AppPreferences
 import me.sujanpoudel.playdeals.common.BuildKonfig
 import me.sujanpoudel.playdeals.common.Screens
-import me.sujanpoudel.playdeals.common.domain.models.AppDeal
+import me.sujanpoudel.playdeals.common.domain.entities.DealEntity
 import me.sujanpoudel.playdeals.common.domain.models.DealFilterOption
 import me.sujanpoudel.playdeals.common.domain.models.Selectable
 import me.sujanpoudel.playdeals.common.extensions.capitalizeWords
@@ -53,8 +53,8 @@ class HomeScreenViewModel(
   private fun getDeals() {
     _state.update { state ->
       state.copy(
-        isLoading = state.allAppDeals.isEmpty(),
-        isRefreshing = state.allAppDeals.isNotEmpty(),
+        isLoading = state.allDeals.isEmpty(),
+        isRefreshing = state.allDeals.isNotEmpty(),
         persistentError = null,
       )
     }
@@ -67,8 +67,8 @@ class HomeScreenViewModel(
             state.copy(
               isLoading = false,
               isRefreshing = false,
-              persistentError = if (state.allAppDeals.isEmpty()) result.failure.message else null,
-              errorOneOff = if (state.allAppDeals.isNotEmpty()) result.failure.message else null,
+              persistentError = if (state.allDeals.isEmpty()) result.failure.message else null,
+              errorOneOff = if (state.allDeals.isNotEmpty()) result.failure.message else null,
             )
 
           is Result.Success -> {
@@ -78,7 +78,7 @@ class HomeScreenViewModel(
               isRefreshing = false,
               persistentError = null,
               errorOneOff = null,
-              allAppDeals = result.data,
+              allDeals = result.data,
               filterOptions = buildFilterOption(result.data, state),
             )
           }
@@ -115,7 +115,7 @@ class HomeScreenViewModel(
   }
 
   private fun buildFilterOption(
-    appDeals: List<AppDeal>,
+    appDeals: List<DealEntity>,
     state: HomeScreenState,
   ): List<Selectable<DealFilterOption>> {
     val categoryFilters: List<Selectable<DealFilterOption>> =

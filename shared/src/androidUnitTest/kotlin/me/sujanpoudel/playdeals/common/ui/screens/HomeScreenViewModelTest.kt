@@ -15,7 +15,7 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import me.sujanpoudel.playdeals.common.AppPreferences
-import me.sujanpoudel.playdeals.common.domain.models.AppDeal
+import me.sujanpoudel.playdeals.common.domain.entities.DealEntity
 import me.sujanpoudel.playdeals.common.networking.Failure
 import me.sujanpoudel.playdeals.common.networking.RemoteAPI
 import me.sujanpoudel.playdeals.common.networking.Result
@@ -44,7 +44,7 @@ class HomeScreenViewModelTest {
   fun `should have correct initial state`() =
     runTest {
       val state = HomeScreenState()
-      state.allAppDeals shouldHaveSize 0
+      state.allDeals shouldHaveSize 0
       state.isLoading shouldBe false
       state.isRefreshing shouldBe false
     }
@@ -73,7 +73,7 @@ class HomeScreenViewModelTest {
       val viewModel = HomeScreenViewModel(remoteAPI, appPreference())
 
       viewModel.state.value.let {
-        it.allAppDeals shouldHaveSize 0
+        it.allDeals shouldHaveSize 0
         it.isLoading shouldBe true
         it.isRefreshing shouldBe false
       }
@@ -93,7 +93,7 @@ class HomeScreenViewModelTest {
       dispatcher.scheduler.runCurrent()
 
       viewModel.state.value.also { state ->
-        state.allAppDeals shouldHaveSize 0
+        state.allDeals shouldHaveSize 0
         state.isLoading shouldBe false
         state.isRefreshing shouldBe false
         state.persistentError shouldBe Failure.UnknownError.message
@@ -105,7 +105,7 @@ class HomeScreenViewModelTest {
     runTest {
       val dispatcher = StandardTestDispatcher()
 
-      val deal = mockk<AppDeal>()
+      val deal = mockk<DealEntity>()
 
       every { deal.category } returns ""
 
@@ -118,7 +118,7 @@ class HomeScreenViewModelTest {
       dispatcher.scheduler.runCurrent()
 
       viewModel.state.value.also { state ->
-        state.allAppDeals shouldContainExactly listOf(deal)
+        state.allDeals shouldContainExactly listOf(deal)
         state.isLoading shouldBe false
         state.isRefreshing shouldBe false
         state.persistentError shouldBe null
@@ -130,7 +130,7 @@ class HomeScreenViewModelTest {
     runTest {
       val dispatcher = StandardTestDispatcher()
 
-      val deal = mockk<AppDeal>()
+      val deal = mockk<DealEntity>()
 
       every { deal.category } returns ""
 
@@ -147,7 +147,7 @@ class HomeScreenViewModelTest {
       viewModel.refreshDeals()
 
       viewModel.state.value.also { state ->
-        state.allAppDeals shouldHaveSize 0
+        state.allDeals shouldHaveSize 0
         state.isLoading shouldBe true
         state.isRefreshing shouldBe false
         state.persistentError shouldBe null
@@ -156,7 +156,7 @@ class HomeScreenViewModelTest {
       dispatcher.scheduler.advanceUntilIdle()
 
       viewModel.state.value.also { state ->
-        state.allAppDeals shouldContainExactly listOf(deal)
+        state.allDeals shouldContainExactly listOf(deal)
         state.isLoading shouldBe false
         state.isRefreshing shouldBe false
         state.persistentError shouldBe null
@@ -168,7 +168,7 @@ class HomeScreenViewModelTest {
     runTest {
       val dispatcher = StandardTestDispatcher()
 
-      val deal = mockk<AppDeal>()
+      val deal = mockk<DealEntity>()
 
       every { deal.category } returns ""
 
@@ -185,7 +185,7 @@ class HomeScreenViewModelTest {
       viewModel.refreshDeals()
 
       viewModel.state.value.also { state ->
-        state.allAppDeals shouldContainExactly listOf(deal)
+        state.allDeals shouldContainExactly listOf(deal)
         state.isLoading shouldBe false
         state.isRefreshing shouldBe true
         state.persistentError shouldBe null
@@ -194,7 +194,7 @@ class HomeScreenViewModelTest {
       dispatcher.scheduler.advanceUntilIdle()
 
       viewModel.state.value.also { state ->
-        state.allAppDeals shouldContainExactly listOf(deal)
+        state.allDeals shouldContainExactly listOf(deal)
         state.isLoading shouldBe false
         state.isRefreshing shouldBe false
         state.persistentError shouldBe null
@@ -206,8 +206,8 @@ class HomeScreenViewModelTest {
     runTest {
       val dispatcher = StandardTestDispatcher()
 
-      val deal = mockk<AppDeal>()
-      val deal2 = mockk<AppDeal>()
+      val deal = mockk<DealEntity>()
+      val deal2 = mockk<DealEntity>()
 
       every { deal.category } returns ""
       every { deal2.category } returns ""
@@ -227,7 +227,7 @@ class HomeScreenViewModelTest {
       dispatcher.scheduler.advanceUntilIdle()
 
       viewModel.state.value.also { state ->
-        state.allAppDeals shouldContainExactly listOf(deal, deal2)
+        state.allDeals shouldContainExactly listOf(deal, deal2)
         state.isLoading shouldBe false
         state.isRefreshing shouldBe false
         state.persistentError shouldBe null

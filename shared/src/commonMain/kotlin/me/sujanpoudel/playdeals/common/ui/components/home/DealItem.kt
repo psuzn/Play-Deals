@@ -41,15 +41,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import me.sujanpoudel.playdeals.common.domain.models.AppDeal
+import me.sujanpoudel.playdeals.common.domain.entities.DealEntity
 import me.sujanpoudel.playdeals.common.strings.Strings
 import me.sujanpoudel.playdeals.common.ui.components.common.LazyImage
 import me.sujanpoudel.playdeals.common.ui.theme.SOFT_COLOR_ALPHA
 
-object AppDealItem {
+object DealItem {
   @Composable
   operator fun invoke(
-    appDeal: AppDeal,
+    appDeal: DealEntity,
     modifier: Modifier,
     isAppNewlyAdded: Boolean,
   ) {
@@ -85,13 +85,13 @@ object AppDealItem {
           .align(Alignment.BottomEnd)
           .padding(end = 16.dp),
       ) {
-        uriHandler.openUri(appDeal.storeUrl)
+        uriHandler.openUri(appDeal.url)
       }
     }
   }
 
   @Composable
-  private fun AppDetails(appDeal: AppDeal) {
+  private fun AppDetails(deal: DealEntity) {
     Row(
       modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 10.dp)
         .height(80.dp)
@@ -99,8 +99,8 @@ object AppDealItem {
       horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
       AppIcon(
-        appName = appDeal.name,
-        url = appDeal.icon,
+        appName = deal.name,
+        url = deal.icon,
       )
 
       Column(
@@ -108,22 +108,22 @@ object AppDealItem {
         modifier = Modifier.align(Alignment.CenterVertically),
       ) {
         Text(
-          appDeal.name,
+          deal.name,
           style = MaterialTheme.typography.titleSmall,
           overflow = TextOverflow.Ellipsis,
           modifier = Modifier.fillMaxWidth(),
         )
 
-        AppDetail2ndRow(appDeal)
+        AppDetail2ndRow(deal)
 
-        AppDetail3rdRow(appDeal)
+        AppDetail3rdRow(deal)
 
         Row(
           horizontalArrangement = Arrangement.spacedBy(4.dp),
           verticalAlignment = Alignment.CenterVertically,
         ) {
           Text(
-            "r/googlePlayDeals",
+            deal.source,
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
           )
@@ -134,7 +134,7 @@ object AppDealItem {
 
   @OptIn(ExperimentalFoundationApi::class)
   @Composable
-  private fun FeaturedImages(appDeal: AppDeal) {
+  private fun FeaturedImages(appDeal: DealEntity) {
     val listState = rememberLazyListState()
 
     LazyRow(
@@ -204,7 +204,7 @@ object AppDealItem {
   }
 
   @Composable
-  private fun AppDetail2ndRow(appDeal: AppDeal) {
+  private fun AppDetail2ndRow(appDeal: DealEntity) {
     Row(
       horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
@@ -239,7 +239,7 @@ object AppDealItem {
   }
 
   @Composable
-  private fun AppDetail3rdRow(appDeal: AppDeal) {
+  private fun AppDetail3rdRow(appDeal: DealEntity) {
     Row(
       horizontalArrangement = Arrangement.spacedBy(4.dp),
       verticalAlignment = Alignment.CenterVertically,

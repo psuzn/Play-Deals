@@ -1,16 +1,16 @@
-package me.sujanpoudel.playdeals.common.domain.models
+package me.sujanpoudel.playdeals.common.domain.entities
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
-import kotlinx.serialization.Serializable
 import me.sujanpoudel.playdeals.common.strings.Strings
 import me.sujanpoudel.playdeals.common.utils.asCurrencySymbol
 import me.sujanpoudel.playdeals.common.utils.formatAsPrice
 import me.sujanpoudel.playdeals.common.utils.shallowFormatted
 
-@Serializable
-data class AppDeal(
+@Stable
+data class DealEntity(
   val id: String,
   val name: String,
   val icon: String,
@@ -18,11 +18,13 @@ data class AppDeal(
   val normalPrice: Float,
   val currentPrice: Float,
   val currency: String,
-  val storeUrl: String,
+  val url: String,
   val category: String,
   val downloads: String,
   private val rating: Float,
   val offerExpiresIn: Instant,
+  val type: String,
+  val source: String,
   val createdAt: Instant,
   val updatedAt: Instant,
 ) {

@@ -1,6 +1,7 @@
 package me.sujanpoudel.playdeals.common.navigation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
@@ -22,7 +23,7 @@ class Navigator(
   private val navGraph: NavGraph,
   private val savableStateHolder: SaveableStateHolder,
 ) : ViewModelStore {
-  val viewModelFactory by lazy { ViewModelFactory(this) }
+  val viewModelFactory = ViewModelFactory(this)
 
   private var backStack: List<NavEntry> = emptyList()
 
@@ -88,6 +89,21 @@ class Navigator(
 
   override fun save(viewModel: ViewModel) {
     currentEntry.value?.addTag(viewModel)
+  }
+
+  val transitionSpec: AnimatedContentTransitionScope<NavEntry>.() -> ContentTransform = {
+    if (initialState.id < targetState.id) { // pushing new entry
+      ContentTransform(
+        targetState.enter(this),
+        targetState.exitTransition(this),
+      )
+    } else { // popping old entry
+      ContentTransform(
+        initialState.popEnter(this),
+        initialState.popExit(this),
+        targetContentZIndex = -1f,
+      )
+    }
   }
 
   companion object {

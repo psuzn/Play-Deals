@@ -15,3 +15,10 @@ sealed class Result<T> {
     }
   }
 }
+
+fun <From, To> Result<From>.map(mapper: (From) -> To): Result<To> {
+  return when (this) {
+    is Result.Error -> Result.failure(this.failure)
+    is Result.Success -> Result.success(mapper(data))
+  }
+}
