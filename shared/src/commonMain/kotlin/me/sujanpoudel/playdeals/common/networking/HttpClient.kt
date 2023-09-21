@@ -14,7 +14,7 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import me.sujanpoudel.playdeals.common.Constants.API_BASE_URL
-import me.sujanpoudel.playdeals.common.domain.models.Response
+import me.sujanpoudel.playdeals.common.domain.models.api.Response
 
 @OptIn(InternalAPI::class)
 suspend inline fun <reified T> HttpClient.request(

@@ -1,14 +1,15 @@
 package me.sujanpoudel.playdeals.common.networking
 
 import io.ktor.client.HttpClient
-import io.ktor.client.request.get
-import me.sujanpoudel.playdeals.common.domain.models.AppDeal
-import me.sujanpoudel.playdeals.common.domain.models.NewAppRequest
+import me.sujanpoudel.playdeals.common.domain.models.api.AppDealModel
+import me.sujanpoudel.playdeals.common.domain.models.api.toEntity
 
 class RemoteAPI(
   private val client: HttpClient,
 ) {
-  suspend fun getDeals(): Result<List<AppDeal>> = client.get<List<AppDeal>>("/deals")
-
-  suspend fun addNewAppRequest(request: NewAppRequest) = client.post<Any>("/deals", request)
+  suspend fun getDeals() = client.get<List<AppDealModel>>("/deals?take=500").map {
+    it.map { deal ->
+      deal.toEntity()
+    }
+  }
 }

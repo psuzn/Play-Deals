@@ -1,8 +1,6 @@
 package me.sujanpoudel.playdeals.common.navigation
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.ContentTransform
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
@@ -33,25 +31,10 @@ fun NavHost(navGraph: NavGraph) {
     Navigator.Local provides navigator,
     LocalViewModelFactory provides navigator.viewModelFactory,
   ) {
-    val transitionSpec: AnimatedContentTransitionScope<NavEntry>.() -> ContentTransform = {
-      if (initialState.id < targetState.id) { // pushing new entry
-        ContentTransform(
-          targetState.enter(this),
-          targetState.exitTransition(this),
-        )
-      } else { // popping old entry
-        ContentTransform(
-          initialState.popEnter(this),
-          initialState.popExit(this),
-          targetContentZIndex = -1f,
-        )
-      }
-    }
-
-    currentEntry?.let { entry ->
-      savableStateHolder.SaveableStateProvider(entry.id) {
-        AnimatedContent(entry, transitionSpec = transitionSpec) {
-          it.destination.content()
+    currentEntry?.also { entry ->
+      AnimatedContent(entry, transitionSpec = navigator.transitionSpec) {
+        savableStateHolder.SaveableStateProvider(it.id) {
+          entry.destination.content()
         }
       }
     }

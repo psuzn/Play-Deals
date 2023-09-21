@@ -22,6 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -29,9 +30,10 @@ import me.sujanpoudel.playdeals.common.domain.models.DealFilterOption
 import me.sujanpoudel.playdeals.common.domain.models.Selectable
 import me.sujanpoudel.playdeals.common.strings.Strings
 import me.sujanpoudel.playdeals.common.ui.screens.home.HomeScreenState
+import me.sujanpoudel.playdeals.common.ui.screens.home.filterDealsToDisplay
 import me.sujanpoudel.playdeals.common.ui.theme.SOFT_COLOR_ALPHA
 
-object AppDealContent {
+object DealContent {
   @OptIn(ExperimentalFoundationApi::class)
   @Composable
   operator fun invoke(
@@ -39,6 +41,10 @@ object AppDealContent {
     onToggleFilterOption: (DealFilterOption) -> Unit,
     refreshAppDeals: () -> Unit,
   ) {
+    val deals = remember(homeScreenState.allDeals, homeScreenState.filterOptions, homeScreenState.lastUpdatedTime) {
+      homeScreenState.allDeals.filterDealsToDisplay(homeScreenState.filterOptions, homeScreenState.lastUpdatedTime)
+    }
+
     Column(
       modifier = Modifier.fillMaxSize(),
     ) {
@@ -56,7 +62,7 @@ object AppDealContent {
         }
       }
 
-      if (homeScreenState.dealsToDisplay.isEmpty()) {
+      if (deals.isEmpty()) {
         NoDeals(refreshBy = refreshAppDeals)
       } else {
         LazyColumn(
@@ -64,11 +70,11 @@ object AppDealContent {
           contentPadding = PaddingValues(top = 16.dp, bottom = 48.dp),
           modifier = Modifier.fillMaxSize(),
         ) {
-          items(homeScreenState.dealsToDisplay, key = { it.id }) { appDeal ->
-            AppDealItem(
-              appDeal = appDeal,
+          items(deals, key = { it.id }) { deal ->
+            DealItem(
+              appDeal = deal,
               modifier = Modifier.animateItemPlacement(),
-              isAppNewlyAdded = homeScreenState.lastUpdatedTime < appDeal.createdAt,
+              isAppNewlyAdded = homeScreenState.lastUpdatedTime < deal.createdAt,
             )
           }
         }

@@ -36,7 +36,7 @@ import me.sujanpoudel.playdeals.common.ui.components.common.ScaffoldToolbar
 import me.sujanpoudel.playdeals.common.ui.components.common.pullToRefresh.PullRefreshIndicator
 import me.sujanpoudel.playdeals.common.ui.components.common.pullToRefresh.pullRefresh
 import me.sujanpoudel.playdeals.common.ui.components.common.pullToRefresh.rememberPullRefreshState
-import me.sujanpoudel.playdeals.common.ui.components.home.AppDealContent
+import me.sujanpoudel.playdeals.common.ui.components.home.DealContent
 import me.sujanpoudel.playdeals.common.ui.components.home.HomeScreen
 import me.sujanpoudel.playdeals.common.ui.components.home.HomeScreen.Error
 import me.sujanpoudel.playdeals.common.ui.components.home.HomeScreen.Loading
@@ -131,7 +131,7 @@ fun HomeScreen() {
         when {
           state.persistentError != null -> Error(state.persistentError!!, viewModel::refreshDeals)
           state.isLoading -> Loading()
-          else -> AppDealContent(
+          else -> DealContent(
             state,
             onToggleFilterOption = viewModel::toggleFilterItem,
             refreshAppDeals = viewModel::refreshDeals,
@@ -158,17 +158,20 @@ fun HomeScreen() {
           },
         ),
       onMenuClicked = {
-        when (it) {
-          HomeScreenDrawer.Menu.SETTINGS -> navigator.push(Screens.SETTINGS)
-          HomeScreenDrawer.Menu.WHAT_NEW -> navigator.navigateToChangelog()
-
-          HomeScreenDrawer.Menu.FOOTER -> uriHandler.openUri(Constants.ABOUT_ME_URL)
-        }
-
         coroutineScope.launch {
-          if (it != HomeScreenDrawer.Menu.WHAT_NEW) {
-            delay(1000)
+          when (it) {
+            HomeScreenDrawer.Menu.SETTINGS -> navigator.push(Screens.SETTINGS)
+            HomeScreenDrawer.Menu.WHAT_NEW -> {
+              swipeState.toggleDrawer()
+              delay(100)
+              navigator.navigateToChangelog()
+              return@launch
+            }
+
+            HomeScreenDrawer.Menu.FOOTER -> uriHandler.openUri(Constants.ABOUT_ME_URL)
           }
+
+          delay(100)
           swipeState.toggleDrawer()
         }
       },

@@ -4,9 +4,9 @@ object Versions {
   const val COMPOSE = "1.5.1"
   const val KO_TEST = "5.5.5"
 
-  const val KTOR = "2.3.2"
+  const val KTOR = "2.3.4"
   const val KODE_IN = "7.20.2"
-  const val COROUTINE = "1.7.2"
+  const val COROUTINE = "1.7.3"
   const val KOTLINX_DATE_TIME = "0.4.0"
 
   const val JUNIT_JUPITER = "5.9.3"

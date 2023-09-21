@@ -3,11 +3,13 @@ package me.sujanpoudel.playdeals.common.navigation
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.runtime.Stable
 
 /**
  *  Nav entry can save the things limited to it's own lifecycle eg: ViewModel
  */
 @OptIn(ExperimentalStdlibApi::class)
+@Stable
 data class NavEntry(
   val id: Long,
   val destination: NavDestination,
