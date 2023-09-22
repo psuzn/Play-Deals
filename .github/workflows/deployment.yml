@@ -71,6 +71,7 @@ jobs:
           releaseFiles: ${{ steps.sign_aab.outputs.signedReleaseFile}}
           inAppUpdatePriority: 5
           whatsNewDirectory: CHANGELOG
+          changesNotSentForReview: true
           releaseName: ${{ github.event.head_commit.message }}
           status: draft
 
