@@ -72,7 +72,7 @@ jobs:
           inAppUpdatePriority: 5
           whatsNewDirectory: CHANGELOG
           changesNotSentForReview: true
-          releaseName: ${{ github.event.head_commit.message }}
+          releaseName: ${{ github.ref_name }}
           status: draft
 
       - name: Sign APK

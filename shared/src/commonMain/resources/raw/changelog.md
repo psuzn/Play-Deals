@@ -1,4 +1,4 @@
-# What's New in v2.0.1
+# What's New in v2.0.2
 
 **11th Sept 2023**
 
