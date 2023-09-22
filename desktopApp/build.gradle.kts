@@ -23,9 +23,10 @@ compose.desktop {
   application {
     mainClass = "MainKt"
     nativeDistributions {
-      targetFormats(TargetFormat.Dmg, TargetFormat.Exe)
+      targetFormats(TargetFormat.Dmg, TargetFormat.Exe, TargetFormat.Deb)
+
       packageVersion = Artifact.VERSION_NAME
-      packageName = Artifact.APP_NAME
+      packageName = "deals-${System.getProperty("os.arch")}"
       copyright = "© 2023 Sujan Poudel. All rights reserved."
       licenseFile.set(project.file("../LICENSE"))
 
@@ -41,9 +42,11 @@ compose.desktop {
         iconFile.set(project.file("app_icon.icns"))
         bundleID = Artifact.APP_ID
       }
+
       windows {
         iconFile.set(project.file("app_icon.ico"))
       }
+
       linux {
         iconFile.set(project.file("app_icon.png"))
       }

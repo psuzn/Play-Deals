@@ -20,12 +20,17 @@ kotlin {
 android {
   compileSdk = Artifact.ANDROID_COMPILE_SDK
   namespace = Artifact.APP_ID
+
   defaultConfig {
-    applicationId = "me.sujanpoudel.playdeals.app"
+    applicationId = Artifact.APP_ID
+
     minSdk = Artifact.ANDROID_MIN_SDK
     targetSdk = Artifact.ANDROID_TARGET_SDK
+
     versionCode = Artifact.VERSION_CODE
     versionName = Artifact.VERSION_NAME
+
+    setProperty("archivesBaseName", "play-deals-v$versionName-c$versionCode")
   }
 
   compileOptions {
@@ -35,7 +40,11 @@ android {
 
   buildTypes {
     getByName("release") {
-      isMinifyEnabled = false
+      isMinifyEnabled = true
+      proguardFiles(
+        getDefaultProguardFile("proguard-android-optimize.txt"),
+        "proguard-rules.pro",
+      )
     }
   }
 }
