@@ -143,11 +143,10 @@ jobs:
           mv downloaded/android-bundles/apk/release/* artifacts/
           mv downloaded/android-bundles/bundle/release/* artifacts/
           mv downloaded/**/*.* artifacts/
-          echo "ARTIFACTS=$(ls artifacts/*)" >> "$GITHUB_ENV"
 
       - uses: softprops/action-gh-release@v1
         with:
           body_path: CHANGELOG/whatsnew-en-US
-          files: ${{ env.ARTIFACTS }}
+          files: artifacts/*
 
 
