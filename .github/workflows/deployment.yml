@@ -70,7 +70,7 @@ jobs:
           packageName: me.sujanpoudel.playdeals
           releaseFiles: ${{ steps.sign_aab.outputs.signedReleaseFile}}
           inAppUpdatePriority: 5
-          whatsNewDirectory: CHANGELOG
+          whatsNewDirectory: CHANGELOG/android-whats-new
           changesNotSentForReview: true
           releaseName: ${{ github.ref_name }}
           status: draft
@@ -148,7 +148,7 @@ jobs:
 
       - uses: softprops/action-gh-release@v1
         with:
-          body_path: CHANGELOG/whatsnew-en-US
+          body_path: CHANGELOG/CHANGELOG.md
           files: artifacts/*
 
 
