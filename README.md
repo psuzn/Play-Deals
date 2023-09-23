@@ -1,4 +1,9 @@
 # Play Deals
+[![Static Badge](https://img.shields.io/badge/Android-black?logo=android&logoColor=white&color=%234889f5)](https://play.google.com/store/apps/details?id=me.sujanpoudel.playdeals) &nbsp;
+[![Static Badge](https://img.shields.io/badge/IOS-grey?logo=apple)](https://github.com/psuzn/app-deals/releases/latest) &nbsp;&nbsp;
+[![Static Badge](https://img.shields.io/badge/macOS-black?logo=apple)](https://github.com/psuzn/app-deals/releases/latest) &nbsp;
+[![Static Badge](https://img.shields.io/badge/Windows-green?logo=windows&color=blue)](https://github.com/psuzn/app-deals/releases/latest) &nbsp;
+[![Static Badge](https://img.shields.io/badge/Linux-white?logo=linux&logoColor=white&color=grey)](https://github.com/psuzn/app-deals/releases/latest) &nbsp;
 
 ![Static Badge](https://img.shields.io/badge/License-GPL--v3-brightgreen)
 [![Lint and verify](https://github.com/psuzn/App-deals/actions/workflows/lint.yaml/badge.svg?branch=develop)](https://github.com/psuzn/App-deals/actions/workflows/lint.yaml)
