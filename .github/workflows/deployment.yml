@@ -71,7 +71,6 @@ jobs:
           releaseFiles: ${{ steps.sign_aab.outputs.signedReleaseFile}}
           inAppUpdatePriority: 5
           whatsNewDirectory: CHANGELOG/android-whats-new
-          changesNotSentForReview: true
           releaseName: ${{ github.ref_name }}
           status: draft
 
