@@ -1,4 +1,4 @@
-package me.sujanpoudel.playdeals.common.networking
+package me.sujanpoudel.playdeals.common.domain.networking
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -14,7 +14,9 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import me.sujanpoudel.playdeals.common.Constants.API_BASE_URL
+import me.sujanpoudel.playdeals.common.domain.models.Result
 import me.sujanpoudel.playdeals.common.domain.models.api.Response
+import me.sujanpoudel.playdeals.common.domain.models.resolveToFailure
 
 @OptIn(InternalAPI::class)
 suspend inline fun <reified T> HttpClient.request(

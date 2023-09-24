@@ -329,6 +329,7 @@
 					"$(inherited)",
 					"-framework",
 					shared,
+					"-lsqlite3",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.sujanpoudel.playdeals;
 				PRODUCT_NAME = "App Deals";
@@ -360,6 +361,7 @@
 					"$(inherited)",
 					"-framework",
 					shared,
+					"-lsqlite3",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.sujanpoudel.playdeals;
 				PRODUCT_NAME = "App Deals";

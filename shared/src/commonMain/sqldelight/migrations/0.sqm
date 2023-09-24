@@ -1,0 +1,24 @@
+import kotlin.String;
+import kotlin.collections.List;
+import kotlinx.datetime.Instant;
+
+CREATE TABLE Deal
+(
+ id                TEXT NOT NULL PRIMARY KEY,
+ name              TEXT NOT NULL,
+ icon              TEXT  NOT NULL,
+ images            TEXT  AS List<String>  NOT NULL,
+ normal_price      REAL  NOT NULL,
+ current_price     REAL  NOT NULL,
+ currency          TEXT  NOT NULL,
+ url               TEXT  NOT  NULL,
+ category          TEXT  NOT  NULL,
+ downloads         TEXT  NOT  NULL,
+ rating            REAL   NOT NULL,
+ type              TEXT   NOT NULL,
+ source            TEXT   NOT NULL,
+
+ offer_expires_in  TEXT AS Instant NOT NULL,
+ created_at        TEXT AS Instant NOT NULL,
+ updated_at        TEXT AS Instant NOT NULL
+);

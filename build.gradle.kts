@@ -1,4 +1,3 @@
-
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 import org.jlleitschuh.gradle.ktlint.KtlintPlugin
 
@@ -13,6 +12,7 @@ plugins {
   id("com.adarshr.test-logger") version "3.2.0" apply false
   id("org.jlleitschuh.gradle.ktlint") version "11.5.0" apply true
   id("com.codingfeline.buildkonfig") version "0.14.0" apply false
+  id("app.cash.sqldelight") version Versions.SQLDELIGHT apply false
 }
 
 allprojects {
@@ -27,6 +27,11 @@ allprojects {
 
   configure<KtlintExtension> {
     version.set("0.50.0")
+    filter {
+      exclude {
+        it.file.path.contains("/build")
+      }
+    }
   }
 }
 
