@@ -21,7 +21,7 @@ data class DealEntity(
   val url: String,
   val category: String,
   val downloads: String,
-  private val rating: Float,
+  val rating: Float,
   val offerExpiresIn: Instant,
   val type: String,
   val source: String,

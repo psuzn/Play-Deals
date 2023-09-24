@@ -31,9 +31,9 @@ import androidx.compose.ui.unit.dp
 import com.mikepenz.markdown.compose.Markdown
 import com.mikepenz.markdown.model.markdownColor
 import com.mikepenz.markdown.model.markdownTypography
-import me.sujanpoudel.playdeals.common.AppPreferences
 import me.sujanpoudel.playdeals.common.BuildKonfig
 import me.sujanpoudel.playdeals.common.di.PrimaryDI
+import me.sujanpoudel.playdeals.common.domain.persistent.AppPreferences
 import me.sujanpoudel.playdeals.common.strings.Strings
 import me.sujanpoudel.playdeals.common.ui.components.ChangeLog
 import me.sujanpoudel.playdeals.common.ui.components.common.Scaffold

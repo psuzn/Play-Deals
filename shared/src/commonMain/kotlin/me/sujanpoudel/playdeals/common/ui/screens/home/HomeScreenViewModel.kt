@@ -1,28 +1,31 @@
 package me.sujanpoudel.playdeals.common.ui.screens.home
 
 import io.ktor.util.reflect.instanceOf
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
-import me.sujanpoudel.playdeals.common.AppPreferences
 import me.sujanpoudel.playdeals.common.BuildKonfig
 import me.sujanpoudel.playdeals.common.Screens
 import me.sujanpoudel.playdeals.common.domain.entities.DealEntity
 import me.sujanpoudel.playdeals.common.domain.models.DealFilterOption
+import me.sujanpoudel.playdeals.common.domain.models.Result
 import me.sujanpoudel.playdeals.common.domain.models.Selectable
+import me.sujanpoudel.playdeals.common.domain.persistent.AppPreferences
+import me.sujanpoudel.playdeals.common.domain.repositories.DealsRepository
 import me.sujanpoudel.playdeals.common.extensions.capitalizeWords
-import me.sujanpoudel.playdeals.common.networking.RemoteAPI
-import me.sujanpoudel.playdeals.common.networking.Result
 import me.sujanpoudel.playdeals.common.viewModel.ViewModel
 import me.sujanpoudel.playdeals.common.viewModel.viewModelScope
+import kotlin.time.Duration.Companion.milliseconds
 
-@OptIn(ExperimentalStdlibApi::class)
+@OptIn(ExperimentalStdlibApi::class, FlowPreview::class)
 class HomeScreenViewModel(
-  private val remoteAPI: RemoteAPI,
   private val appPreferences: AppPreferences,
+  private val repository: DealsRepository,
 ) : ViewModel() {
 
   private val _state = MutableStateFlow(
@@ -31,8 +34,26 @@ class HomeScreenViewModel(
   val state = _state as StateFlow<HomeScreenState>
 
   init {
-    getDeals()
+    observeDeals()
+    refreshDeals()
     checkIfChangelogNeedsToBeShown()
+  }
+
+  private fun observeDeals() = viewModelScope.launch {
+    repository.dealsFlow()
+      .debounce(300.milliseconds)
+      .collectLatest { deals ->
+        _state.update { state ->
+          state.copy(
+            persistentError = if (deals.isNotEmpty()) null else state.persistentError,
+            errorOneOff = if (deals.isNotEmpty()) state.persistentError else null,
+            allDeals = deals,
+            filterOptions = buildFilterOption(deals, state),
+            isRefreshing = state.isRefreshing || (deals.isNotEmpty() && state.isLoading),
+            isLoading = deals.isEmpty() && state.isLoading,
+          )
+        }
+      }
   }
 
   private fun checkIfChangelogNeedsToBeShown() {
@@ -48,40 +69,33 @@ class HomeScreenViewModel(
     }
   }
 
-  fun refreshDeals() = getDeals()
-
-  private fun getDeals() {
+  fun refreshDeals() {
     _state.update { state ->
       state.copy(
         isLoading = state.allDeals.isEmpty(),
         isRefreshing = state.allDeals.isNotEmpty(),
         persistentError = null,
+        errorOneOff = null,
       )
     }
 
     viewModelScope.launch {
-      val result = remoteAPI.getDeals()
+      val result = repository.refreshDeals()
       _state.update { state ->
         when (result) {
-          is Result.Error ->
-            state.copy(
-              isLoading = false,
-              isRefreshing = false,
-              persistentError = if (state.allDeals.isEmpty()) result.failure.message else null,
-              errorOneOff = if (state.allDeals.isNotEmpty()) result.failure.message else null,
-            )
+          is Result.Error -> state.copy(
+            isLoading = false,
+            isRefreshing = false,
+            persistentError = if (state.allDeals.isEmpty()) result.failure.message else null,
+            errorOneOff = if (state.allDeals.isNotEmpty()) result.failure.message else null,
+          )
 
-          is Result.Success -> {
-            appPreferences.lastUpdatedTime.update(Clock.System.now())
-            state.copy(
-              isLoading = false,
-              isRefreshing = false,
-              persistentError = null,
-              errorOneOff = null,
-              allDeals = result.data,
-              filterOptions = buildFilterOption(result.data, state),
-            )
-          }
+          is Result.Success -> state.copy(
+            isLoading = false,
+            isRefreshing = false,
+            persistentError = null,
+            errorOneOff = null,
+          )
         }
       }
     }

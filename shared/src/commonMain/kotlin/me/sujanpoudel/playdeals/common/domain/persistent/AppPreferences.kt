@@ -1,4 +1,4 @@
-package me.sujanpoudel.playdeals.common
+package me.sujanpoudel.playdeals.common.domain.persistent
 
 import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.set

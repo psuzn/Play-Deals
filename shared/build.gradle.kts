@@ -1,4 +1,3 @@
-
 import com.android.build.gradle.tasks.factory.AndroidUnitTest
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.BOOLEAN
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
@@ -12,6 +11,7 @@ plugins {
   id("org.jetbrains.compose")
   id("com.adarshr.test-logger")
   id("com.codingfeline.buildkonfig")
+  id("app.cash.sqldelight")
 }
 
 version = "1.0-SNAPSHOT"
@@ -59,13 +59,17 @@ kotlin {
         implementation("com.russhwolf:multiplatform-settings-no-arg:${Versions.SETTINGS}")
 
         implementation("com.mikepenz:multiplatform-markdown-renderer:0.7.2")
+        implementation("app.cash.sqldelight:coroutines-extensions:2.0.0-alpha05")
+        implementation("app.cash.sqldelight:primitive-adapters:2.0.0-alpha05")
       }
     }
 
     val androidMain by getting {
       dependencies {
         implementation("io.ktor:ktor-client-android:${Versions.KTOR}")
-        api("androidx.appcompat:appcompat:1.6.1")
+        implementation("androidx.appcompat:appcompat:1.6.1")
+        implementation("app.cash.sqldelight:android-driver:${Versions.SQLDELIGHT}")
+        implementation("androidx.startup:startup-runtime:1.1.1")
       }
     }
 
@@ -84,6 +88,7 @@ kotlin {
     val iosMain by getting {
       dependencies {
         implementation("io.ktor:ktor-client-darwin:${Versions.KTOR}")
+        implementation("app.cash.sqldelight:native-driver:${Versions.SQLDELIGHT}")
       }
     }
 
@@ -95,6 +100,7 @@ kotlin {
       dependencies {
         implementation(compose.desktop.common)
         implementation("io.ktor:ktor-client-okhttp:${Versions.KTOR}")
+        implementation("app.cash.sqldelight:sqlite-driver:${Versions.SQLDELIGHT}")
       }
     }
   }
@@ -134,15 +140,27 @@ android {
   }
 }
 
-tasks.withType<AndroidUnitTest> {
-  useJUnitPlatform()
-}
-
 buildkonfig {
   packageName = pkgName
   defaultConfigs {
     buildConfigField(STRING, "VERSION_NAME", Artifact.VERSION_NAME)
+    buildConfigField(STRING, "PACKAGE_NAME", Artifact.APP_ID)
     buildConfigField(INT, "VERSION_CODE", Artifact.VERSION_CODE.toString())
     buildConfigField(BOOLEAN, "MAJOR_RELEASE", Artifact.MAJOR_RELEASE.toString())
   }
+}
+
+sqldelight {
+  databases {
+    create("SqliteDatabase") {
+      generateAsync.set(true)
+      verifyMigrations.set(true)
+      deriveSchemaFromMigrations.set(true)
+      packageName.set(pkgName)
+    }
+  }
+}
+
+tasks.withType<AndroidUnitTest> {
+  useJUnitPlatform()
 }
