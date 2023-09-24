@@ -1,7 +1,7 @@
 package me.sujanpoudel.playdeals.common.ui.screens.settings
 
 import kotlinx.coroutines.flow.StateFlow
-import me.sujanpoudel.playdeals.common.AppPreferences
+import me.sujanpoudel.playdeals.common.domain.persistent.AppPreferences
 import me.sujanpoudel.playdeals.common.strings.AppLanguage
 import me.sujanpoudel.playdeals.common.ui.theme.AppearanceMode
 import me.sujanpoudel.playdeals.common.viewModel.ViewModel

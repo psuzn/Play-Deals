@@ -1,6 +1,7 @@
-package me.sujanpoudel.playdeals.common.networking
+package me.sujanpoudel.playdeals.common.domain.models
 
 import io.ktor.client.network.sockets.ConnectTimeoutException
+import me.sujanpoudel.playdeals.common.domain.models.Failure.FeatureFailure
 
 /**
  * Base Class for handling errors/failures/exceptions.

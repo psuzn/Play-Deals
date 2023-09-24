@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import me.sujanpoudel.playdeals.common.di.PrimaryDI
+import me.sujanpoudel.playdeals.common.domain.persistent.AppPreferences
 import me.sujanpoudel.playdeals.common.navigation.NavGraph
 import me.sujanpoudel.playdeals.common.navigation.NavHost
 import me.sujanpoudel.playdeals.common.strings.LocalAppLanguage

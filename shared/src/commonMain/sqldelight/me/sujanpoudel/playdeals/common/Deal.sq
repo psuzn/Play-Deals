@@ -1,0 +1,26 @@
+
+upsert:
+ INSERT OR REPLACE INTO Deal (
+    id ,
+    name,
+    icon,
+    images,
+    normal_price,
+    current_price,
+    currency,
+    url,
+    category,
+    downloads,
+    rating,
+    type,
+    source,
+    offer_expires_in,
+    created_at,
+    updated_at
+  ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);
+
+getAll:
+    SELECT * FROM Deal ORDER BY date(created_at) DESC;
+
+removeStale:
+    DELETE FROM Deal WHERE id NOT IN ?;

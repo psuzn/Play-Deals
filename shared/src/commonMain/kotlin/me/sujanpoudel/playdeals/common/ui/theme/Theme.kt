@@ -11,7 +11,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
-import me.sujanpoudel.playdeals.common.AppPreferences
+import me.sujanpoudel.playdeals.common.domain.persistent.AppPreferences
 import me.sujanpoudel.playdeals.common.ui.ConfigureThemeForSystemUI
 
 val blueishPurple = Color(0xFF7477CC)
