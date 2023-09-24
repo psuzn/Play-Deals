@@ -13,5 +13,4 @@ object Versions {
   const val JUNIT_JUPITER = "5.9.3"
   const val MOCKK = "1.13.5"
   const val KO_TEST = "5.5.5"
-
 }

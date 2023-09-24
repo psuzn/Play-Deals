@@ -1,2 +1,2 @@
 # Fixes
-- Crash fix because of proguard obfuscation #36  [**Android**]
+- Offline cache using SQLDelight #40
