@@ -53,7 +53,8 @@ It shares same business logic and UI across all the platform.
 - [Compose Multiplatform UI](https://www.jetbrains.com/lp/compose-multiplatform/) to build the cross platform UI.
 - [Ktor](https://www.jetbrains.com/lp/compose-multiplatform/) for the http/api calls.
 - [Kamel](https://github.com/Kamel-Media/Kamel) for loading images.
-- [Kodein](https://www.google.com/search?q=kodein&sourceid=chrome&ie=UTF-8) for dependency injection.
+- [Kodein](https://github.com/kosi-libs/Kodein) for dependency injection.
+- [SQLDelight](https://github.com/cashapp/sqldelight) to offline cache using sqlite.
 
 ### UI Navigation
 
