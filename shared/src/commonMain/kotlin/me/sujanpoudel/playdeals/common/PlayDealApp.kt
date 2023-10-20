@@ -11,10 +11,12 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import me.sujanpoudel.playdeals.common.actions.processActionableItems
 import me.sujanpoudel.playdeals.common.di.PrimaryDI
 import me.sujanpoudel.playdeals.common.domain.persistent.AppPreferences
 import me.sujanpoudel.playdeals.common.navigation.NavGraph
@@ -60,6 +62,10 @@ fun PlayDealsApp() {
   val preferences = remember { PrimaryDI.direct.instance<AppPreferences>() }
   val appLanguage by preferences.appLanguage.collectAsState()
 
+  LaunchedEffect(Unit) {
+    processActionableItems()
+  }
+
   CompositionLocalProvider(
     LocalAppLanguage provides appLanguage,
   ) {
@@ -78,3 +84,4 @@ fun PlayDealsApp() {
     }
   }
 }
+

@@ -2,6 +2,7 @@ plugins {
   kotlin("multiplatform")
   id("com.android.application")
   id("org.jetbrains.compose")
+  id("com.google.gms.google-services")
 }
 
 kotlin {
@@ -10,8 +11,12 @@ kotlin {
     val androidMain by getting {
       dependencies {
         implementation(project(":shared"))
-        api("androidx.activity:activity-compose:1.7.2")
-        api("androidx.core:core-ktx:1.12.0")
+        implementation("androidx.activity:activity-compose:1.7.2")
+        implementation("androidx.core:core-ktx:1.12.0")
+
+        implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
+        implementation("com.google.firebase:firebase-analytics-ktx")
+        implementation("com.google.firebase:firebase-messaging-ktx")
       }
     }
   }
@@ -36,6 +41,16 @@ android {
   compileOptions {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
+  }
+
+
+  signingConfigs {
+    getByName("debug") {
+      storeFile = file("./key.debug.jks")
+      storePassword = "play-deals"
+      keyAlias = "key0"
+      keyPassword = "play-deals"
+    }
   }
 
   buildTypes {

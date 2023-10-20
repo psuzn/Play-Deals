@@ -47,14 +47,14 @@ kotlin {
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINE}")
         implementation("org.jetbrains.kotlinx:kotlinx-datetime:${Versions.KOTLINX_DATE_TIME}")
 
-        implementation("org.kodein.di:kodein-di:${Versions.KODE_IN}")
+        api("org.kodein.di:kodein-di:${Versions.KODE_IN}")
 
         implementation("io.ktor:ktor-client-core:${Versions.KTOR}")
         implementation("io.ktor:ktor-client-content-negotiation:${Versions.KTOR}")
         implementation("io.ktor:ktor-serialization-kotlinx-json:${Versions.KTOR}")
         implementation("io.ktor:ktor-client-logging:${Versions.KTOR}")
 
-        implementation("media.kamel:kamel-image:0.6.0")
+        implementation("media.kamel:kamel-image:0.8.1")
         implementation("com.russhwolf:multiplatform-settings:${Versions.SETTINGS}")
         implementation("com.russhwolf:multiplatform-settings-no-arg:${Versions.SETTINGS}")
 

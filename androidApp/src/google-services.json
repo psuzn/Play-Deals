@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "408920570359",
+    "firebase_url": "https://play-deals.firebaseio.com",
+    "project_id": "play-deals",
+    "storage_bucket": "play-deals.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:408920570359:android:73507efea95268337b16f2",
+        "android_client_info": {
+          "package_name": "me.sujanpoudel.playdeals"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "408920570359-vcp440gf1q7gm4ae8mnv9k0v1hsoqfcj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAc5FcH3QJ3tlgqwXJDHrApEegd-CzB654"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "408920570359-i6c0bhijsqshb1ok3d9v6ucvpj0p44vq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
