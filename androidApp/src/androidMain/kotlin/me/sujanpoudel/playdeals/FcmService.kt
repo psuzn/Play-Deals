@@ -16,20 +16,19 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlin.time.Duration.Companion.seconds
 
-
 @SuppressLint("MissingFirebaseInstanceTokenRefresh")
 class FcmService : FirebaseMessagingService() {
 
   override fun onMessageReceived(message: RemoteMessage) {
     val data = message.toIntent().extras
 
-    if (!NotificationParams.isNotification(data))
+    if (!NotificationParams.isNotification(data)) {
       return super.onMessageReceived(message)
+    }
 
     showNotification(NotificationParams(data!!))
   }
 }
-
 
 private fun Context.manifestMetadata() = try {
   applicationContext.packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
@@ -41,22 +40,21 @@ private fun Context.manifestMetadata() = try {
 @SuppressLint("VisibleForTests")
 private fun Context.showNotification(notificationParams: NotificationParams) {
   val manifestMetadata = manifestMetadata()
-  val notificationChannel = CommonNotificationBuilder.getOrCreateChannel(
+  val channel = CommonNotificationBuilder.getOrCreateChannel(
     this,
     notificationParams.notificationChannelId,
-    manifestMetadata
+    manifestMetadata,
   )
-
 
   val info = CommonNotificationBuilder.createNotificationInfo(
     this,
     this,
     notificationParams,
-    notificationChannel,
-    manifestMetadata
+    channel,
+    manifestMetadata,
   )
 
-  val url = notificationParams.getString(MessageNotificationKeys.IMAGE_URL);
+  val url = notificationParams.getString(MessageNotificationKeys.IMAGE_URL)
 
   CoroutineScope(Dispatchers.IO).launch {
     if (url != null) {

@@ -54,7 +54,7 @@ kotlin {
         implementation("io.ktor:ktor-serialization-kotlinx-json:${Versions.KTOR}")
         implementation("io.ktor:ktor-client-logging:${Versions.KTOR}")
 
-        implementation("media.kamel:kamel-image:0.8.1")
+        implementation("media.kamel:kamel-image:0.8.3")
         implementation("com.russhwolf:multiplatform-settings:${Versions.SETTINGS}")
         implementation("com.russhwolf:multiplatform-settings-no-arg:${Versions.SETTINGS}")
 
@@ -70,6 +70,11 @@ kotlin {
         implementation("androidx.appcompat:appcompat:1.6.1")
         implementation("app.cash.sqldelight:android-driver:${Versions.SQLDELIGHT}")
         implementation("androidx.startup:startup-runtime:1.1.1")
+        implementation("com.google.accompanist:accompanist-permissions:0.32.0")
+
+        implementation(platform("com.google.firebase:firebase-bom:${Versions.FIREBASE_BOM}"))
+        implementation("com.google.firebase:firebase-analytics-ktx")
+        implementation("com.google.firebase:firebase-messaging-ktx")
       }
     }
 
@@ -133,9 +138,13 @@ android {
   }
 
   buildTypes {
-    getByName("release") {
-      isMinifyEnabled = false
+    release {
+      isMinifyEnabled = true
       proguardFiles("proguard-rules.pro")
+    }
+
+    debug {
+      isMinifyEnabled = false
     }
   }
 }

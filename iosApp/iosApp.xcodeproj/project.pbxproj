@@ -54,12 +54,54 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		660552A59E317B1A0521E533 /* xcuserdata */ = {
+			isa = PBXGroup;
+			children = (
+				66055D0E5EE5D965A6F2784A /* psuzn.xcuserdatad */,
+			);
+			name = xcuserdata;
+			path = iosApp.xcworkspace/xcuserdata;
+			sourceTree = "<group>";
+		};
+		66055371CAB4F04A02474CCD /* psuzn.xcuserdatad */ = {
+			isa = PBXGroup;
+			children = (
+				660556F1E49162B926360BDA /* xcschemes */,
+			);
+			name = psuzn.xcuserdatad;
+			path = iosApp.xcodeproj/xcuserdata/psuzn.xcuserdatad;
+			sourceTree = "<group>";
+		};
+		660556F1E49162B926360BDA /* xcschemes */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = xcschemes;
+			sourceTree = "<group>";
+		};
+		66055A63D5516D613AE11F11 /* xcschemes */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = xcschemes;
+			sourceTree = "<group>";
+		};
+		66055D0E5EE5D965A6F2784A /* psuzn.xcuserdatad */ = {
+			isa = PBXGroup;
+			children = (
+				66055A63D5516D613AE11F11 /* xcschemes */,
+			);
+			path = psuzn.xcuserdatad;
+			sourceTree = "<group>";
+		};
 		7555FF72242A565900829871 = {
 			isa = PBXGroup;
 			children = (
 				7555FF7D242A565900829871 /* iosApp */,
 				7555FF7C242A565900829871 /* Products */,
 				D1373ED9D54E3DB0D54869DB /* Pods */,
+				660552A59E317B1A0521E533 /* xcuserdata */,
+				66055371CAB4F04A02474CCD /* psuzn.xcuserdatad */,
 			);
 			sourceTree = "<group>";
 		};

@@ -11,10 +11,10 @@ kotlin {
     val androidMain by getting {
       dependencies {
         implementation(project(":shared"))
-        implementation("androidx.activity:activity-compose:1.7.2")
+        implementation("androidx.activity:activity-compose:1.8.1")
         implementation("androidx.core:core-ktx:1.12.0")
 
-        implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
+        implementation(platform("com.google.firebase:firebase-bom:${Versions.FIREBASE_BOM}"))
         implementation("com.google.firebase:firebase-analytics-ktx")
         implementation("com.google.firebase:firebase-messaging-ktx")
       }
@@ -54,12 +54,15 @@ android {
   }
 
   buildTypes {
-    getByName("release") {
+    release {
       isMinifyEnabled = true
       proguardFiles(
         getDefaultProguardFile("proguard-android-optimize.txt"),
         "proguard-rules.pro",
       )
+    }
+    debug {
+      isMinifyEnabled = false
     }
   }
 }

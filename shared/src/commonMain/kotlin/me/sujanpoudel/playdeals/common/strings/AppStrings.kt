@@ -25,8 +25,8 @@ interface AppStrings {
   // settings screen
   val appearance: String
   val appearanceModeDescription: String
-  val dontMissDeal: String
-  val dontMissDealDescription: String
+  val pushNotification: String
+  val pushNotificationDescription: String
   val themePreference: String
   val chooseLanguage: String
   val close: String
@@ -35,5 +35,21 @@ interface AppStrings {
   val changelog: String
   val oldChangeLog: String
   val findMeOn: String
+
+  // new deal screen
   val addNewDeal: String
+
+  // push notification settings screen
+  val subscribeToAllNewDeals: String
+  val subscribeToAllNewDealsDescription: String
+  val subscribeToFreeDeals: String
+  val subscribeToFreeDealsDescription: String
+  val subscribeToDiscountFreeDeal: String
+  val subscribeToDiscountDealDescription: String
+  val subscribeToSummary: String
+  val subscribeToSummaryDescription: String
+  val developerMode: String
+  val developerModeDescription: String
+  val permissionRequired: String
+  val grantPermission: String
 }

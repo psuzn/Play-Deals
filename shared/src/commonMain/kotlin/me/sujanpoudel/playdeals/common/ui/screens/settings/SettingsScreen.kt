@@ -4,16 +4,21 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import me.sujanpoudel.playdeals.common.Screens
+import me.sujanpoudel.playdeals.common.navigation.Navigator
+import me.sujanpoudel.playdeals.common.pushNotification.NotificationManager
+import me.sujanpoudel.playdeals.common.pushNotification.current
 import me.sujanpoudel.playdeals.common.strings.Strings
 import me.sujanpoudel.playdeals.common.ui.components.common.Scaffold
 import me.sujanpoudel.playdeals.common.ui.components.settings.SettingsScreen.AppearanceModeSetting
@@ -38,35 +43,35 @@ fun SettingsScreen() {
   val viewModel = viewModel<SettingsScreenViewModel>()
 
   val appearanceMode by viewModel.appearanceMode.collectAsState()
-  val newDealNotification by viewModel.newDealNotification.collectAsState()
   val developerModeEnabled by viewModel.developerModeEnabled.collectAsState()
   val appLanguage by viewModel.appLanguage.collectAsState()
+
+  val navigator = Navigator.current
+  val notificationManager = NotificationManager.current
 
   Scaffold(title = Strings.settings) {
     Column(
       modifier = Modifier.fillMaxSize(),
     ) {
-      AppearanceModeSetting(appearanceMode, viewModel::setAppearanceMode)
-
-      SettingItem(
-        title = Strings.dontMissDeal,
-        description = Strings.dontMissDealDescription,
-        onClick = { viewModel.setNewDealNotificationEnabled(newDealNotification.not()) },
-      ) {
-        Switch(
-          checked = newDealNotification,
-          onCheckedChange = {
-            viewModel.setNewDealNotificationEnabled(newDealNotification.not())
+      if (notificationManager != NotificationManager.NONE) {
+        SettingItem(
+          title = Strings.pushNotification,
+          description = Strings.pushNotificationDescription,
+          onClick = { navigator.push(Screens.NOTIFICATION_SETTING) },
+          rightAction = {
+            Icon(Icons.Default.ChevronRight, contentDescription = "", tint = MaterialTheme.colorScheme.primary)
           },
         )
       }
+
+      AppearanceModeSetting(appearanceMode, viewModel::setAppearanceMode)
 
       LanguageSetting(appLanguage, viewModel::setAppLanguage)
 
       Spacer(Modifier.weight(1f))
 
       Footer(
-        onClick = { viewModel.setDeveloperModeEnabled(developerModeEnabled.not()) },
+        onClick = { viewModel.setDeveloperModeEnabled(true) },
         color = if (developerModeEnabled) {
           MaterialTheme.colorScheme.primary
         } else {

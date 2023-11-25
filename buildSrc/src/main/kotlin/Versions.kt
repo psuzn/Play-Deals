@@ -4,8 +4,9 @@ object Versions {
   const val COMPOSE = "1.5.1"
   const val SETTINGS = "1.0.0"
   const val SQLDELIGHT = "2.0.0"
+  const val FIREBASE_BOM = "32.3.1"
 
-  const val KTOR = "2.3.4"
+  const val KTOR = "2.3.5"
   const val KODE_IN = "7.20.2"
   const val COROUTINE = "1.7.3"
   const val KOTLINX_DATE_TIME = "0.4.0"

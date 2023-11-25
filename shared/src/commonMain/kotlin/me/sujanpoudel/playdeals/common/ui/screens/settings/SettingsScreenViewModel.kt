@@ -11,7 +11,6 @@ class SettingsScreenViewModel(
 ) : ViewModel() {
 
   val appearanceMode: StateFlow<AppearanceMode> = appPreferences.appearanceMode
-  val newDealNotification: StateFlow<Boolean> = appPreferences.newDealNotification
   val developerModeEnabled: StateFlow<Boolean> = appPreferences.developerMode
   val appLanguage: StateFlow<AppLanguage> = appPreferences.appLanguage
 
@@ -21,10 +20,6 @@ class SettingsScreenViewModel(
 
   fun setDeveloperModeEnabled(enabled: Boolean) {
     appPreferences.developerMode.update(enabled)
-  }
-
-  fun setNewDealNotificationEnabled(enabled: Boolean) {
-    appPreferences.newDealNotification.update(enabled)
   }
 
   fun setAppLanguage(appLanguage: AppLanguage) {
