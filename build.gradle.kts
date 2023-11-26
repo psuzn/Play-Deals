@@ -13,6 +13,7 @@ plugins {
   id("org.jlleitschuh.gradle.ktlint") version "11.5.0" apply true
   id("com.codingfeline.buildkonfig") version "0.14.0" apply false
   id("app.cash.sqldelight") version Versions.SQLDELIGHT apply false
+  id("com.google.gms.google-services") version "4.3.15" apply false
 }
 
 allprojects {

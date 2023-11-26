@@ -11,12 +11,11 @@ import me.sujanpoudel.playdeals.common.navigation.BackPressConsumer
 import me.sujanpoudel.playdeals.common.navigation.LocalBackPressConsumer
 
 class MainActivity : ComponentActivity() {
-  private val callBack =
-    object : OnBackPressedCallback(false) {
-      override fun handleOnBackPressed() {
-        backPressConsumer.onBackPress()
-      }
+  private val callBack = object : OnBackPressedCallback(false) {
+    override fun handleOnBackPressed() {
+      backPressConsumer.onBackPress()
     }
+  }
 
   private val backPressConsumer: BackPressConsumer =
     BackPressConsumer {
