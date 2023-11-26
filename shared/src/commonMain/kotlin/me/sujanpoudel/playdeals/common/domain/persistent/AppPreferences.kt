@@ -12,7 +12,11 @@ class AppPreferences(private val settings: ObservableSettings) {
   private object Keys {
     const val APPEARANCE_MODE = "APPEARANCE_MODE"
     const val DEVELOPER_MODE = "DEVELOPER_MODE_ENABLED"
+
     const val NEW_DEAL_NOTIFICATION = "NEW_DEAL_NOTIFICATION"
+    const val NEW_DISCOUNT_DEAL_NOTIFICATION = "NEW_DISCOUNT_DEAL_NOTIFICATION"
+    const val SUMMARY_NOTIFICATION = "SUMMARY_NOTIFICATION"
+
     const val PREFERRED_LANGUAGE = "PREFERRED_LANGUAGE"
     const val LAST_UPDATED_TIME = "LAST_UPDATED_TIME"
     const val CHANGELOG_SHOWN_FOR_VERSION = "CHANGELOG_SHOWN_FOR_VERSION"
@@ -37,7 +41,9 @@ class AppPreferences(private val settings: ObservableSettings) {
   )
 
   val developerMode = settings.boolSettingState(Keys.DEVELOPER_MODE, false)
-  val newDealNotification = settings.boolSettingState(Keys.NEW_DEAL_NOTIFICATION, true)
+  val subscribeToFreeDeals = settings.boolSettingState(Keys.NEW_DEAL_NOTIFICATION, true)
+  val subscribeToDiscountDeals = settings.boolSettingState(Keys.NEW_DISCOUNT_DEAL_NOTIFICATION, true)
+  val subscribeDealSummary = settings.boolSettingState(Keys.SUMMARY_NOTIFICATION, true)
 
   fun getChangelogShownVersion() = settings.getIntOrNull(Keys.CHANGELOG_SHOWN_FOR_VERSION)
   fun setChangelogShownVersion(version: Int) = settings.set(Keys.CHANGELOG_SHOWN_FOR_VERSION, version)

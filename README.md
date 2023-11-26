@@ -1,9 +1,15 @@
 # Play Deals
-[![Static Badge](https://img.shields.io/badge/Android-black?logo=android&logoColor=white&color=%234889f5)](https://play.google.com/store/apps/details?id=me.sujanpoudel.playdeals) &nbsp;
-[![Static Badge](https://img.shields.io/badge/IOS-grey?logo=apple)](https://github.com/psuzn/app-deals/releases/latest) &nbsp;&nbsp;
-[![Static Badge](https://img.shields.io/badge/macOS-black?logo=apple)](https://github.com/psuzn/app-deals/releases/latest) &nbsp;
-[![Static Badge](https://img.shields.io/badge/Windows-green?logo=windows&color=blue)](https://github.com/psuzn/app-deals/releases/latest) &nbsp;
-[![Static Badge](https://img.shields.io/badge/Linux-white?logo=linux&logoColor=white&color=grey)](https://github.com/psuzn/app-deals/releases/latest) &nbsp;
+
+[![Static Badge](https://img.shields.io/badge/Android-black?logo=android&logoColor=white&color=%234889f5)](https://play.google.com/store/apps/details?id=me.sujanpoudel.playdeals)
+&nbsp;
+[![Static Badge](https://img.shields.io/badge/IOS-grey?logo=apple)](https://github.com/psuzn/app-deals/releases/latest)
+&nbsp;&nbsp;
+[![Static Badge](https://img.shields.io/badge/macOS-black?logo=apple)](https://github.com/psuzn/app-deals/releases/latest)
+&nbsp;
+[![Static Badge](https://img.shields.io/badge/Windows-green?logo=windows&color=blue)](https://github.com/psuzn/app-deals/releases/latest)
+&nbsp;
+[![Static Badge](https://img.shields.io/badge/Linux-white?logo=linux&logoColor=white&color=grey)](https://github.com/psuzn/app-deals/releases/latest)
+&nbsp;
 
 ![Static Badge](https://img.shields.io/badge/License-GPL--v3-brightgreen)
 [![Lint and verify](https://github.com/psuzn/App-deals/actions/workflows/lint.yaml/badge.svg?branch=develop)](https://github.com/psuzn/App-deals/actions/workflows/lint.yaml)
@@ -15,6 +21,9 @@
 
 Play deals is a simple app that aggregates the paid apps that have ongoing deals and discounts, aka you can get the
 paid apps free or with discount.
+
+| <img src="media/screenshot-black.jpg" width="95%" > | <img src="media/screenshot-light.jpg"  width="95%" > |
+|-----------------------------------------------------|:----------------------------------------------------:|
 
 ## Download
 
@@ -44,7 +53,8 @@ It shares same business logic and UI across all the platform.
 - [Compose Multiplatform UI](https://www.jetbrains.com/lp/compose-multiplatform/) to build the cross platform UI.
 - [Ktor](https://www.jetbrains.com/lp/compose-multiplatform/) for the http/api calls.
 - [Kamel](https://github.com/Kamel-Media/Kamel) for loading images.
-- [Kodein](https://www.google.com/search?q=kodein&sourceid=chrome&ie=UTF-8) for dependency injection.
+- [Kodein](https://github.com/kosi-libs/Kodein) for dependency injection.
+- [SQLDelight](https://github.com/cashapp/sqldelight) to offline cache using sqlite.
 
 ### UI Navigation
 
@@ -60,7 +70,7 @@ This loosely follows mvvm architecture inspired from android's view model.
 
 **In Priority order** :
 
-- [ ] Add Offline Caches for the apps
+- [x] Add Offline Caches for the apps
 - [ ] Push Notifications
 - [ ] Add ability to add/request new app deal from app
 

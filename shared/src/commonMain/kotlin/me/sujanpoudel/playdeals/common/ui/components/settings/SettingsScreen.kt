@@ -2,6 +2,7 @@ package me.sujanpoudel.playdeals.common.ui.components.settings
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
@@ -48,6 +49,7 @@ object SettingsScreen {
         .fillMaxWidth()
         .clickable(onClick = onClick)
         .padding(horizontal = 16.dp, vertical = 12.dp),
+      horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
       Column(
         modifier = Modifier.weight(1f),
@@ -56,6 +58,7 @@ object SettingsScreen {
           text = title,
           style = MaterialTheme.typography.titleMedium,
         )
+
         Text(
           text = description,
           style = MaterialTheme.typography.bodySmall,
