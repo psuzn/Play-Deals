@@ -1,3 +1,12 @@
+# What's New in v2.1.0
+
+**27th Nov 2023**
+
+- **Support for push notification [android]:** You can now receive notification for new deals and summary. You can customize your notification preference from **"Settings>Push Notifications"**.
+- **Minor bug fixes :).**
+
+-------------------------------------------
+
 # What's New in v2.0.4
 
 **11th Sept 2023**
