@@ -71,7 +71,7 @@ This loosely follows mvvm architecture inspired from android's view model.
 **In Priority order** :
 
 - [x] Add Offline Caches for the apps
-- [ ] Push Notifications
+- [x] Push Notifications
 - [ ] Add ability to add/request new app deal from app
 
 ## License
