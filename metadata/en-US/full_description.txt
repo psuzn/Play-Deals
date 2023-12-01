@@ -1,0 +1,17 @@
+Play Deals helps you to find the latest app deals and discounts on paid apps. You can find paid apps that are now free to download or have a discount.
+
+Features:
+‣ Clean design with support for night mode
+‣ New apps are added constantly
+‣ Apps are checked for expiration so you'll only see valid apps
+‣ Filter apps by their categories
+‣ Find app price deals
+‣ Share the app deal you know
+‣ Get notifications for every app deals
+‣ Add deals for the app you know
+
+Actual prices may vary slightly depending on your location.
+
+Note: This is not an app store, you can't download APK or anything from this app. It only provides you with the link for the corresponding app.
+
+If you have any suggestions or feedback please contact me: at feedback@sujanpoudel.me

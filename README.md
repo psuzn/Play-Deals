@@ -14,7 +14,7 @@
 ![Static Badge](https://img.shields.io/badge/License-GPL--v3-brightgreen)
 [![Lint and verify](https://github.com/psuzn/App-deals/actions/workflows/lint.yaml/badge.svg?branch=develop)](https://github.com/psuzn/App-deals/actions/workflows/lint.yaml)
 
-![Feature](./media/feature-graphic.jpeg)
+![Feature](metadata/en-US/images/featureGraphic.png)
 
 | <a href="https://play.google.com/store/apps/details?id=me.sujanpoudel.playdeals">     <img src="media/badge-get-on-google-play.png" width="200" alt="Get it on Google play">   </a> | <a href="https://github.com/psuzn/app-deals/releases/latest">     <img src="media/badge-download-apk.png" width="160" alt="Download Apk">   </a> |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------:|
@@ -22,8 +22,8 @@
 Play deals is a simple app that aggregates the paid apps that have ongoing deals and discounts, aka you can get the
 paid apps free or with discount.
 
-| <img src="media/screenshot-black.jpg" width="95%" > | <img src="media/screenshot-light.jpg"  width="95%" > |
-|-----------------------------------------------------|:----------------------------------------------------:|
+| <img src="metadata/en-US/images/phoneScreenshots/1.png" width="95%" > | <img src="metadata/en-US/images/phoneScreenshots/3.png"  width="95%" > |
+|-----------------------------------------------------------------------|:----------------------------------------------------------------------:|
 
 ## Download
 
