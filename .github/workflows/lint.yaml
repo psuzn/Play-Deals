@@ -29,3 +29,10 @@ jobs:
       - name: Tests
         run: ./gradlew :shared:testReleaseUnitTest
 
+      - name: Build Project
+        run: ./gradlew build
+
+      - name: Build F-droid version
+        run: |
+          sh strip_google_services.sh
+          ./gradlew build
