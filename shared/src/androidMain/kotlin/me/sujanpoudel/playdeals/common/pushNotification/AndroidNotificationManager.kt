@@ -3,7 +3,6 @@ package me.sujanpoudel.playdeals.common.pushNotification
 import android.app.NotificationChannel
 import android.content.Context
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.messaging.FirebaseMessagingService
 
 class AndroidNotificationManager(context: Context) : NotificationManager {
 
@@ -22,7 +21,7 @@ class AndroidNotificationManager(context: Context) : NotificationManager {
 
 fun Context.registerNotificationChannels() {
   val notificationManager =
-    getSystemService(FirebaseMessagingService.NOTIFICATION_SERVICE) as android.app.NotificationManager
+    getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
 
   PushNotificationTopic.entries
     .forEach {
