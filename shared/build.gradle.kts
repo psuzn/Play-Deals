@@ -27,14 +27,17 @@ fun KotlinNativeTarget.configureFramework() {
 
 kotlin {
   jvmToolchain(17)
+  applyDefaultHierarchyTemplate()
 
   androidTarget()
   jvm("desktop")
-  ios { configureFramework() }
+
+  iosArm64() { configureFramework() }
+  iosX64() { configureFramework() }
   iosSimulatorArm64().configureFramework()
 
   sourceSets {
-    val commonMain by getting {
+    commonMain {
       dependencies {
         implementation(compose.ui)
         implementation(compose.foundation)
@@ -64,7 +67,7 @@ kotlin {
       }
     }
 
-    val androidMain by getting {
+    androidMain {
       dependencies {
         implementation("io.ktor:ktor-client-android:${Versions.KTOR}")
         implementation("androidx.appcompat:appcompat:1.6.1")
@@ -72,7 +75,7 @@ kotlin {
         implementation("androidx.startup:startup-runtime:1.1.1")
         implementation("com.google.accompanist:accompanist-permissions:0.32.0")
 
-        implementation(platform("com.google.firebase:firebase-bom:${Versions.FIREBASE_BOM}"))
+        implementation(project.dependencies.platform("com.google.firebase:firebase-bom:${Versions.FIREBASE_BOM}"))
         implementation("com.google.firebase:firebase-analytics-ktx")
         implementation("com.google.firebase:firebase-messaging-ktx")
       }
@@ -90,7 +93,7 @@ kotlin {
       }
     }
 
-    val iosMain by getting {
+    iosMain {
       dependencies {
         implementation("io.ktor:ktor-client-darwin:${Versions.KTOR}")
         implementation("app.cash.sqldelight:native-driver:${Versions.SQLDELIGHT}")
@@ -98,7 +101,7 @@ kotlin {
     }
 
     val iosSimulatorArm64Main by getting {
-      dependsOn(iosMain)
+      dependsOn(iosMain.get())
     }
 
     val desktopMain by getting {
