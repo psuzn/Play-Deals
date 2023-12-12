@@ -30,8 +30,7 @@ jobs:
         run: ./gradlew :shared:testReleaseUnitTest
 
       - name: Build Project
-        run: |
-          ./gradlew build
+        run: ./gradlew build
 
       - name: Build F-droid version
         run: |
