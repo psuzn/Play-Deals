@@ -1,8 +1,8 @@
 object Artifact {
   const val APP_ID = "me.sujanpoudel.playdeals"
   const val APP_NAME = "App Deals"
-  const val VERSION_CODE = 26
-  const val VERSION_NAME = "2.1.1"
+  const val VERSION_CODE = 28
+  const val VERSION_NAME = "2.1.3"
   const val MAJOR_RELEASE = false
 
   const val ANDROID_COMPILE_SDK = 34
