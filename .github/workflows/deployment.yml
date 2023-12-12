@@ -135,7 +135,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: android-bundles
-          path: ${{ steps.collect_artifacts.artifacts }}
+          path: ${{ steps.collect_artifacts.outputs.artifacts }}
 
   desktop_release:
     name: Build desktop apps
