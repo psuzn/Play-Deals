@@ -22,6 +22,7 @@ kotlin {
   }
 }
 
+
 android {
   compileSdk = Artifact.ANDROID_COMPILE_SDK
   namespace = Artifact.APP_ID
