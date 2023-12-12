@@ -128,14 +128,14 @@ jobs:
           TMP_BUNDLE=$(ls androidApp/build/outputs/bundle/release/*.aab)
           RELEASE_BUNDLE="${TMP_BUNDLE/-release/""}"
           mv $TMP_BUNDLE $RELEASE_BUNDLE
-          mv $RELEASE_BUNDLE $TMP_BUNDLE
+          mv $RELEASE_BUNDLE $ARTIFACTS
 
           echo "artifacts=$ARTIFACTS" >> $GITHUB_OUTPUT
 
       - uses: actions/upload-artifact@v3
         with:
           name: android-bundles
-          path: ${{ steps.collect_artifacts.artifacts }}
+          path: ${{ steps.collect_artifacts.outputs.artifacts }}
 
   desktop_release:
     name: Build desktop apps
