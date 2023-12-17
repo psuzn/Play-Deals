@@ -1,2 +1,3 @@
 # Feature
-- Preparing for F-droid release
+- F-droid release
+  - Attempt fix for reproducible build
