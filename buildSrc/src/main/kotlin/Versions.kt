@@ -1,7 +1,8 @@
 object Versions {
-  const val KOTLIN = "1.9.10"
+  const val KOTLIN = "1.9.20"
   const val AGP = "8.2.0"
   const val COMPOSE = "1.5.11"
+  const val COMPOSE_COMPILER_VERSION = "1.5.6"
   const val SETTINGS = "1.0.0"
   const val SQLDELIGHT = "2.0.0"
   const val FIREBASE_BOM = "32.3.1"

@@ -132,7 +132,7 @@ android {
   }
 
   composeOptions {
-    kotlinCompilerExtensionVersion = "1.5.3"
+    kotlinCompilerExtensionVersion = Versions.COMPOSE_COMPILER_VERSION
   }
 
   compileOptions {
