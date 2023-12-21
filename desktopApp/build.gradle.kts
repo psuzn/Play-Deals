@@ -13,7 +13,7 @@ kotlin {
       dependencies {
         implementation(compose.desktop.currentOs)
         implementation(project(":shared"))
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:${Versions.COROUTINE}")
+        implementation(libs.kotlinx.coroutines.swing)
       }
     }
   }

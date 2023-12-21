@@ -11,12 +11,13 @@ kotlin {
     androidMain {
       dependencies {
         implementation(project(":shared"))
-        implementation("androidx.activity:activity-compose:1.8.1")
-        implementation("androidx.core:core-ktx:1.12.0")
+        implementation(libs.activity.compose)
+        implementation(libs.core.ktx)
 
-        implementation(project.dependencies.platform("com.google.firebase:firebase-bom:${Versions.FIREBASE_BOM}"))
-        implementation("com.google.firebase:firebase-analytics-ktx")
-        implementation("com.google.firebase:firebase-messaging-ktx")
+
+        implementation(project.dependencies.platform(libs.firebase.bom))
+        implementation(libs.firebase.analytics)
+        implementation(libs.firebase.messaging)
       }
     }
   }
