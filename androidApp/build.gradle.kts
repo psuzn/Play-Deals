@@ -1,8 +1,8 @@
 plugins {
-  kotlin("multiplatform")
-  id("com.android.application")
-  id("org.jetbrains.compose")
-  id("com.google.gms.google-services")
+  alias(libs.plugins.kotlin.multiplatform)
+  alias(libs.plugins.android.application)
+  alias(libs.plugins.compose)
+  alias(libs.plugins.google.services)
 }
 
 kotlin {
@@ -13,7 +13,6 @@ kotlin {
         implementation(project(":shared"))
         implementation(libs.activity.compose)
         implementation(libs.core.ktx)
-
 
         implementation(project.dependencies.platform(libs.firebase.bom))
         implementation(libs.firebase.analytics)
@@ -31,7 +30,7 @@ android {
   defaultConfig {
     applicationId = Artifact.APP_ID
 
-    minSdk = Artifact.ANDROID_MIN_SDK
+    minSdk =  Artifact.ANDROID_MIN_SDK
     targetSdk = Artifact.ANDROID_TARGET_SDK
 
     versionCode = Artifact.VERSION_CODE

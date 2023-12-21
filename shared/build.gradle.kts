@@ -5,16 +5,15 @@ import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
-  kotlin("multiplatform")
-  kotlin("plugin.serialization")
-  id("com.android.library")
-  id("org.jetbrains.compose")
-  id("com.adarshr.test-logger")
-  id("com.codingfeline.buildkonfig")
-  id("app.cash.sqldelight")
+  alias(libs.plugins.kotlin.multiplatform)
+  alias(libs.plugins.kotlin.serialization)
+  alias(libs.plugins.android.library)
+  alias(libs.plugins.compose)
+  alias(libs.plugins.test.logger)
+  alias(libs.plugins.buildkonfig)
+  alias(libs.plugins.sqldelight)
 }
 
-version = "1.0-SNAPSHOT"
 
 val pkgName = "me.sujanpoudel.playdeals.common"
 
@@ -132,7 +131,7 @@ android {
   }
 
   composeOptions {
-    kotlinCompilerExtensionVersion = Versions.COMPOSE_COMPILER_VERSION
+    kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
   }
 
   compileOptions {
