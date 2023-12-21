@@ -1,5 +1,3 @@
 # Feature
-- Support for push notification [android]
-
-# Fix
-- Database migration issue on desktop
+- F-droid release
+  - Attempt fix for reproducible build
