@@ -1,11 +1,11 @@
-name: Lint and verify
+name: CI
 
 on:
   pull_request:
   workflow_dispatch:
 jobs:
-  lint:
-    runs-on: ubuntu-latest
+  ci:
+    runs-on: macos-latest
 
     steps:
       - uses: actions/checkout@v3
