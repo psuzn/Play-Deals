@@ -21,6 +21,7 @@ startup-runtime = "1.1.1"
 kotlinx-coroutines-core = "1.7.3"
 kotlinx-datetime = "0.5.0"
 coroutines-extensions = "2.0.0-alpha05"
+kotlinxIoCore = "0.3.0"
 
 firebase-bom = "32.7.0"
 
@@ -33,6 +34,7 @@ kamel-image = "0.8.3"
 kodein-di = "7.20.2"
 multiplatform-markdown-renderer = "0.7.2"
 multiplatform-settings = "1.0.0"
+mp-utils = "0.1.0"
 
 # Testing
 junit-jupiter = "5.9.3"
@@ -64,6 +66,7 @@ startup-runtime = { module = "androidx.startup:startup-runtime", version.ref = "
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines-core" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines-core" }
+kotlinx-io-core = { module = "org.jetbrains.kotlinx:kotlinx-io-core", version.ref = "kotlinxIoCore" }
 
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
@@ -87,6 +90,8 @@ kodein-di = { module = "org.kodein.di:kodein-di", version.ref = "kodein-di" }
 multiplatform-markdown-renderer = { module = "com.mikepenz:multiplatform-markdown-renderer", version.ref = "multiplatform-markdown-renderer" }
 multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatform-settings" }
 multiplatform-settings-no-arg = { module = "com.russhwolf:multiplatform-settings-no-arg", version.ref = "multiplatform-settings" }
+
+mputils-paths = { module = "me.sujanpoudel.mputils:paths", version.ref = "mp-utils" }
 
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-core" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }

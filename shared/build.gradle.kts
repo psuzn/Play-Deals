@@ -32,7 +32,7 @@ kotlin {
   jvm("desktop")
 
   iosArm64() { configureFramework() }
-  iosX64() { configureFramework() }
+//  iosX64() { configureFramework() }
   iosSimulatorArm64().configureFramework()
 
   sourceSets {
@@ -63,6 +63,8 @@ kotlin {
         implementation(libs.multiplatform.markdown.renderer)
         implementation(libs.sqldelight.coroutines.extensions)
         implementation(libs.sqldelight.primitive.adapters)
+
+        implementation(libs.kotlinx.io.core)
       }
     }
 
@@ -108,6 +110,7 @@ kotlin {
         implementation(compose.desktop.common)
         implementation(libs.ktor.client.okhttp)
         implementation(libs.sqldelight.sqlite.driver)
+        implementation(libs.mputils.paths)
       }
     }
   }
