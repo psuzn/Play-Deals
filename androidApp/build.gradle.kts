@@ -1,8 +1,8 @@
 plugins {
-  kotlin("multiplatform")
-  id("com.android.application")
-  id("org.jetbrains.compose")
-  id("com.google.gms.google-services")
+  alias(libs.plugins.kotlin.multiplatform)
+  alias(libs.plugins.android.application)
+  alias(libs.plugins.compose)
+  alias(libs.plugins.google.services)
 }
 
 kotlin {
@@ -11,12 +11,12 @@ kotlin {
     androidMain {
       dependencies {
         implementation(project(":shared"))
-        implementation("androidx.activity:activity-compose:1.8.1")
-        implementation("androidx.core:core-ktx:1.12.0")
+        implementation(libs.activity.compose)
+        implementation(libs.core.ktx)
 
-        implementation(project.dependencies.platform("com.google.firebase:firebase-bom:${Versions.FIREBASE_BOM}"))
-        implementation("com.google.firebase:firebase-analytics-ktx")
-        implementation("com.google.firebase:firebase-messaging-ktx")
+        implementation(project.dependencies.platform(libs.firebase.bom))
+        implementation(libs.firebase.analytics)
+        implementation(libs.firebase.messaging)
       }
     }
   }
@@ -30,7 +30,7 @@ android {
   defaultConfig {
     applicationId = Artifact.APP_ID
 
-    minSdk = Artifact.ANDROID_MIN_SDK
+    minSdk =  Artifact.ANDROID_MIN_SDK
     targetSdk = Artifact.ANDROID_TARGET_SDK
 
     versionCode = Artifact.VERSION_CODE

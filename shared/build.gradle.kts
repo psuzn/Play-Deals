@@ -5,16 +5,15 @@ import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
-  kotlin("multiplatform")
-  kotlin("plugin.serialization")
-  id("com.android.library")
-  id("org.jetbrains.compose")
-  id("com.adarshr.test-logger")
-  id("com.codingfeline.buildkonfig")
-  id("app.cash.sqldelight")
+  alias(libs.plugins.kotlin.multiplatform)
+  alias(libs.plugins.kotlin.serialization)
+  alias(libs.plugins.android.library)
+  alias(libs.plugins.compose)
+  alias(libs.plugins.test.logger)
+  alias(libs.plugins.buildkonfig)
+  alias(libs.plugins.sqldelight)
 }
 
-version = "1.0-SNAPSHOT"
 
 val pkgName = "me.sujanpoudel.playdeals.common"
 
@@ -33,7 +32,7 @@ kotlin {
   jvm("desktop")
 
   iosArm64() { configureFramework() }
-  iosX64() { configureFramework() }
+//  iosX64() { configureFramework() }
   iosSimulatorArm64().configureFramework()
 
   sourceSets {
@@ -47,37 +46,39 @@ kotlin {
         implementation(compose.materialIconsExtended)
         @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
         implementation(compose.components.resources)
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINE}")
-        implementation("org.jetbrains.kotlinx:kotlinx-datetime:${Versions.KOTLINX_DATE_TIME}")
+        implementation(libs.kotlinx.coroutines.core)
+        implementation(libs.kotlinx.datetime)
 
-        api("org.kodein.di:kodein-di:${Versions.KODE_IN}")
+        api(libs.kodein.di)
 
-        implementation("io.ktor:ktor-client-core:${Versions.KTOR}")
-        implementation("io.ktor:ktor-client-content-negotiation:${Versions.KTOR}")
-        implementation("io.ktor:ktor-serialization-kotlinx-json:${Versions.KTOR}")
-        implementation("io.ktor:ktor-client-logging:${Versions.KTOR}")
+        implementation(libs.ktor.client.core)
+        implementation(libs.ktor.client.content.negotiation)
+        implementation(libs.ktor.serialization.kotlinx.json)
+        implementation(libs.ktor.client.logging)
 
-        implementation("media.kamel:kamel-image:0.8.3")
-        implementation("com.russhwolf:multiplatform-settings:${Versions.SETTINGS}")
-        implementation("com.russhwolf:multiplatform-settings-no-arg:${Versions.SETTINGS}")
+        implementation(libs.kamel.image)
+        implementation(libs.multiplatform.settings)
+        implementation(libs.multiplatform.settings.no.arg)
 
-        implementation("com.mikepenz:multiplatform-markdown-renderer:0.7.2")
-        implementation("app.cash.sqldelight:coroutines-extensions:2.0.0-alpha05")
-        implementation("app.cash.sqldelight:primitive-adapters:2.0.0-alpha05")
+        implementation(libs.multiplatform.markdown.renderer)
+        implementation(libs.sqldelight.coroutines.extensions)
+        implementation(libs.sqldelight.primitive.adapters)
+
+        implementation(libs.kotlinx.io.core)
       }
     }
 
     androidMain {
       dependencies {
-        implementation("io.ktor:ktor-client-android:${Versions.KTOR}")
-        implementation("androidx.appcompat:appcompat:1.6.1")
-        implementation("app.cash.sqldelight:android-driver:${Versions.SQLDELIGHT}")
-        implementation("androidx.startup:startup-runtime:1.1.1")
-        implementation("com.google.accompanist:accompanist-permissions:0.32.0")
+        implementation(libs.ktor.client.android)
+        implementation(libs.appcompat)
+        implementation(libs.sqldelight.android.driver)
+        implementation(libs.startup.runtime)
+        implementation(libs.accompanist.permissions)
 
-        implementation(project.dependencies.platform("com.google.firebase:firebase-bom:${Versions.FIREBASE_BOM}"))
-        implementation("com.google.firebase:firebase-analytics-ktx")
-        implementation("com.google.firebase:firebase-messaging-ktx")
+        implementation(project.dependencies.platform(libs.firebase.bom))
+        implementation(libs.firebase.analytics)
+        implementation(libs.firebase.messaging)
       }
     }
 
@@ -85,18 +86,18 @@ kotlin {
       dependsOn(commonTest.get())
 
       dependencies {
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.COROUTINE}")
-        implementation("io.kotest:kotest-assertions-core:${Versions.KO_TEST}")
-        implementation("io.mockk:mockk:${Versions.MOCKK}")
-        implementation("org.junit.jupiter:junit-jupiter:${Versions.JUNIT_JUPITER}")
-        implementation("com.russhwolf:multiplatform-settings-test:${Versions.SETTINGS}")
+        implementation(libs.kotlinx.coroutines.test)
+        implementation(libs.kotest.assertions.core)
+        implementation(libs.mockk)
+        implementation(libs.junit.jupiter)
+        implementation(libs.multiplatform.settings.test)
       }
     }
 
     iosMain {
       dependencies {
-        implementation("io.ktor:ktor-client-darwin:${Versions.KTOR}")
-        implementation("app.cash.sqldelight:native-driver:${Versions.SQLDELIGHT}")
+        implementation(libs.ktor.client.darwin)
+        implementation(libs.sqldelight.native.driver)
       }
     }
 
@@ -107,8 +108,9 @@ kotlin {
     val desktopMain by getting {
       dependencies {
         implementation(compose.desktop.common)
-        implementation("io.ktor:ktor-client-okhttp:${Versions.KTOR}")
-        implementation("app.cash.sqldelight:sqlite-driver:${Versions.SQLDELIGHT}")
+        implementation(libs.ktor.client.okhttp)
+        implementation(libs.sqldelight.sqlite.driver)
+        implementation(libs.mputils.paths)
       }
     }
   }
@@ -132,7 +134,7 @@ android {
   }
 
   composeOptions {
-    kotlinCompilerExtensionVersion = Versions.COMPOSE_COMPILER_VERSION
+    kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
   }
 
   compileOptions {

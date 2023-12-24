@@ -1,8 +1,8 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
-  kotlin("multiplatform")
-  id("org.jetbrains.compose")
+  alias(libs.plugins.kotlin.multiplatform)
+  alias(libs.plugins.compose)
 }
 
 kotlin {
@@ -13,7 +13,7 @@ kotlin {
       dependencies {
         implementation(compose.desktop.currentOs)
         implementation(project(":shared"))
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:${Versions.COROUTINE}")
+        implementation(libs.kotlinx.coroutines.swing)
       }
     }
   }
