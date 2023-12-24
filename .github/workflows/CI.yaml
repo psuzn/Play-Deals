@@ -1,10 +1,10 @@
-name: Lint and verify
+name: CI
 
 on:
   pull_request:
   workflow_dispatch:
 jobs:
-  lint:
+  ci:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,14 +20,8 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1.1.0
 
-      - name: Build Project with Gradle
+      - name: Setup Gradle Gradle
         uses: gradle/gradle-build-action@v2.1.0
-
-      - name: Lint
-        run: ./gradlew clean ktlintCheck
-
-      - name: Tests
-        run: ./gradlew :shared:testReleaseUnitTest
 
       - name: Build Project
         run: ./gradlew build
