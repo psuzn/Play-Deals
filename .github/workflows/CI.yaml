@@ -23,12 +23,6 @@ jobs:
       - name: Setup Gradle Gradle
         uses: gradle/gradle-build-action@v2.1.0
 
-      - name: Lint
-        run: ./gradlew clean ktlintCheck
-
-      - name: Tests
-        run: ./gradlew :shared:testReleaseUnitTest
-
       - name: Build Project
         run: ./gradlew build
 
