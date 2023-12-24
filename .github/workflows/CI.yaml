@@ -21,7 +21,7 @@ jobs:
         uses: gradle/wrapper-validation-action@v1.1.0
 
       - name: Setup Gradle Gradle
-        uses: gradle/gradle-build-action@v2.1.0
+        uses: gradle/gradle-build-action@v2
 
       - name: Build Project
         run: ./gradlew build
