@@ -186,9 +186,15 @@ jobs:
           mkdir artifacts
           mv downloaded/**/*.* artifacts/
 
+      - name: Extract release notes
+        id: release_notes
+        uses: ffurrer2/extract-release-notes@v1
+        with:
+          changelog_file: CHANGELOG/CHANGELOG.md
+
       - uses: softprops/action-gh-release@v1
         with:
-          body_path: CHANGELOG/CHANGELOG.md
+          body: ${{ steps.release_notes.outputs.release_notes }}
           files: artifacts/*
 
 
