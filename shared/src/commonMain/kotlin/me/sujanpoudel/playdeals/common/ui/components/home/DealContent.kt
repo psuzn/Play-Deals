@@ -30,19 +30,22 @@ import me.sujanpoudel.playdeals.common.domain.models.DealFilterOption
 import me.sujanpoudel.playdeals.common.domain.models.Selectable
 import me.sujanpoudel.playdeals.common.strings.Strings
 import me.sujanpoudel.playdeals.common.ui.screens.home.HomeScreenState
-import me.sujanpoudel.playdeals.common.ui.screens.home.filterDealsToDisplay
+import me.sujanpoudel.playdeals.common.ui.screens.home.filterWith
 import me.sujanpoudel.playdeals.common.ui.theme.SOFT_COLOR_ALPHA
 
 object DealContent {
   @OptIn(ExperimentalFoundationApi::class)
   @Composable
   operator fun invoke(
-    homeScreenState: HomeScreenState,
+    state: HomeScreenState,
     onToggleFilterOption: (DealFilterOption) -> Unit,
     refreshAppDeals: () -> Unit,
   ) {
-    val deals = remember(homeScreenState.allDeals, homeScreenState.filterOptions, homeScreenState.lastUpdatedTime) {
-      homeScreenState.allDeals.filterDealsToDisplay(homeScreenState.filterOptions, homeScreenState.lastUpdatedTime)
+    val deals = remember(state.allDeals, state.filterOptions) {
+      state.allDeals.filterWith(
+        filterOptions = state.filterOptions,
+        lastUpdatedTime = state.lastUpdatedTime,
+      )
     }
 
     Column(
@@ -53,7 +56,7 @@ object DealContent {
         contentPadding = PaddingValues(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
       ) {
-        itemsIndexed(homeScreenState.filterOptions) { index, it ->
+        itemsIndexed(state.filterOptions) { index, it ->
           FilterChipItem(
             index = index,
             filterOption = it,
@@ -74,7 +77,7 @@ object DealContent {
             DealItem(
               appDeal = deal,
               modifier = Modifier.animateItemPlacement(),
-              isAppNewlyAdded = homeScreenState.lastUpdatedTime < deal.createdAt,
+              isAppNewlyAdded = state.lastUpdatedTime < deal.createdAt,
             )
           }
         }

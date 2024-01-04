@@ -7,9 +7,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
@@ -24,10 +28,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import kotlinx.datetime.Instant
 import me.sujanpoudel.playdeals.common.BuildKonfig
+import me.sujanpoudel.playdeals.common.domain.entities.ForexRateEntity
 import me.sujanpoudel.playdeals.common.extensions.capitalizeWords
 import me.sujanpoudel.playdeals.common.strings.AppLanguage
 import me.sujanpoudel.playdeals.common.strings.Strings
@@ -77,6 +84,7 @@ object SettingsScreen {
   @Composable
   fun Footer(
     onClick: () -> Unit,
+    forexUpdatedAt: Instant?,
     color: Color,
   ) {
     Column(
@@ -87,11 +95,16 @@ object SettingsScreen {
       horizontalAlignment = Alignment.CenterHorizontally,
     ) {
       Text(Strings.appDeals, style = MaterialTheme.typography.titleSmall, color = color)
+
       Text(
         "V${BuildKonfig.VERSION_NAME}-${BuildKonfig.VERSION_CODE}",
         style = MaterialTheme.typography.bodySmall,
         color = color,
       )
+
+      forexUpdatedAt?.also {
+        Text("Forex at $it", style = MaterialTheme.typography.titleSmall, color = color)
+      }
     }
   }
 
@@ -112,7 +125,7 @@ object SettingsScreen {
     }
 
     ChoiceDialogue(
-      title = Strings.chooseLanguage,
+      title = Strings.appearance,
       choices = remember { AppearanceMode.values().toList() },
       isActive = dialogActive,
       closeRequest = { dialogActive = false },
@@ -153,6 +166,40 @@ object SettingsScreen {
   }
 
   @Composable
+  fun CurrencySetting(
+    preferred: ForexRateEntity,
+    rates: List<ForexRateEntity>,
+    setPreferred: (ForexRateEntity) -> Unit,
+  ) {
+    var dialogActive by remember { mutableStateOf(false) }
+
+    SettingItem(
+      title = Strings.chooseDisplayCurrency,
+      description = Strings.displayCurrencyDescription,
+      onClick = { dialogActive = true },
+    ) {
+      Text(
+        "${preferred.currency}(${preferred.symbol})",
+        style = MaterialTheme.typography.bodySmall,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
+      )
+    }
+
+    ChoiceDialogue(
+      title = Strings.chooseDisplayCurrency,
+      choices = remember(rates) { rates.sortedBy { it.name } },
+      isActive = dialogActive,
+      closeRequest = { dialogActive = false },
+      onChooseValue = setPreferred,
+      choiceLabelBy = { it.name },
+      choiceIcon = {
+        Text(it.symbol, style = MaterialTheme.typography.bodyLarge)
+      },
+    )
+  }
+
+  @Composable
   fun <T> ChoiceDialogue(
     title: String,
     choices: List<T>,
@@ -166,6 +213,7 @@ object SettingsScreen {
       Dialog(closeRequest, properties = DialogProperties()) {
         Column(
           modifier = Modifier
+            .windowInsetsPadding(WindowInsets(bottom = 40.dp, top = 40.dp))
             .clip(RoundedCornerShape(5))
             .background(MaterialTheme.colorScheme.surface)
             .padding(top = 16.dp),
@@ -179,33 +227,35 @@ object SettingsScreen {
 
           Divider()
 
-          choices.forEach {
-            Row(
-              modifier = Modifier
-                .height(48.dp)
-                .fillMaxWidth()
-                .clickable {
-                  closeRequest()
-                  onChooseValue(it)
-                }
-                .padding(horizontal = 16.dp),
-              verticalAlignment = Alignment.CenterVertically,
-            ) {
-              Text(
-                text = choiceLabelBy(it),
-                modifier = Modifier.weight(1f).apply {
-                  if (choices.last() == it) {
-                    this.padding(bottom = 32.dp)
+          LazyColumn {
+            items(choices) {
+              Row(
+                modifier = Modifier
+                  .height(48.dp)
+                  .fillMaxWidth()
+                  .clickable {
+                    closeRequest()
+                    onChooseValue(it)
                   }
-                },
-                style = MaterialTheme.typography.titleSmall,
-              )
+                  .padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+              ) {
+                Text(
+                  text = choiceLabelBy(it),
+                  modifier = Modifier.weight(1f).apply {
+                    if (choices.last() == it) {
+                      this.padding(bottom = 32.dp)
+                    }
+                  },
+                  style = MaterialTheme.typography.titleSmall,
+                )
 
-              choiceIcon(it)
-            }
+                choiceIcon(it)
+              }
 
-            if (choices.last() != it) {
-              Divider()
+              if (choices.last() != it) {
+                Divider()
+              }
             }
           }
         }

@@ -13,13 +13,14 @@ internal val viewModelModule = DI.Module("viewModel") {
   bindProvider {
     HomeScreenViewModel(
       appPreferences = instance(),
-      repository = instance(),
+      dealsRepository = instance(),
+      forexRepository = instance(),
     )
   }
 
   bindProvider { NewDealScreenViewModel() }
 
-  bindProvider { SettingsScreenViewModel(instance()) }
+  bindProvider { SettingsScreenViewModel(instance(), instance()) }
 
   bindProvider { NotificationSettingsScreenViewModel(instance()) }
 }

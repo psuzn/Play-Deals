@@ -29,6 +29,8 @@ object StringEn : AppStrings {
   override val pushNotificationDescription = "Manage when you want to be notified"
   override val themePreference = "Theme Preference"
   override val chooseLanguage = "Choose Language"
+  override val chooseDisplayCurrency = "Display Currency"
+  override val displayCurrencyDescription = "The app prices will be shown on"
 
   // Changelog Screen
   override val close = "Close"
