@@ -1,8 +1,3 @@
-# Feature
-
-- F-droid release
-  - Attempt fix for reproducible build
-
 # Changelog
 
 All notable changes to this project will be documented in this file.
@@ -20,6 +15,17 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 ### Security
+
+## [2.2.0] - 2024-04-05
+
+### Added
+
+➤ Support for different currencies
+➤ Ability to search deals
+
+### Fixed
+
+➤ Navigation animations
 
 ## [2.1.6] - 2023-12-24
 
