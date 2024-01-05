@@ -1,6 +1,5 @@
 package me.sujanpoudel.playdeals.common.ui.screens.settings
 
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -28,12 +27,14 @@ class SettingsScreenViewModel(
   val forexRates: StateFlow<List<ForexRateEntity>> = forexRepository.forexRatesFlow()
     .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
-  val preferredConversion = MutableStateFlow(defaultUsdConversion())
+  val preferredConversion = state(defaultUsdConversion())
 
   init {
     viewModelScope.launch {
       forexRepository.preferredConversionRateFlow()
-        .collectLatest { preferredConversion.value = it }
+        .collectLatest { entity ->
+          preferredConversion.update { entity }
+        }
     }
   }
 
