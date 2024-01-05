@@ -1,12 +1,10 @@
 package me.sujanpoudel.playdeals.common.ui.screens.home
 
 import io.ktor.util.reflect.instanceOf
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import me.sujanpoudel.playdeals.common.BuildKonfig
@@ -17,32 +15,43 @@ import me.sujanpoudel.playdeals.common.domain.models.Result
 import me.sujanpoudel.playdeals.common.domain.models.Selectable
 import me.sujanpoudel.playdeals.common.domain.persistent.AppPreferences
 import me.sujanpoudel.playdeals.common.domain.repositories.DealsRepository
+import me.sujanpoudel.playdeals.common.domain.repositories.ForexRepository
 import me.sujanpoudel.playdeals.common.extensions.capitalizeWords
 import me.sujanpoudel.playdeals.common.viewModel.ViewModel
 import me.sujanpoudel.playdeals.common.viewModel.viewModelScope
-import kotlin.time.Duration.Companion.milliseconds
 
-@OptIn(ExperimentalStdlibApi::class, FlowPreview::class)
+@OptIn(ExperimentalStdlibApi::class)
 class HomeScreenViewModel(
   private val appPreferences: AppPreferences,
-  private val repository: DealsRepository,
+  private val dealsRepository: DealsRepository,
+  private val forexRepository: ForexRepository,
 ) : ViewModel() {
 
   private val _state = MutableStateFlow(
     HomeScreenState(lastUpdatedTime = appPreferences.lastUpdatedTime.value),
   )
+
   val state = _state as StateFlow<HomeScreenState>
 
   init {
     observeDeals()
     refreshDeals()
     checkIfChangelogNeedsToBeShown()
+    refreshForex()
   }
 
   private fun observeDeals() = viewModelScope.launch {
-    repository.dealsFlow()
-      .debounce(300.milliseconds)
-      .collectLatest { deals ->
+    dealsRepository.dealsFlow()
+      .combine(forexRepository.preferredConversionRateFlow()) { deals, rate ->
+        deals.map { deal ->
+          deal.copy(
+            currentPrice = deal.currentPrice * rate.rate,
+            normalPrice = deal.normalPrice * rate.rate,
+            currency = rate.symbol,
+          )
+        }
+      }
+      .collect { deals ->
         _state.update { state ->
           state.copy(
             persistentError = if (deals.isNotEmpty()) null else state.persistentError,
@@ -80,7 +89,7 @@ class HomeScreenViewModel(
     }
 
     viewModelScope.launch {
-      val result = repository.refreshDeals()
+      val result = dealsRepository.refreshDeals()
       _state.update { state ->
         when (result) {
           is Result.Error -> state.copy(
@@ -99,6 +108,10 @@ class HomeScreenViewModel(
         }
       }
     }
+  }
+
+  fun refreshForex() = viewModelScope.launch {
+    forexRepository.refreshRatesIfNecessary()
   }
 
   fun clearErrorOneOff() {

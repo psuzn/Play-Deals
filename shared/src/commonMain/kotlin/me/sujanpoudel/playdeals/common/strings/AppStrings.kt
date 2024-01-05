@@ -29,6 +29,7 @@ interface AppStrings {
   val pushNotificationDescription: String
   val themePreference: String
   val chooseLanguage: String
+  val chooseDisplayCurrency: String
   val close: String
 
   // changelog
@@ -52,4 +53,5 @@ interface AppStrings {
   val developerModeDescription: String
   val permissionRequired: String
   val grantPermission: String
+  val displayCurrencyDescription: String
 }

@@ -79,11 +79,11 @@ object DealItem {
       }
 
       PriceButton(
-        normalPrice = appDeal.formattedNormalPrice(),
-        currentPrice = appDeal.formattedCurrentPrice(),
         modifier = Modifier
           .align(Alignment.BottomEnd)
           .padding(end = 16.dp),
+        normalPrice = appDeal.formattedNormalPrice(),
+        currentPrice = appDeal.formattedCurrentPrice(),
       ) {
         uriHandler.openUri(appDeal.url)
       }
@@ -116,8 +116,6 @@ object DealItem {
 
         AppDetail2ndRow(deal)
 
-        AppDetail3rdRow(deal)
-
         Row(
           horizontalArrangement = Arrangement.spacedBy(4.dp),
           verticalAlignment = Alignment.CenterVertically,
@@ -128,6 +126,8 @@ object DealItem {
             color = MaterialTheme.colorScheme.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
           )
         }
+
+        AppDetail4thRow(deal)
       }
     }
   }
@@ -235,20 +235,6 @@ object DealItem {
         style = MaterialTheme.typography.labelMedium,
         color = MaterialTheme.colorScheme.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
       )
-    }
-  }
-
-  @Composable
-  private fun AppDetail3rdRow(appDeal: DealEntity) {
-    Row(
-      horizontalArrangement = Arrangement.spacedBy(4.dp),
-      verticalAlignment = Alignment.CenterVertically,
-    ) {
-      Text(
-        appDeal.ratingFormatted,
-        style = MaterialTheme.typography.labelMedium,
-        color = MaterialTheme.colorScheme.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
-      )
 
       Icon(
         Icons.Outlined.Star,
@@ -257,6 +243,20 @@ object DealItem {
         tint = MaterialTheme.colorScheme.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
       )
 
+      Text(
+        appDeal.ratingFormatted,
+        style = MaterialTheme.typography.labelMedium,
+        color = MaterialTheme.colorScheme.onBackground.copy(alpha = SOFT_COLOR_ALPHA),
+      )
+    }
+  }
+
+  @Composable
+  private fun AppDetail4thRow(appDeal: DealEntity) {
+    Row(
+      horizontalArrangement = Arrangement.spacedBy(4.dp),
+      verticalAlignment = Alignment.CenterVertically,
+    ) {
       Text(
         text = appDeal.formattedExpiryInfo(),
         style = MaterialTheme.typography.labelMedium,
@@ -284,14 +284,14 @@ object DealItem {
     ) {
       Text(
         text = normalPrice,
-        style = MaterialTheme.typography.labelMedium,
+        style = MaterialTheme.typography.labelSmall,
         textDecoration = TextDecoration.LineThrough,
         color = MaterialTheme.colorScheme.onPrimary,
       )
 
       Text(
         text = currentPrice,
-        style = MaterialTheme.typography.labelMedium,
+        style = MaterialTheme.typography.labelSmall,
         color = MaterialTheme.colorScheme.onPrimary,
       )
     }

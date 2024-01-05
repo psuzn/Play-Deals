@@ -16,9 +16,23 @@ private fun <T> createSettingState(
   defaultValue: T,
   createStateFlow: (String, T) -> StateFlow<T>,
   updatePreference: (String, T) -> Unit,
-) = SettingState(createStateFlow(key, defaultValue)) {
-  updatePreference(key, it)
-}
+) = SettingState(
+  delegateFlow = createStateFlow(key, defaultValue),
+  updatePreference = {
+    updatePreference(key, it)
+  },
+)
+
+private fun <T> createNullableSettingState(
+  key: String,
+  createStateFlow: (String) -> StateFlow<T?>,
+  updatePreference: (String, T?) -> Unit,
+) = SettingState(
+  delegateFlow = createStateFlow(key),
+  updatePreference = {
+    updatePreference(key, it)
+  },
+)
 
 fun ObservableSettings.boolSettingState(key: String, defaultValue: Boolean) =
   createSettingState(key, defaultValue, ::boolAsFlow, ::putBoolean)
@@ -40,5 +54,24 @@ fun <T> ObservableSettings.stringBackedSettingState(
   },
   updatePreference = { _, value ->
     putString(key, toString(value))
+  },
+)
+
+fun <T> ObservableSettings.nullableStringBackedSettingState(
+  key: String,
+  toString: (T) -> String = { it.toString() },
+  fromString: (String) -> T,
+): SettingState<T?> = createNullableSettingState(
+  key = key,
+  createStateFlow = { _ ->
+    nullableStringAsFlow(key)
+      .mapState { it?.let(fromString) }
+  },
+  updatePreference = { _, value ->
+    if (value == null) {
+      remove(key)
+    } else {
+      putString(key, toString(value))
+    }
   },
 )

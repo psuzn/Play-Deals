@@ -1,0 +1,13 @@
+upsert:
+ INSERT OR REPLACE INTO ForexRate (
+    currency,
+    symbol,
+    name,
+    rate
+  ) VALUES (?,?,?,?);
+
+getAll:
+    SELECT * FROM ForexRate ORDER BY name DESC;
+
+removeStale:
+    DELETE FROM ForexRate WHERE currency NOT IN ?;

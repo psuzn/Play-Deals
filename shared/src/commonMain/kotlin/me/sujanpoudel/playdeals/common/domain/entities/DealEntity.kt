@@ -5,7 +5,6 @@ import androidx.compose.runtime.Stable
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import me.sujanpoudel.playdeals.common.strings.Strings
-import me.sujanpoudel.playdeals.common.utils.asCurrencySymbol
 import me.sujanpoudel.playdeals.common.utils.formatAsPrice
 import me.sujanpoudel.playdeals.common.utils.shallowFormatted
 
@@ -31,14 +30,14 @@ data class DealEntity(
   val ratingFormatted: String
     get() = rating.formatAsPrice()
 
-  fun formattedNormalPrice() = "${currency.asCurrencySymbol()}${normalPrice.formatAsPrice()}"
+  fun formattedNormalPrice() = "${currency}${normalPrice.formatAsPrice()}"
 
   @Composable
   fun formattedCurrentPrice() =
     if (currentPrice == 0f) {
       Strings.free
     } else {
-      "${currency.asCurrencySymbol()}${currentPrice.formatAsPrice()}"
+      "${currency}${currentPrice.formatAsPrice()}"
     }
 
   @Composable

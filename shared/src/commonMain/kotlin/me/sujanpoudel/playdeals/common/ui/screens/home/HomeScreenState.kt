@@ -20,7 +20,7 @@ data class HomeScreenState(
   val destinationOneOff: Screens? = null,
 )
 
-fun List<DealEntity>.filterDealsToDisplay(
+fun List<DealEntity>.filterWith(
   filterOptions: List<Selectable<DealFilterOption>>,
   lastUpdatedTime: Instant,
 ): List<DealEntity> {

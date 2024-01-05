@@ -22,6 +22,7 @@ import me.sujanpoudel.playdeals.common.pushNotification.current
 import me.sujanpoudel.playdeals.common.strings.Strings
 import me.sujanpoudel.playdeals.common.ui.components.common.Scaffold
 import me.sujanpoudel.playdeals.common.ui.components.settings.SettingsScreen.AppearanceModeSetting
+import me.sujanpoudel.playdeals.common.ui.components.settings.SettingsScreen.CurrencySetting
 import me.sujanpoudel.playdeals.common.ui.components.settings.SettingsScreen.Footer
 import me.sujanpoudel.playdeals.common.ui.components.settings.SettingsScreen.LanguageSetting
 import me.sujanpoudel.playdeals.common.ui.components.settings.SettingsScreen.SettingItem
@@ -45,7 +46,9 @@ fun SettingsScreen() {
   val appearanceMode by viewModel.appearanceMode.collectAsState()
   val developerModeEnabled by viewModel.developerModeEnabled.collectAsState()
   val appLanguage by viewModel.appLanguage.collectAsState()
-
+  val forexUpdatedAt by viewModel.forexUpdatedAt.collectAsState()
+  val preferredCurrency by viewModel.preferredConversion.collectAsState()
+  val forexRates by viewModel.forexRates.collectAsState()
   val navigator = Navigator.current
   val notificationManager = NotificationManager.current
 
@@ -68,10 +71,13 @@ fun SettingsScreen() {
 
       LanguageSetting(appLanguage, viewModel::setAppLanguage)
 
+      CurrencySetting(preferredCurrency, forexRates, viewModel::setPreferredCurrency)
+
       Spacer(Modifier.weight(1f))
 
       Footer(
         onClick = { viewModel.setDeveloperModeEnabled(true) },
+        forexUpdatedAt = forexUpdatedAt,
         color = if (developerModeEnabled) {
           MaterialTheme.colorScheme.primary
         } else {
