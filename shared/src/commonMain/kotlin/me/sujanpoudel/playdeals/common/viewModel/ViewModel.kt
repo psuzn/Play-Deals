@@ -3,6 +3,7 @@ package me.sujanpoudel.playdeals.common.viewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import kotlin.jvm.JvmInline
 
 @OptIn(ExperimentalStdlibApi::class)
 open class ViewModel() : AutoCloseable {
@@ -41,11 +42,12 @@ open class ViewModel() : AutoCloseable {
 
   sealed interface VMState<T> : StateFlow<T>
 
-  private class VMStateImpl<T> constructor(
+  @JvmInline
+  value class VMStateImpl<T>(
     private val delegate: MutableStateFlow<T>,
   ) : MutableStateFlow<T> by delegate, VMState<T>
 
-  fun <T> VMState<T>.update(function: (T) -> T) {
+  protected fun <T> VMState<T>.update(function: (T) -> T) {
     (this as VMStateImpl<T> as MutableStateFlow<T>).update(function)
   }
 
