@@ -5,7 +5,12 @@ import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
@@ -16,9 +21,12 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -33,6 +41,7 @@ import me.sujanpoudel.playdeals.common.navigation.NavTransitions
 import me.sujanpoudel.playdeals.common.navigation.Navigator
 import me.sujanpoudel.playdeals.common.strings.Strings
 import me.sujanpoudel.playdeals.common.ui.components.common.ScaffoldToolbar
+import me.sujanpoudel.playdeals.common.ui.components.common.ScaffoldToolbar.ScaffoldTitle
 import me.sujanpoudel.playdeals.common.ui.components.common.pullToRefresh.PullRefreshIndicator
 import me.sujanpoudel.playdeals.common.ui.components.common.pullToRefresh.pullRefresh
 import me.sujanpoudel.playdeals.common.ui.components.common.pullToRefresh.rememberPullRefreshState
@@ -76,11 +85,39 @@ fun HomeScreen() {
     val topBarState = rememberTopAppBarState()
     val topBarScrollBehaviour = TopAppBarDefaults.enterAlwaysScrollBehavior(topBarState)
 
+    val searchTerm = viewModel.searchTerm.collectAsState()
+    var showSearchToolbar by remember { mutableStateOf(false) }
+    val toolbarTitle by remember {
+      derivedStateOf {
+        if (showSearchToolbar) {
+          ScaffoldTitle.SearchBarTitle(searchTerm, viewModel::setSearchTerm)
+        } else {
+          ScaffoldTitle.TextTitle(strings.appDeals)
+        }
+      }
+    }
+
+    LaunchedEffect(showSearchToolbar) {
+      if (!showSearchToolbar) {
+        delay(100)
+        viewModel.setSearchTerm("")
+      }
+    }
+
     Scaffold(
       topBar = {
         ScaffoldToolbar(
-          title = Strings.appDeals,
+          title = toolbarTitle,
           behaviour = topBarScrollBehaviour,
+          alwaysShowNavIcon = true,
+          navigationIcon = {
+            IconButton(onClick = { showSearchToolbar = showSearchToolbar.not() }) {
+              Icon(
+                imageVector = if (showSearchToolbar) Icons.Default.Clear else Icons.Default.Search,
+                contentDescription = "",
+              )
+            }
+          },
           actions = {
             HomeScreen.NavMenu {
               coroutineScope.launch {
@@ -135,6 +172,7 @@ fun HomeScreen() {
             state,
             onToggleFilterOption = viewModel::toggleFilterItem,
             refreshAppDeals = viewModel::refreshDeals,
+            searchTerm = searchTerm.value,
           )
         }
       }

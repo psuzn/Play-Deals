@@ -21,6 +21,7 @@ object StringEn : AppStrings {
   override val moreInfo = "More Info"
   override val aboutMe = "About me"
   override val whatsNew = "What's New"
+  override val search = "Search"
 
   // Settings Screen
   override val appearance = "Appearance"

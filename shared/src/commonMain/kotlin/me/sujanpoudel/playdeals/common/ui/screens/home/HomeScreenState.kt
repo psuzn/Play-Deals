@@ -23,6 +23,7 @@ data class HomeScreenState(
 fun List<DealEntity>.filterWith(
   filterOptions: List<Selectable<DealFilterOption>>,
   lastUpdatedTime: Instant,
+  searchTerm: String,
 ): List<DealEntity> {
   val selectedCategories = filterOptions
     .filter { it.data is DealFilterOption.Category && it.selected }
@@ -38,6 +39,11 @@ fun List<DealEntity>.filterWith(
         it is DealFilterOption.Category && it.value == deal.category
       }
 
+    val containsSearchTerm = searchTerm.isEmpty() || (
+      deal.name.contains(searchTerm, ignoreCase = true) ||
+        deal.category.contains(searchTerm, ignoreCase = true)
+      )
+
     val matchesOtherFilter = selectedOtherFilters.isEmpty() ||
       selectedOtherFilters.all {
         when (it) {
@@ -46,6 +52,6 @@ fun List<DealEntity>.filterWith(
           DealFilterOption.NewlyAddedApps -> deal.createdAt > lastUpdatedTime
         }
       }
-    inSelectedCategory && matchesOtherFilter
+    inSelectedCategory && matchesOtherFilter && containsSearchTerm
   }
 }

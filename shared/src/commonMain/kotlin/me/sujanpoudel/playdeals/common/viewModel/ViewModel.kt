@@ -1,5 +1,10 @@
 package me.sujanpoudel.playdeals.common.viewModel
 
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
+import kotlin.jvm.JvmInline
+
 @OptIn(ExperimentalStdlibApi::class)
 open class ViewModel() : AutoCloseable {
   private val bagOfTags = hashMapOf<String, AutoCloseable>()
@@ -34,4 +39,17 @@ open class ViewModel() : AutoCloseable {
       }
     } as T
   }
+
+  sealed interface VMState<T> : StateFlow<T>
+
+  @JvmInline
+  value class VMStateImpl<T>(
+    private val delegate: MutableStateFlow<T>,
+  ) : MutableStateFlow<T> by delegate, VMState<T>
+
+  protected fun <T> VMState<T>.update(function: (T) -> T) {
+    (this as VMStateImpl<T> as MutableStateFlow<T>).update(function)
+  }
+
+  protected fun <T> state(initial: T): VMState<T> = VMStateImpl(MutableStateFlow(initial))
 }

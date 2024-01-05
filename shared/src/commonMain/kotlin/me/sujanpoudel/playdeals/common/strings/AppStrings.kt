@@ -54,4 +54,5 @@ interface AppStrings {
   val permissionRequired: String
   val grantPermission: String
   val displayCurrencyDescription: String
+  val search: String
 }

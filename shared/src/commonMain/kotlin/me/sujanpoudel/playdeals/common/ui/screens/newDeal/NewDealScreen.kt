@@ -11,6 +11,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
 import me.sujanpoudel.playdeals.common.strings.Strings
 import me.sujanpoudel.playdeals.common.ui.components.common.Scaffold
+import me.sujanpoudel.playdeals.common.ui.components.common.rememberTextTitle
 import me.sujanpoudel.playdeals.common.ui.theme.SOFT_COLOR_ALPHA
 import me.sujanpoudel.playdeals.common.viewModel.viewModel
 
@@ -18,7 +19,7 @@ import me.sujanpoudel.playdeals.common.viewModel.viewModel
 fun NewDealScreen() {
   val viewModel = viewModel<NewDealScreenViewModel>()
   Scaffold(
-    title = Strings.addNewDeal,
+    title = rememberTextTitle(Strings.addNewDeal),
   ) {
     Column(
       modifier = Modifier.align(Alignment.Center)

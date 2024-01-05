@@ -38,13 +38,15 @@ object DealContent {
   @Composable
   operator fun invoke(
     state: HomeScreenState,
+    searchTerm: String,
     onToggleFilterOption: (DealFilterOption) -> Unit,
     refreshAppDeals: () -> Unit,
   ) {
-    val deals = remember(state.allDeals, state.filterOptions) {
+    val deals = remember(state.allDeals, state.filterOptions, searchTerm) {
       state.allDeals.filterWith(
         filterOptions = state.filterOptions,
         lastUpdatedTime = state.lastUpdatedTime,
+        searchTerm = searchTerm,
       )
     }
 

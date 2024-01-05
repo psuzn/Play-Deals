@@ -37,6 +37,7 @@ import me.sujanpoudel.playdeals.common.domain.persistent.AppPreferences
 import me.sujanpoudel.playdeals.common.strings.Strings
 import me.sujanpoudel.playdeals.common.ui.components.ChangeLog
 import me.sujanpoudel.playdeals.common.ui.components.common.Scaffold
+import me.sujanpoudel.playdeals.common.ui.components.common.rememberTextTitle
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.resource
 import org.kodein.di.direct
@@ -48,8 +49,8 @@ private const val CHANGELOG_PATH = "raw/changelog.md"
 @OptIn(ExperimentalResourceApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun ChangeLogScreen() = Scaffold(
-  title = Strings.changelog,
-  showNavBackIcon = false,
+  title = rememberTextTitle(Strings.changelog),
+  showNavIcon = false,
   actions = {
     val outlineColor = MaterialTheme.colorScheme.outlineVariant
     IconButton(

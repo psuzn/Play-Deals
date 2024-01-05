@@ -2,10 +2,7 @@ package me.sujanpoudel.playdeals.common.ui.screens.home
 
 import io.ktor.util.reflect.instanceOf
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import me.sujanpoudel.playdeals.common.BuildKonfig
 import me.sujanpoudel.playdeals.common.Screens
@@ -27,11 +24,8 @@ class HomeScreenViewModel(
   private val forexRepository: ForexRepository,
 ) : ViewModel() {
 
-  private val _state = MutableStateFlow(
-    HomeScreenState(lastUpdatedTime = appPreferences.lastUpdatedTime.value),
-  )
-
-  val state = _state as StateFlow<HomeScreenState>
+  val state = state(HomeScreenState(lastUpdatedTime = appPreferences.lastUpdatedTime.value))
+  val searchTerm = state("")
 
   init {
     observeDeals()
@@ -52,7 +46,7 @@ class HomeScreenViewModel(
         }
       }
       .collect { deals ->
-        _state.update { state ->
+        state.update { state ->
           state.copy(
             persistentError = if (deals.isNotEmpty()) null else state.persistentError,
             errorOneOff = if (deals.isNotEmpty()) state.persistentError else null,
@@ -69,17 +63,15 @@ class HomeScreenViewModel(
     if (BuildKonfig.MAJOR_RELEASE && appPreferences.getChangelogShownVersion() != BuildKonfig.VERSION_CODE) {
       viewModelScope.launch {
         delay(1000)
-        _state.update {
-          it.copy(
-            destinationOneOff = Screens.CHANGELOG,
-          )
+        state.update {
+          it.copy(destinationOneOff = Screens.CHANGELOG)
         }
       }
     }
   }
 
   fun refreshDeals() {
-    _state.update { state ->
+    state.update { state ->
       state.copy(
         isLoading = state.allDeals.isEmpty(),
         isRefreshing = state.allDeals.isNotEmpty(),
@@ -90,7 +82,7 @@ class HomeScreenViewModel(
 
     viewModelScope.launch {
       val result = dealsRepository.refreshDeals()
-      _state.update { state ->
+      state.update { state ->
         when (result) {
           is Result.Error -> state.copy(
             isLoading = false,
@@ -110,24 +102,26 @@ class HomeScreenViewModel(
     }
   }
 
-  fun refreshForex() = viewModelScope.launch {
+  fun setSearchTerm(term: String) = searchTerm.update { term }
+
+  private fun refreshForex() = viewModelScope.launch {
     forexRepository.refreshRatesIfNecessary()
   }
 
   fun clearErrorOneOff() {
-    _state.update { state ->
+    state.update { state ->
       state.copy(errorOneOff = null)
     }
   }
 
   fun clearOneOffDestination() {
-    _state.update { state ->
+    state.update { state ->
       state.copy(destinationOneOff = null)
     }
   }
 
   fun toggleFilterItem(item: DealFilterOption) {
-    _state.update { state ->
+    state.update { state ->
       state.copy(
         filterOptions =
           state.filterOptions.map {
