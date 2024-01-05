@@ -21,6 +21,7 @@ import me.sujanpoudel.playdeals.common.pushNotification.NotificationManager
 import me.sujanpoudel.playdeals.common.pushNotification.current
 import me.sujanpoudel.playdeals.common.strings.Strings
 import me.sujanpoudel.playdeals.common.ui.components.common.Scaffold
+import me.sujanpoudel.playdeals.common.ui.components.common.rememberTextTitle
 import me.sujanpoudel.playdeals.common.ui.components.settings.SettingsScreen.AppearanceModeSetting
 import me.sujanpoudel.playdeals.common.ui.components.settings.SettingsScreen.CurrencySetting
 import me.sujanpoudel.playdeals.common.ui.components.settings.SettingsScreen.Footer
@@ -52,7 +53,7 @@ fun SettingsScreen() {
   val navigator = Navigator.current
   val notificationManager = NotificationManager.current
 
-  Scaffold(title = Strings.settings) {
+  Scaffold(title = rememberTextTitle(Strings.settings)) {
     Column(
       modifier = Modifier.fillMaxSize(),
     ) {

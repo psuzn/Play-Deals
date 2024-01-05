@@ -27,11 +27,10 @@ class HomeScreenViewModel(
   private val forexRepository: ForexRepository,
 ) : ViewModel() {
 
-  private val _state = MutableStateFlow(
-    HomeScreenState(lastUpdatedTime = appPreferences.lastUpdatedTime.value),
-  )
-
+  private val _state = MutableStateFlow(HomeScreenState(lastUpdatedTime = appPreferences.lastUpdatedTime.value))
   val state = _state as StateFlow<HomeScreenState>
+
+  val searchTerm = state("")
 
   init {
     observeDeals()
@@ -110,7 +109,9 @@ class HomeScreenViewModel(
     }
   }
 
-  fun refreshForex() = viewModelScope.launch {
+  fun setSearchTerm(term: String) = searchTerm.update { term }
+
+  private fun refreshForex() = viewModelScope.launch {
     forexRepository.refreshRatesIfNecessary()
   }
 

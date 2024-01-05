@@ -25,6 +25,7 @@ import me.sujanpoudel.playdeals.common.PermissionStatus
 import me.sujanpoudel.playdeals.common.pushNotification.pushNotificationPermissionManager
 import me.sujanpoudel.playdeals.common.strings.Strings
 import me.sujanpoudel.playdeals.common.ui.components.common.Scaffold
+import me.sujanpoudel.playdeals.common.ui.components.common.rememberTextTitle
 import me.sujanpoudel.playdeals.common.ui.components.settings.SettingsScreen.SettingItem
 import me.sujanpoudel.playdeals.common.viewModel.viewModel
 
@@ -47,7 +48,7 @@ fun NotificationSettingsScreen() {
   val permissionStatus by notificationPermissionManager.permissionState
   val permissionGranted by derivedStateOf { permissionStatus == PermissionStatus.Granted }
 
-  Scaffold(title = Strings.pushNotification) {
+  Scaffold(title = rememberTextTitle(Strings.pushNotification)) {
     Column(
       modifier = Modifier.fillMaxSize(),
     ) {
