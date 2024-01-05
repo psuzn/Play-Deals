@@ -38,6 +38,7 @@ import me.sujanpoudel.playdeals.common.domain.entities.ForexRateEntity
 import me.sujanpoudel.playdeals.common.extensions.capitalizeWords
 import me.sujanpoudel.playdeals.common.strings.AppLanguage
 import me.sujanpoudel.playdeals.common.strings.Strings
+import me.sujanpoudel.playdeals.common.ui.components.common.clickableWithoutIndicator
 import me.sujanpoudel.playdeals.common.ui.screens.settings.icon
 import me.sujanpoudel.playdeals.common.ui.theme.AppearanceMode
 import me.sujanpoudel.playdeals.common.ui.theme.SOFT_COLOR_ALPHA
@@ -213,10 +214,12 @@ object SettingsScreen {
       Dialog(closeRequest, properties = DialogProperties()) {
         Column(
           modifier = Modifier
-            .windowInsetsPadding(WindowInsets(bottom = 40.dp, top = 40.dp))
+            .clickableWithoutIndicator { closeRequest() }
+            .windowInsetsPadding(WindowInsets(bottom = 100.dp, top = 100.dp))
             .clip(RoundedCornerShape(5))
             .background(MaterialTheme.colorScheme.surface)
-            .padding(top = 16.dp),
+            .padding(top = 16.dp)
+            .clickableWithoutIndicator { },
         ) {
           Text(
             title,
