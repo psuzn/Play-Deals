@@ -34,7 +34,7 @@ fun NavHost(navGraph: NavGraph) {
     currentEntry?.also { entry ->
       AnimatedContent(entry, transitionSpec = navigator.transitionSpec) {
         savableStateHolder.SaveableStateProvider(it.id) {
-          entry.destination.content()
+          it.destination.content()
         }
       }
     }
