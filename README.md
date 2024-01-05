@@ -12,7 +12,7 @@
 &nbsp;
 
 ![Static Badge](https://img.shields.io/badge/License-GPL--v3-brightgreen)
-[![Lint and verify](https://github.com/psuzn/App-deals/actions/workflows/lint.yaml/badge.svg?branch=develop)](https://github.com/psuzn/App-deals/actions/workflows/lint.yaml)
+[![CI](https://github.com/psuzn/Play-Deals/actions/workflows/CI.yaml/badge.svg)](https://github.com/psuzn/Play-Deals/actions/workflows/CI.yaml)
 
 ![Feature](metadata/en-US/images/featureGraphic.png)
 
