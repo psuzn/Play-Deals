@@ -13,8 +13,8 @@ import me.sujanpoudel.playdeals.common.navigation.Navigator
 @Composable
 fun Scaffold(
   modifier: Modifier = Modifier,
-  title: String? = null,
-  showNavBackIcon: Boolean = true,
+  title: ScaffoldToolbar.ScaffoldTitle = ScaffoldToolbar.ScaffoldTitle.None,
+  showNavIcon: Boolean = true,
   navigationIcon: @Composable (Navigator) -> Unit = { it -> ScaffoldToolbar.NavigationIcon(it) },
   actions: (@Composable (Navigator) -> Unit)? = null,
   content: @Composable BoxScope.() -> Unit,
@@ -23,7 +23,7 @@ fun Scaffold(
     topBar = {
       ScaffoldToolbar(
         title = title,
-        showNavBackIcon = showNavBackIcon,
+        showNavIcon = showNavIcon,
         actions = actions,
         navigationIcon = navigationIcon,
       )
