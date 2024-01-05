@@ -10,9 +10,15 @@ private fun <T> createStateFlow(
   getValue: (String, T) -> T,
   addListener: (String, T, (T) -> Unit) -> Unit,
 ): StateFlow<T> = MutableStateFlow(getValue(key, defaultValue)).apply {
-  addListener(key, defaultValue) {
-    tryEmit(it)
-  }
+  addListener(key, defaultValue, ::tryEmit)
+}
+
+private fun <T> createNullableStateFlow(
+  key: String,
+  getValue: (String) -> T?,
+  addListener: (String, (T?) -> Unit) -> Unit,
+): StateFlow<T?> = MutableStateFlow(getValue(key)).apply {
+  addListener(key, ::tryEmit)
 }
 
 fun ObservableSettings.boolAsFlow(key: String, defaultValue: Boolean) =
@@ -20,3 +26,6 @@ fun ObservableSettings.boolAsFlow(key: String, defaultValue: Boolean) =
 
 fun ObservableSettings.stringAsFlow(key: String, defaultValue: String): StateFlow<String> =
   createStateFlow(key, defaultValue, ::getString, ::addStringListener)
+
+fun ObservableSettings.nullableStringAsFlow(key: String): StateFlow<String?> =
+  createNullableStateFlow<String?>(key, ::getStringOrNull, ::addStringOrNullListener)

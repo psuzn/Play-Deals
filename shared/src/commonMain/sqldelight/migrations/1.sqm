@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS ForexRate
+(
+ currency  TEXT NOT NULL PRIMARY KEY,
+ symbol    TEXT NOT NULL,
+ name      TEXT  NOT NULL,
+ rate      REAL  NOT NULL
+);

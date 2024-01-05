@@ -6,6 +6,7 @@ import me.sujanpoudel.playdeals.common.domain.persistent.AppPreferences
 import me.sujanpoudel.playdeals.common.domain.persistent.db.buildDealAdaptor
 import me.sujanpoudel.playdeals.common.domain.persistent.db.createSqlDriver
 import me.sujanpoudel.playdeals.common.domain.repositories.DealsRepository
+import me.sujanpoudel.playdeals.common.domain.repositories.ForexRepository
 import me.sujanpoudel.playdeals.common.utils.settings.asObservableSettings
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
@@ -28,6 +29,13 @@ internal val persistentModule = DI.Module("persistent") {
       remoteAPI = instance(),
       database = instance(),
       appPreferences = instance(),
+    )
+  }
+  bindSingleton {
+    ForexRepository(
+      remoteAPI = instance(),
+      appPreferences = instance(),
+      database = instance(),
     )
   }
 }

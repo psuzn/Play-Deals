@@ -18,11 +18,6 @@ fun Float.formatAsPrice(): String {
   return "$int.$formattedDecimal"
 }
 
-fun String.asCurrencySymbol() = when (this) {
-  "USD" -> "$"
-  else -> this
-}
-
 fun Duration.shallowFormatted(): String {
   if (inWholeDays.absoluteValue > 0) {
     return "${inWholeDays.absoluteValue} ${StringEn.days}"
