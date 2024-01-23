@@ -16,7 +16,17 @@ All notable changes to this project will be documented in this file.
 
 ### Security
 
-## [2.2.0] - 2024-04-05
+## [2.2.1] - 2024-01-23
+
+### Fixed
+
+➤ Window Insets on android
+
+### Changed
+➤ Downgraded compose compiler to 1.5.6
+➤ Updated the German short description (for f-droid)
+
+## [2.2.0] - 2024-01-05
 
 ### Added
 
