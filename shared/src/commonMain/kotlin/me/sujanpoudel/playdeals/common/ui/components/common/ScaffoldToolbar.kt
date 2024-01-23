@@ -82,7 +82,7 @@ object ScaffoldToolbar {
   ) {
     val navigator = Navigator.current
     CenterAlignedTopAppBar(
-      modifier = modifier.windowInsetsPadding(WindowInsets(top = 10.dp)),
+      modifier = modifier.windowInsetsPadding(WindowInsets(top = 20.dp)),
       title = { ToolbarTitle(title) },
       navigationIcon =
         {
