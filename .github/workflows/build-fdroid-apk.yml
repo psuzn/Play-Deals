@@ -1,0 +1,71 @@
+name: Fdroid Build
+
+on:
+  workflow_dispatch:
+jobs:
+
+  android_build:
+    name: Build and release android app
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Build Project with Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Create release apk path
+        run: mkdir --parents androidApp/build/outputs/apks/release
+
+      - name: Build Foss APK
+        id: build_release_apk_foss
+        run: |
+          sh strip_google_services.sh
+          ./gradlew androidApp:assembleRelease
+
+          ## set appropriate name, i.e. play-deals-*-release-unsigned.apk -> play-deals-*-release-foss-unsigned.apk
+          TMP_APK=$(ls androidApp/build/outputs/apk/release/*.apk)
+          FOSS_APK="${TMP_APK/-release-unsigned/"-release-foss-unsigned"}"
+          mv $TMP_APK $FOSS_APK
+
+          ## move to apks/release
+          mv androidApp/build/outputs/apk/release/*.apk androidApp/build/outputs/apks/release
+
+      - name: Sign APKs
+        id: sign_apk
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: androidApp/build/outputs/apks/release
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+        env:
+          BUILD_TOOLS_VERSION: "34.0.0"
+
+      - name: Collect Artifacts
+        id: collect_artifacts
+        run: |
+          ARTIFACTS=androidApp/build/outputs/artifacts
+          mkdir $ARTIFACTS
+
+          TMP_APK=$(ls androidApp/build/outputs/apks/release/*-release-foss-unsigned-signed.apk)
+          RELEASE_APK="${TMP_APK/-release-foss-unsigned-signed/"-foss"}"
+          mv $TMP_APK $RELEASE_APK
+          mv $RELEASE_APK $ARTIFACTS
+
+          echo "artifacts=$ARTIFACTS" >> $GITHUB_OUTPUT
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: android-bundles
+          path: ${{ steps.collect_artifacts.outputs.artifacts }}
+
+
