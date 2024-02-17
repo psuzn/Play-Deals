@@ -78,5 +78,5 @@ This loosely follows mvvm architecture inspired from android's view model.
 
 **GPL V3 License**
 
-Copyright (c) 2023 Sujan Poudel
+Copyright (c) Sujan Poudel
 
