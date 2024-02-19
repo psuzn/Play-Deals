@@ -16,8 +16,8 @@
 
 ![Feature](metadata/en-US/images/featureGraphic.png)
 
-| <a href="https://play.google.com/store/apps/details?id=me.sujanpoudel.playdeals">     <img src="media/badge-get-on-google-play.png" width="200" alt="Get it on Google play">   </a> | <a href="https://github.com/psuzn/app-deals/releases/latest">     <img src="media/badge-download-apk.png" width="160" alt="Download Apk">   </a> |
-|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------:|
+| <a href="https://play.google.com/store/apps/details?id=me.sujanpoudel.playdeals"> <img src="media/badge-get-on-google-play.png" width="200" alt="Get it on Google play"> </a> | <a href="https://f-droid.org/packages/me.sujanpoudel.playdeals"> <img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80"> <a/> | <a href="https://github.com/psuzn/app-deals/releases/latest"> <img src="media/badge-get-it-on-github.png" height="80" alt="Get it on GitHub"> </a> |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------:|
 
 Play deals is a simple app that aggregates the paid apps that have ongoing deals and discounts, aka you can get the
 paid apps free or with discount.
